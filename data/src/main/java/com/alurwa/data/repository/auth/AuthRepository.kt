@@ -55,7 +55,7 @@ class AuthRepository @Inject constructor(
         //  emit(processAuth)
     }.catch {
         emit(Result.Error(Exception(it)))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcherIO)
 
     fun signUpWithEmail(
         email: String,
@@ -86,8 +86,12 @@ class AuthRepository @Inject constructor(
         emit(Result.Success(true))
     }.catch {
         emit(Result.Error(Exception(it)))
-    }.flowOn(Dispatchers.IO)
+    }.flowOn(dispatcherIO)
 
     fun isLogged() = auth.currentUser != null
+
+    fun signOut() {
+        auth.signOut()
+    }
 }
 
