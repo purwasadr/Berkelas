@@ -6,6 +6,6 @@ data class SignUpParams(
     val username: String,
     val fullName: String,
     val nickname: String,
-    val dateOfBirth: String,
+    val dateOfBirth: Long,
     val gender: Int,
 )
