@@ -10,4 +10,7 @@ class MainViewModel @Inject constructor(
     private val authRepository: AuthRepository
 ) : ViewModel() {
     val isLogged = authRepository.isLogged()
+    fun signOut() {
+        authRepository.signOut()
+    }
 }
