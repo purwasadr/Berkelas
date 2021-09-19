@@ -1,0 +1,101 @@
+
+def versions = [:]
+versions.activity = '1.3.1'
+versions.androidGradlePlugin = '7.0.2'
+versions.appcompat = '1.3.1'
+versions.fragment = '1.3.6'
+versions.glide = '4.12.0'
+versions.hilt = '2.38.1'
+versions.kotlin = '1.5.30'
+versions.coreKtx = '1.6.0'
+versions.firebaseBom = '28.1.0'
+versions.googleService = '4.3.10'
+versions.lifecycle = "2.4.0-alpha03"
+versions.okhttploggingInterceptor = '4.9.1'
+versions.navigation = '2.3.5'
+versions.paging = '3.0.1'
+versions.retrofit = '2.9.0'
+versions.room = '2.3.0'
+versions.timber = '4.7.1'
+versions.material = '1.4.0'
+versions.testExtJunit = '1.1.2'
+versions.testRules = '1.3.0'
+versions.androidXTest = '1.3.0'
+versions.hamcrest = '1.3'
+versions.mockito = '2.23.4'
+versions.coreTesting = '2.1.0'
+versions.coroutines = '1.5.1'
+versions.constraintLayout = '2.1.0'
+versions.legacySupport = '1.0.0'
+versions.junit = '4.13.2'
+ext.versions = versions
+
+def buildVersions = [:]
+buildVersions.minSdk = 21
+buildVersions.compileSdk = 30
+buildVersions.tagetSdk = 30
+buildVersions.buildTools = '30.0.3'
+ext.buildVersions = buildVersions
+
+def deps = [:]
+
+def activity = [:]
+activity.activityKtx = "androidx.activity:activity-ktx:$versions.activity"
+deps.activity = activity
+
+deps.androidGradlePlugin = "com.android.tools.build:gradle:$versions.androidGradlePlugin"
+
+deps.appcompat = "androidx.appcompat:appcompat:$versions.appcompat"
+
+deps.constraintLayout = "androidx.constraintlayout:constraintlayout:$versions.constraintLayout"
+
+deps.coreKtx = "androidx.core:core-ktx:$versions.coreKtx"
+
+def coroutines = [:]
+coroutines.android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+coroutines.playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$versions.coroutines"
+coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
+deps.coroutines = coroutines
+
+def firebase = [:]
+firebase.bom  = "com.google.firebase:firebase-bom:$versions.firebaseBom"
+firebase.authKtx = "com.google.firebase:firebase-auth-ktx"
+firebase.firestoreKtx = "com.google.firebase:firebase-firestore-ktx"
+firebase.storageKtx = "com.google.firebase:firebase-storage-ktx"
+deps.firebase = firebase
+
+def glide = [:]
+glide.runtime = "com.github.bumptech.glide:glide:$versions.glide"
+glide.compiler = "com.github.bumptech.glide:compiler:$versions.glide"
+deps.glide = glide
+
+deps.googleService = "com.google.gms:google-services:$versions.googleService"
+
+def hilt = [:]
+hilt.hiltAdroidGradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$versions.hilt"
+hilt.android = "com.google.dagger:hilt-android:$versions.hilt"
+hilt.compiler = "com.google.dagger:hilt-android-compiler:$versions.hilt"
+deps.hilt = hilt
+
+deps.junit = "junit:junit:$versions.junit"
+
+def kotlin = [:]
+kotlin.plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$versions.kotlin"
+deps.kotlin = kotlin
+
+def lifecycle = [:]
+lifecycle.runtime = "androidx.lifecycle:lifecycle-runtime:$versions.lifecycle"
+lifecycle.runtimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$versions.lifecycle"
+deps.lifecycle = lifecycle
+
+def navigation = [:]
+navigation.fragmentKtx = "androidx.navigation:navigation-fragment-ktx:$versions.navigation"
+navigation.uiKtx = "androidx.navigation:navigation-ui-ktx:$versions.navigation"
+deps.navigation = navigation
+
+deps.material = "com.google.android.material:material:$versions.material"
+
+deps.timber = "com.jakewharton.timber:timber:$versions.timber"
+
+ext.deps = deps

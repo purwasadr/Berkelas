@@ -1,0 +1,11 @@
+dependencies {
+    implementation deps.coreKtx
+    implementation deps.appcompat
+    implementation deps.timber
+
+    implementation deps.coroutines.android
+    implementation deps.coroutines.core
+
+    implementation deps.lifecycle.runtimeKtx
+    implementation deps.activity.activityKtx
+}
