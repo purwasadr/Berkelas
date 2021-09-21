@@ -18,6 +18,14 @@ buildscript {
     }
 }
 
+subprojects {
+    if (project.hasProperty( "kapt" )) {
+        kapt {
+            useBuildCache = true
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
