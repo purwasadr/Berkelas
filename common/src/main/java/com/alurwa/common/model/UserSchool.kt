@@ -1,10 +1,10 @@
 package com.alurwa.common.model
 
-data class School(
+data class UserSchool(
     val schoolId: String = "",
     val kelasId: String = ""
 ) {
     companion object {
-        val EMPTY = School(schoolId = "", kelasId = "")
+        val EMPTY = UserSchool(schoolId = "", kelasId = "")
     }
 }
