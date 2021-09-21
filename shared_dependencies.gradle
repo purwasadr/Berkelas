@@ -5,6 +5,7 @@ dependencies {
 
     implementation deps.coroutines.android
     implementation deps.coroutines.core
+    testImplementation deps.coroutines.test
 
     implementation deps.lifecycle.runtimeKtx
     implementation deps.activity.activityKtx
