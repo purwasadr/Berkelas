@@ -6,6 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ui.choiceschool.ChoiceSchoolActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:actionBarSize" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+    </com.google.android.material.appbar.AppBarLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/til_school"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -17,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/til_kelas"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
         app:layout_constraintVertical_chainStyle="packed">
 
         <com.google.android.material.textfield.MaterialAutoCompleteTextView
