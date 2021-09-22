@@ -3,9 +3,10 @@ package com.alurwa.berkelas.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alurwa.data.repository.auth.AuthRepository
-import com.alurwa.data.repository.auth.UserRepository
+import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.shareIn
 import javax.inject.Inject
 
 @HiltViewModel
