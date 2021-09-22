@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import com.alurwa.berkelas.adapter.MainCardAdapter
 import com.alurwa.berkelas.adapter.MainMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentHomeBinding
@@ -58,13 +59,15 @@ class HomeFragment : Fragment() {
 
     private fun setupHeaderCard() {
         with(binding) {
-            listMenu.setHasFixedSize(true)
-            listMenu.layoutManager = LinearLayoutManager(
+            listCard.setHasFixedSize(true)
+            listCard.layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
-            listMenu.adapter = mainHeaderCardAdapter
+            listCard.adapter = mainHeaderCardAdapter
+
+            PagerSnapHelper().attachToRecyclerView(listCard)
         }
     }
 
