@@ -1,6 +1,8 @@
 package com.alurwa.berkelas.ui.choiceschool
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -8,13 +10,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityChoiceSchoolBinding
+import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.onError
 import com.alurwa.common.model.onSuccess
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class ChoiceSchoolActivity : AppCompatActivity() {
     private val binding: ActivityChoiceSchoolBinding by lazy {
         ActivityChoiceSchoolBinding.inflate(layoutInflater)
@@ -26,9 +30,10 @@ class ChoiceSchoolActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
+        binding.toolbar.setupToolbar(this, "Pilih Sekolah", true)
 
         setupInputView()
+        observeSchools()
     }
 
     private fun observeSchools() {
@@ -47,14 +52,14 @@ class ChoiceSchoolActivity : AppCompatActivity() {
 
     private fun setupInputView() {
         lifecycleScope.launch {
-            viewModel.selectedSchool.filterNotNull().collectLatest {
-                binding.actSchool.setText(it.name)
+            viewModel.selectedSchool.collectLatest {
+                binding.actSchool.setText(it?.name ?: "")
             }
         }
 
         lifecycleScope.launch {
-            viewModel.selectedKelas.filterNotNull().collectLatest {
-                binding.actKelas.setText(it.name)
+            viewModel.selectedKelas.collectLatest {
+                binding.actKelas.setText(it?.name ?: "")
             }
         }
 
@@ -117,5 +122,25 @@ class ChoiceSchoolActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_choice_school, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.menu_done -> {
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }
