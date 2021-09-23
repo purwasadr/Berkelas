@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.alurwa.common.model.Kelas
 import com.alurwa.common.model.School
 import com.alurwa.data.repository.school.SchoolRepository
+import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -12,11 +13,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChoiceSchoolViewModel @Inject constructor(
-    private val schoolRepository: SchoolRepository
+    private val schoolRepository: SchoolRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
     val observeSchools = schoolRepository
         .observeSchools()
 
+    private val schoolLocal = userRepository.getSchoolLocal()
+
+    // Menggunakan null hanya agar tidak melakukan initial load
     private val _schoolsData = MutableStateFlow<List<School>?>(null)
     val schoolData = _schoolsData.asStateFlow()
 
@@ -28,23 +33,26 @@ class ChoiceSchoolViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-           _selectedSchool.value = schoolData.filterNotNull().first().find {
-               it.id == "scch"
-           } ?: School.EMPTY
+            // Use filterNotNull for ignore intial value
+            _selectedSchool.value = schoolData.filterNotNull().first().find {
+                it.id == schoolLocal.schoolId
+            }
         }
 
         viewModelScope.launch {
-            selectedSchool.filterNotNull().collect {
-                setKelas(Kelas.EMPTY)
+            _selectedKelas.value = selectedSchool.first()?.kelasList?.find {
+                it.id == schoolLocal.kelasId
             }
 
-            _selectedKelas.value = selectedSchool.filterNotNull().first().kelasList.find {
-                it.id == "scch"
+            selectedSchool.collectIndexed { index, _ ->
+                if (index > 0) {
+                    setKelas(null)
+                }
             }
         }
     }
 
-    fun setKelas(kelas: Kelas) {
+    fun setKelas(kelas: Kelas?) {
         _selectedKelas.value = kelas
     }
 
