@@ -33,10 +33,13 @@ class MainMenuAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.txtCaption.text = getItem(position).name
-            binding.root.setOnClickListener {
-                onItemClick(position)
+            with(binding) {
+                txtCaption.text = getItem(position).name
+                ibItem.setOnClickListener {
+                    onItemClick(position)
+                }
             }
+
         }
     }
 
