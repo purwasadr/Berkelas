@@ -5,7 +5,7 @@ import com.alurwa.common.model.Result
 import com.alurwa.common.model.SignUpParams
 import com.alurwa.common.model.User
 import com.alurwa.data.repository.auth.AuthRepository
-import com.alurwa.data.repository.auth.UserRepository
+import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
