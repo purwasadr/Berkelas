@@ -1,4 +1,4 @@
-package com.alurwa.berkelas.ui.choiceschool
+package com.alurwa.berkelas.ui.choiceroom
 
 import android.os.Bundle
 import android.view.Menu
@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityChoiceSchoolBinding
-import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.onError
 import com.alurwa.common.model.onSuccess
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,12 +18,12 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ChoiceSchoolActivity : AppCompatActivity() {
+class ChoiceRoomActivity : AppCompatActivity() {
     private val binding: ActivityChoiceSchoolBinding by lazy {
         ActivityChoiceSchoolBinding.inflate(layoutInflater)
     }
 
-    private val viewModel: ChoiceSchoolViewModel by viewModels()
+    private val viewModel: ChoiceRoomViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +38,7 @@ class ChoiceSchoolActivity : AppCompatActivity() {
     private fun observeSchools() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.observeSchools.collectLatest {  result ->
+                viewModel.observeSchools.collectLatest { result ->
                     result.onSuccess {
                         viewModel.setSchoolsData(it)
                     }.onError {
@@ -122,6 +121,7 @@ class ChoiceSchoolActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .show()
+        android.R.layout.select_dialog_multichoice
     }
 
     override fun onSupportNavigateUp(): Boolean {
