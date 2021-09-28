@@ -1,5 +1,6 @@
 package com.alurwa.berkelas.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.alurwa.berkelas.adapter.MainCardAdapter
 import com.alurwa.berkelas.adapter.MainMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentHomeBinding
 import com.alurwa.berkelas.model.MainMenuItem
+import com.alurwa.berkelas.ui.subject.SubjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +25,7 @@ class HomeFragment : Fragment() {
 
     private val mainMenuAdapter: MainMenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
         MainMenuAdapter {
-
+            mainMenuNavigateTo(it)
         }
     }
 
@@ -97,5 +99,16 @@ class HomeFragment : Fragment() {
         )
 
         mainHeaderCardAdapter.submitList(headerList)
+    }
+
+    private fun mainMenuNavigateTo(position: Int) {
+        when(position) {
+            0 -> {
+                Intent(requireContext(), SubjectActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+            }
+        }
     }
 }
