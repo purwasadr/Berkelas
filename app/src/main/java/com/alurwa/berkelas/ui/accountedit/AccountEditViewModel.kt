@@ -34,7 +34,7 @@ class AccountEditViewModel @Inject constructor(
     }
 
     fun editUserWithoutSchool(userWithoutRoom: UserWithoutRoom) =
-        userRepository.editUserWithoutSchool(userWithoutRoom)
+        userRepository.editUserWithoutRoom(userWithoutRoom)
 
     fun setDateOfBirth(value: Long?) {
         _dateOfBirth.value = value
