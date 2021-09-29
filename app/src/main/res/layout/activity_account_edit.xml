@@ -1,161 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.accountedit.AccountEditActivity">
+<layout>
+    <data>
+        <variable
+            name="viewModel"
+            type="com.alurwa.berkelas.ui.accountedit.AccountEditViewModel" />
+    </data>
 
-    <include
-        android:id="@+id/appbar"
-        layout="@layout/content_appbar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        tools:context=".ui.accountedit.AccountEditActivity">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/appbar"
+            layout="@layout/content_appbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusableInTouchMode="true"
-            android:padding="16dp">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="none">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/img_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/pb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/img_profile"
-                app:layout_constraintEnd_toEndOf="@id/img_profile"
-                app:layout_constraintStart_toStartOf="@id/img_profile"
-                app:layout_constraintTop_toTopOf="@id/img_profile"
-                app:trackCornerRadius="10dp" />
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_full_name"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/img_profile">
+                android:focusableInTouchMode="true"
+                android:padding="16dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_fullname"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/img_profile"
+                    loadImageUrl="@{viewModel.profileImgUrl}"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center_horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/pb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@id/img_profile"
+                    app:layout_constraintEnd_toEndOf="@id/img_profile"
+                    app:layout_constraintStart_toStartOf="@id/img_profile"
+                    app:layout_constraintTop_toTopOf="@id/img_profile"
+                    app:trackCornerRadius="10dp" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_full_name"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_full_name"
-                    android:inputType="textCapSentences"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/img_profile">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilNickName"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_full_name">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_fullname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_full_name"
+                        android:inputType="textCapSentences"
+                        android:singleLine="true"
+                        android:text="@{viewModel.userWS.fullName}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtNickName"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilNickName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_nickname"
-                    android:inputType="textCapSentences"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_full_name">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilNickName">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNickName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_nickname"
+                        android:inputType="textCapSentences"
+                        android:singleLine="true"
+                        android:text="@{viewModel.userWS.nickname}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_username"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_username" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilNickName">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilDateBirth"
-                style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:endIconDrawable="@drawable/ic_round_event_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/til_username">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edt_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_username"
+                        android:text="@{viewModel.userWS.username}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/act_date_of_birth"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilDateBirth"
+                    style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_date_of_birth"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:endIconDrawable="@drawable/ic_round_event_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/til_username">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_gender"
-                style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:endIconDrawable="@drawable/ic_round_wc_24"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tilDateBirth">
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_date_of_birth"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_date_of_birth"
+                        android:inputType="none"
+                        app:actDateOfBirth="@{viewModel.dateOfBirth}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/act_gender"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_gender"
+                    style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:endIconDrawable="@drawable/ic_round_wc_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tilDateBirth">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_gender"
+                        android:inputType="none"
+                        app:actGender="@{viewModel.gender}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/txt_pribadi"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_gender"
-                    android:inputType="none" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="16dp"
+                    android:text="Informasi Pribadi"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    android:textColor="?android:attr/textColorPrimary"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/til_gender" />
 
-            <TextView
-                android:id="@+id/txt_pribadi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Informasi Pribadi"
-                android:textAppearance="?attr/textAppearanceSubtitle2"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_gender" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tilEmail"
-                style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_pribadi">
-
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/edt_email"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEmail"
+                    style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/input_hint_email"
-                    android:inputType="none"
-                    android:singleLine="true" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-</LinearLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txt_pribadi">
+
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/act_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/input_hint_email"
+                        android:inputType="none"
+                        android:singleLine="true"
+                        android:text="@{viewModel.email}" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</layout>
