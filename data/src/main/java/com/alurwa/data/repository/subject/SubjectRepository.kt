@@ -30,9 +30,9 @@ class SubjectRepository @Inject constructor(
     fun observeSubject() = callbackFlow<Result<List<Subject>>> {
         trySend(Result.Loading)
 
-        val school = sessionManager.getUserSchool()
+        val roomId = sessionManager.getMyRoom()
 
-        val listener = firestore.subjectSharedCol(school.schoolId, school.kelasId)
+        val listener = firestore.subjectSharedCol(roomId)
             .listener(Subject::class.java) {
                 trySendBlocking(it)
             }
@@ -45,8 +45,8 @@ class SubjectRepository @Inject constructor(
     fun addSubject(day: Int, subjectItem: SubjectItem) = flow {
         emit(Result.Loading)
 
-        val school = sessionManager.getUserSchool()
-        val ref = firestore.subjectSharedCol(school.schoolId, school.kelasId)
+        val roomId = sessionManager.getMyRoom()
+        val ref = firestore.subjectSharedCol(roomId)
             .document(day.toString())
 
         firestore.runTransaction {
@@ -69,9 +69,9 @@ class SubjectRepository @Inject constructor(
     fun editSubject(day: Int, subjectItem: SubjectItem) = flow {
         emit(Result.Loading)
 
-        val school = sessionManager.getUserSchool()
+        val roomId = sessionManager.getMyRoom()
 
-        val ref = firestore.subjectSharedCol(school.schoolId, school.kelasId)
+        val ref = firestore.subjectSharedCol(roomId)
             .document(day.toString())
 
         firestore.runTransaction {
@@ -96,8 +96,4 @@ class SubjectRepository @Inject constructor(
 
         emit(Result.Success(true))
     }.catchToResult().flowOn(dispatcher)
-
-    fun deleteSubjectItem(day: Int, id: String) {
-
-    }
 }
