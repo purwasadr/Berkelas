@@ -1,8 +1,10 @@
 package com.alurwa.berkelas.adapter
 
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.util.Gender
+import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,5 +28,13 @@ object CommonBindingAdapter {
 
             view.setText(dateFormat.format(date))
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("loadImageUrl")
+    fun loadImageUrl(view: ImageView, url: String) {
+        Glide.with(view.context)
+            .load(url)
+            .into(view)
     }
 }
