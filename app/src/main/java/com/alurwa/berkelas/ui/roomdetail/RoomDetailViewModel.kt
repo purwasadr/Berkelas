@@ -1,7 +1,10 @@
 package com.alurwa.berkelas.ui.roomdetail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.alurwa.common.extension.catchToResult
 import com.alurwa.common.model.Result
+import com.alurwa.common.model.RoomData
 import com.alurwa.data.repository.room.RoomRepository
 import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,10 +15,15 @@ import javax.inject.Inject
 @HiltViewModel
 class RoomDetailViewModel @Inject constructor(
     private val roomRepository: RoomRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val stateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    fun applyRoom(roomId: String, password: String) = flow<Result<Boolean>> {
+    val room = stateHandle.get<RoomData>(RoomDetailActivity.EXTRA_ROOM)!!
+
+    fun applyRoom(password: String) = flow<Result<Boolean>> {
+        val roomId = userRepository.getRoomIdLocal()
+
         roomRepository.setRoomPassword(roomId, password)
             .first {
                 it !is Result.Loading
@@ -33,4 +41,13 @@ class RoomDetailViewModel @Inject constructor(
             emit(it)
         }
     }
+
+    fun applyRoom2() = flow<Result<Boolean>> {
+
+        userRepository.editRoomId(room.id).first {
+            it !is Result.Loading
+        }.also {
+            emit(it)
+        }
+    }.catchToResult()
 }
