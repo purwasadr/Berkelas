@@ -11,7 +11,8 @@
         android:id="@+id/txt_info_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/txt_login"
+        android:textAppearance="?attr/textAppearanceHeadline5"
         app:layout_constraintBottom_toTopOf="@id/til_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,17 +112,23 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Jika tidak punya akun anda bisa"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?android:attr/textColorSecondary"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/txt_signup"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_login"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/btn_login" />
 
     <TextView
         android:id="@+id/txt_signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="4dp"
+        android:text="@string/txt_sign_up"
+        android:textAppearance="?attr/textAppearanceBody2"
+        android:textColor="?attr/colorPrimary"
+        android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/txt_info"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/txt_info" />
