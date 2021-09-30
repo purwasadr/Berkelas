@@ -10,14 +10,15 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class AddEditSubjectViewModel @Inject constructor(
+class  AddEditSubjectViewModel @Inject constructor(
     private val subjectRepository: SubjectRepository,
     private val stateHandle: SavedStateHandle
 ) : ViewModel() {
 
+
     val mode = stateHandle.get<Int>(AddEditSubjectActivity.EXTRA_MODE)!!
 
-    val subjectItem = stateHandle.get<SubjectItem?>("Ss")
+    val subjectItem = stateHandle.get<SubjectItem?>(AddEditSubjectActivity.EXTRA_SUBJECT)
 
     private val _day = MutableStateFlow<Int>(
         stateHandle.get<Int>(AddEditSubjectActivity.EXTRA_DAY)!!
