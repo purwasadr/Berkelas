@@ -8,8 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityAddEditSubjectBinding
+import com.alurwa.berkelas.extension.removeError
+import com.alurwa.berkelas.extension.setOnClickForDialog
+import com.alurwa.berkelas.extension.showError
 import com.alurwa.berkelas.util.setupToolbar
+import com.alurwa.common.model.SubjectItem
 import com.alurwa.common.model.onError
+import com.alurwa.common.model.onLoading
 import com.alurwa.common.model.onSuccess
 import com.alurwa.common.util.autoId
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -28,26 +33,29 @@ class AddEditSubjectActivity : AppCompatActivity() {
 
     private val viewModel: AddEditSubjectViewModel by viewModels()
 
+    private var isDoneVisible = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.toolbar.setupToolbar(
-            this,
-            "Add Subject",
-            true
-        )
+        setupToolbar()
 
         setupInputView()
     }
 
     private fun setupInputView() {
         with(binding) {
-            actStartTime.setOnClickListener {
+            actStartTime.setOnClickForDialog(this@AddEditSubjectActivity) {
                 doChangeStartTime()
             }
-            actEndTime.setOnClickListener {
+
+            actEndTime.setOnClickForDialog(this@AddEditSubjectActivity) {
                 doChangeEndTime()
+            }
+
+            actDay.setOnClickForDialog(this@AddEditSubjectActivity) {
+                doChangeDay()
             }
 
             lifecycleScope.launch {
@@ -56,6 +64,17 @@ class AddEditSubjectActivity : AppCompatActivity() {
 
                     actDay.setText(dayOfWeek[it])
                 }
+            }
+        }
+
+        if (viewModel.mode == MODE_EDIT) {
+            val subjectItem = viewModel.subjectItem!!
+
+            with(binding) {
+                edtSubject.setText(subjectItem.subject)
+                actStartTime.setText(subjectItem.startTime)
+                actEndTime.setText(subjectItem.endTime)
+                edtTeacher.setText(subjectItem.teacher)
             }
         }
     }
@@ -72,7 +91,7 @@ class AddEditSubjectActivity : AppCompatActivity() {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setTitleText("Pilih Waktu Mulai")
             .build()
-        picker.show(supportFragmentManager, "time_picker")
+        picker.show(supportFragmentManager, "time_picker_start_time")
 
         picker.addOnPositiveButtonClickListener {
             binding.actStartTime.setText("${picker.hour}:${picker.minute}")
@@ -91,7 +110,7 @@ class AddEditSubjectActivity : AppCompatActivity() {
             .setTimeFormat(TimeFormat.CLOCK_24H)
             .setTitleText("Pilih Waktu Mulai")
             .build()
-        picker.show(supportFragmentManager, "time_picker")
+        picker.show(supportFragmentManager, "time_picker_end_time")
 
         picker.addOnPositiveButtonClickListener {
             binding.actEndTime.setText("${picker.hour}:${picker.minute}")
@@ -108,6 +127,7 @@ class AddEditSubjectActivity : AppCompatActivity() {
                 viewModel.setDay(which)
                 dialog.dismiss()
             }
+            .show()
     }
 
     private fun saveSubject() {
@@ -122,7 +142,9 @@ class AddEditSubjectActivity : AppCompatActivity() {
                             it.onSuccess {
                                 finish()
                             }.onError {
-
+                                setMenuDoneVisibility(true)
+                            }.onLoading {
+                                setMenuDoneVisibility(true)
                             }
                         }
                 }
@@ -133,7 +155,9 @@ class AddEditSubjectActivity : AppCompatActivity() {
                             it.onSuccess {
                                 finish()
                             }.onError {
-
+                                setMenuDoneVisibility(true)
+                            }.onLoading {
+                                setMenuDoneVisibility(false)
                             }
                         }
                 }
@@ -141,11 +165,19 @@ class AddEditSubjectActivity : AppCompatActivity() {
         }
     }
 
+    private fun setMenuDoneVisibility(value: Boolean) {
+        isDoneVisible = value
+        invalidateOptionsMenu()
+    }
+
     private fun checkValidity(): Boolean {
         var isValid = true
         with(binding) {
             if (edtSubject.text.toString().isEmpty()) {
                 isValid = false
+                tilSubject.showError(getString(R.string.input_error_subject))
+            } else {
+                tilSubject.removeError()
             }
 
             if (edtTeacher.text.toString().isEmpty()) {
@@ -164,14 +196,14 @@ class AddEditSubjectActivity : AppCompatActivity() {
     }
 
     private fun inputToAddObject() =
-        viewModel.subjectItem?.copy(
+        SubjectItem(
             id = autoId(),
             subject = binding.edtSubject.text.toString(),
             startTime = binding.actStartTime.text.toString(),
             endTime = binding.actEndTime.text.toString(),
             teacher = binding.edtTeacher.text.toString()
 
-        )!!
+        )
 
     private fun inputToEditObject() =
         viewModel.subjectItem?.copy(
@@ -182,8 +214,29 @@ class AddEditSubjectActivity : AppCompatActivity() {
 
         )!!
 
+    private fun setupToolbar() {
+        val title = if (viewModel.mode == MODE_ADD) {
+            "Add Subject"
+        } else if (viewModel.mode == MODE_EDIT) {
+            "Edit Subject"
+        } else {
+            throw IllegalStateException()
+        }
+
+        binding.appbar.toolbar.setupToolbar(
+            this,
+            title,
+            true
+        )
+    }
+
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_done)?.isVisible = isDoneVisible
         return true
     }
 
