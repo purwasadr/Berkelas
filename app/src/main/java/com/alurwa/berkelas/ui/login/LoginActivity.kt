@@ -3,13 +3,17 @@ package com.alurwa.berkelas.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.alurwa.berkelas.databinding.ActivityLoginBinding
+import com.alurwa.berkelas.extension.removeError
+import com.alurwa.berkelas.extension.showError
 import com.alurwa.berkelas.ui.main.MainActivity
+import com.alurwa.berkelas.ui.signup.SignUpActivity
 import com.alurwa.common.model.Result
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -28,11 +32,18 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupBtnLogin()
+        setupSignUpTv()
     }
 
     private fun setupBtnLogin() {
         binding.btnLogin.setOnClickListener {
             loginWithEmail()
+        }
+    }
+
+    private fun setupSignUpTv() {
+        binding.txtSignup.setOnClickListener {
+            navigateToSignUp()
         }
     }
 
@@ -57,7 +68,8 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         is Result.Error -> {
-                            Toast.makeText(applicationContext, it.exception.message, Toast.LENGTH_SHORT)
+                            Toast.makeText(applicationContext,
+                                it.exception.message, Toast.LENGTH_SHORT)
                                 .show()
                             pbIsVisible(false)
                         }
@@ -73,38 +85,41 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    private fun navigateToSignUp() {
+        Intent(this, SignUpActivity::class.java)
+            .also {
+                startActivity(it)
+            }
+    }
+
     private fun isInputValid(email: String, password: String): Boolean {
         var stateReturn = true
 
         when {
             email.isEmpty() -> {
-                binding.tilPassword.isErrorEnabled = true
-                binding.tilEmail.error = "Email tidak boleh kosong"
                 stateReturn = false
+                binding.tilEmail.showError("Email tidak boleh kosong")
             }
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                binding.tilPassword.isErrorEnabled = true
-                binding.tilEmail.error = "Format email tidak benar"
                 stateReturn = false
+                binding.tilPassword.showError("Format email tidak benar")
             }
             else -> {
-                binding.tilPassword.isErrorEnabled = false
+                binding.tilPassword.removeError()
             }
         }
 
         when {
             password.isEmpty() -> {
-                binding.tilPassword.isErrorEnabled = true
-                binding.tilPassword.error = "Password tidak boleh kosong "
                 stateReturn = false
+                binding.tilPassword.showError("Password tidak boleh kosong ")
             }
             password.length <= 6 -> {
-                binding.tilPassword.isErrorEnabled = true
-                binding.tilPassword.error = "Minimal karakter password 6 :)"
+                binding.tilPassword.showError("Minimal karakter password 6 :)")
                 stateReturn = false
             }
             else -> {
-                binding.tilPassword.isErrorEnabled = false
+                binding.tilPassword.removeError()
             }
         }
 
@@ -113,6 +128,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun pbIsVisible(value: Boolean) {
         binding.pb.isVisible = value
+        binding.btnLogin.visibility = if(value) View.INVISIBLE else View.VISIBLE
     }
 
 }
