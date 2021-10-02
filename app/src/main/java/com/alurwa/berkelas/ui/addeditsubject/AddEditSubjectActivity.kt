@@ -23,6 +23,7 @@ import com.google.android.material.timepicker.TimeFormat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import java.util.*
 
 @AndroidEntryPoint
@@ -40,8 +41,13 @@ class AddEditSubjectActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupToolbar()
-
+        setupDataBinding()
         setupInputView()
+    }
+
+    private fun setupDataBinding() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 
     private fun setupInputView() {
@@ -57,25 +63,10 @@ class AddEditSubjectActivity : AppCompatActivity() {
             actDay.setOnClickForDialog(this@AddEditSubjectActivity) {
                 doChangeDay()
             }
-
-            lifecycleScope.launch {
-                viewModel.day.collectLatest {
-                    val dayOfWeek = resources.getStringArray(R.array.day_of_week)
-
-                    actDay.setText(dayOfWeek[it])
-                }
-            }
         }
 
         if (viewModel.mode == MODE_EDIT) {
-            val subjectItem = viewModel.subjectItem!!
-
-            with(binding) {
-                edtSubject.setText(subjectItem.subject)
-                actStartTime.setText(subjectItem.startTime)
-                actEndTime.setText(subjectItem.endTime)
-                edtTeacher.setText(subjectItem.teacher)
-            }
+            binding.actDay.isEnabled = false
         }
     }
 
@@ -94,7 +85,9 @@ class AddEditSubjectActivity : AppCompatActivity() {
         picker.show(supportFragmentManager, "time_picker_start_time")
 
         picker.addOnPositiveButtonClickListener {
-            binding.actStartTime.setText("${picker.hour}:${picker.minute}")
+            val minute = DecimalFormat("00").format(picker.minute)
+
+            binding.actStartTime.setText("${picker.hour}:${minute}")
         }
     }
 
@@ -113,7 +106,9 @@ class AddEditSubjectActivity : AppCompatActivity() {
         picker.show(supportFragmentManager, "time_picker_end_time")
 
         picker.addOnPositiveButtonClickListener {
-            binding.actEndTime.setText("${picker.hour}:${picker.minute}")
+            val minute = DecimalFormat("00").format(picker.minute)
+
+            binding.actEndTime.setText("${picker.hour}:${minute}")
         }
     }
 
@@ -132,36 +127,45 @@ class AddEditSubjectActivity : AppCompatActivity() {
 
     private fun saveSubject() {
         val mode = viewModel.mode
-        val day = viewModel.day.value
 
         if (checkValidity()) {
             if (mode == MODE_ADD) {
-                lifecycleScope.launch {
-                    viewModel.addSubject(day, inputToAddObject())
-                        .collectLatest {
-                            it.onSuccess {
-                                finish()
-                            }.onError {
-                                setMenuDoneVisibility(true)
-                            }.onLoading {
-                                setMenuDoneVisibility(true)
-                            }
-                        }
-                }
+                addSubject()
             } else if (mode == MODE_EDIT) {
-                lifecycleScope.launch {
-                    viewModel.editSubject(day, inputToEditObject())
-                        .collectLatest {
-                            it.onSuccess {
-                                finish()
-                            }.onError {
-                                setMenuDoneVisibility(true)
-                            }.onLoading {
-                                setMenuDoneVisibility(false)
-                            }
-                        }
-                }
+                editSubject()
             }
+        }
+    }
+
+    private fun addSubject() {
+        val day = viewModel.day.value
+        lifecycleScope.launch {
+            viewModel.addSubject(day, inputToAddObject())
+                .collectLatest {
+                    it.onSuccess {
+                        finish()
+                    }.onError {
+                        setMenuDoneVisibility(true)
+                    }.onLoading {
+                        setMenuDoneVisibility(false)
+                    }
+                }
+        }
+    }
+
+    private fun editSubject() {
+        val day = viewModel.day.value
+        lifecycleScope.launch {
+            viewModel.editSubject(day, inputToEditObject())
+                .collectLatest {
+                    it.onSuccess {
+                        finish()
+                    }.onError {
+                        setMenuDoneVisibility(true)
+                    }.onLoading {
+                        setMenuDoneVisibility(false)
+                    }
+                }
         }
     }
 
