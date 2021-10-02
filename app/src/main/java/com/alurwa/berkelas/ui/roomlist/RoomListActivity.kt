@@ -8,9 +8,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.RoomListAdapter
 import com.alurwa.berkelas.databinding.ActivityRoomListBinding
-import com.alurwa.berkelas.ui.choiceroom.ChoiceRoomActivity
+import com.alurwa.berkelas.model.RoomItem
 import com.alurwa.berkelas.ui.roomaddedit.RoomAddEditActivity
 import com.alurwa.berkelas.ui.roomdetail.RoomDetailActivity
 import com.alurwa.berkelas.util.setupToolbar
@@ -28,12 +29,6 @@ class RoomListActivity : AppCompatActivity() {
 
     private val adapter by lazy(LazyThreadSafetyMode.NONE) {
         RoomListAdapter() {
-//            if (viewModel.mode == MODE_NORMAL) {
-//                navigateToRoomDetail(it)
-//            } else if (viewModel.mode == MODE_CHOICE) {
-//                resultToChoice(it)
-//            }
-
             navigateToRoomDetail(it)
         }
     }
@@ -44,7 +39,11 @@ class RoomListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(this, "Daftar Room", true)
+        binding.appbar.toolbar.setupToolbar(
+            this,
+            getString(R.string.toolbar_title_room_list)
+            , true
+        )
 
         setupRcvView()
         setupFab()
@@ -75,17 +74,14 @@ class RoomListActivity : AppCompatActivity() {
     }
 
     private fun navigateToRoomDetail(room: RoomData) {
+        val isChoice = room.id == viewModel.getMyRoomId()
+
         Intent(this, RoomDetailActivity::class.java)
             .putExtra(RoomDetailActivity.EXTRA_ROOM, room)
+            .putExtra(RoomDetailActivity.EXTRA_IS_CHOICE, isChoice)
             .also {
                 startActivity(it)
             }
-    }
-
-    private fun resultToChoice(roomData: RoomData) {
-        val putIntent = Intent().putExtra(ChoiceRoomActivity.EXTRA_ROOM, roomData)
-
-        setResult(100, putIntent)
     }
 
     private fun navigateToAddRoom() {
@@ -97,7 +93,22 @@ class RoomListActivity : AppCompatActivity() {
     }
 
     private fun submitToAdapter(rooms: List<RoomData>) {
-        adapter.submitList(rooms)
+        val myRoomId = viewModel.getMyRoomId()
+        val we = rooms.map {
+            val aw = it.id == myRoomId
+
+            RoomItem(
+                aw,
+                it
+            )
+        }
+
+        val roomResult = we.partition {
+            it.checked
+        }
+
+        val wwe = roomResult.first + roomResult.second
+        adapter.submitList(wwe)
     }
 
     override fun onSupportNavigateUp(): Boolean {
