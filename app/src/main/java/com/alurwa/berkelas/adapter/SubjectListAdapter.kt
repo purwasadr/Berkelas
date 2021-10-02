@@ -5,14 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.alurwa.berkelas.databinding.ListItemSubjectBinding
+import com.alurwa.berkelas.databinding.ListItemSubjectItemBinding
 import com.alurwa.common.model.SubjectItem
 
-class SubjectListAdapter : ListAdapter<SubjectItem, SubjectListAdapter.ViewHolder>(COMPARATOR) {
+class SubjectListAdapter(
+    private val onClick: (subjectItem: SubjectItem) -> Unit
+) : ListAdapter<SubjectItem, SubjectListAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            ListItemSubjectBinding.inflate(
+            ListItemSubjectItemBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 ), parent, false
@@ -24,14 +26,19 @@ class SubjectListAdapter : ListAdapter<SubjectItem, SubjectListAdapter.ViewHolde
     }
 
     inner class ViewHolder(
-        private val binding: ListItemSubjectBinding
+        private val binding: ListItemSubjectItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.txtSubject.text = getItem(position).subject
-            binding.root.setOnClickListener {
-
+            val item = getItem(position)
+            with(binding) {
+                txtSubject.text = item.subject
+                txtTime.text = "${item.startTime} - ${item.endTime}"
+                root.setOnClickListener {
+                    onClick(item)
+                }
             }
+
         }
     }
 
@@ -42,7 +49,7 @@ class SubjectListAdapter : ListAdapter<SubjectItem, SubjectListAdapter.ViewHolde
                 oldItem: SubjectItem,
                 newItem: SubjectItem
             ): Boolean =
-                oldItem.subject == newItem.subject
+               oldItem.id == newItem.id
 
             override fun areContentsTheSame(
                 oldItem: SubjectItem,
