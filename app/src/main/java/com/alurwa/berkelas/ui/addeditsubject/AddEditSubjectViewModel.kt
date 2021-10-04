@@ -15,7 +15,6 @@ class  AddEditSubjectViewModel @Inject constructor(
     private val stateHandle: SavedStateHandle
 ) : ViewModel() {
 
-
     val mode = stateHandle.get<Int>(AddEditSubjectActivity.EXTRA_MODE)!!
 
     val subjectItem = stateHandle.get<SubjectItem?>(AddEditSubjectActivity.EXTRA_SUBJECT)
