@@ -6,6 +6,10 @@ plugins {
 
 apply from: '../shared_dependencies.gradle'
 
+kapt {
+    correctErrorTypes = true
+}
+
 android {
     compileSdk buildVersions.compileSdk
 
