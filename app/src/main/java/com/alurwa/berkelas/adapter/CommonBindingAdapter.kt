@@ -2,6 +2,7 @@ package com.alurwa.berkelas.adapter
 
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.util.Gender
@@ -20,6 +21,14 @@ object CommonBindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("txtGender")
+    fun txtGender(view: TextView, code: Int) {
+        val gender = Gender.values().getOrNull(code - 1)?.getValue(view.context) ?: ""
+
+        view.text = gender
+    }
+
+    @JvmStatic
     @BindingAdapter("actDateOfBirth")
     fun actDateOfBirth(view: AutoCompleteTextView, value: Long?) {
         if (value != null) {
@@ -33,7 +42,7 @@ object CommonBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("loadImageUrl")
-    fun loadImageUrl(view: ImageView, url: String) {
+    fun loadImageUrl(view: ImageView, url: String?) {
         Glide.with(view.context)
             .load(url)
             .into(view)
