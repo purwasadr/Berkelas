@@ -6,15 +6,20 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.alurwa.berkelas.databinding.VpItemSubjectBinding
+import com.alurwa.berkelas.R
+import com.alurwa.berkelas.databinding.ListItemSubjectBinding
+import com.alurwa.berkelas.model.SubjectUiModel
 import com.alurwa.common.model.Subject
+import com.alurwa.common.model.SubjectItem
+import timber.log.Timber
 
-class SubjectVpAdapter
-    : ListAdapter<Subject, SubjectVpAdapter.ViewHolder>(COMPARATOR) {
+class SubjectVpAdapter(
+    private val onSubjectItemClick: (subjectItem: SubjectItem) -> Unit
+) : ListAdapter<Subject, SubjectVpAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            VpItemSubjectBinding.inflate(
+            ListItemSubjectBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 ), parent, false
@@ -26,26 +31,37 @@ class SubjectVpAdapter
     }
 
     inner class ViewHolder(
-        private val binding: VpItemSubjectBinding
+        private val binding: ListItemSubjectBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        private val adapter = SubjectListAdapter()
+        private val adapter = SubjectListAdapter() {
+            onSubjectItemClick(it)
+        }
 
         init {
             with(binding) {
-                listSubject.setHasFixedSize(true)
                 listSubject.layoutManager = LinearLayoutManager(binding.root.context)
+                listSubject.setHasFixedSize(true)
                 listSubject.adapter = adapter
             }
-
         }
 
         fun bind(position: Int) {
             val item = getItem(position)
 
             if (item != null) {
-                binding.txtDay.text = item.day.toString()
-                adapter.submitList(item.subjectItem)
+                val dayOfWeek = binding.root.context
+                    .resources.getStringArray(R.array.day_of_week).getOrNull(item.day!!) ?: ""
+                binding.txtDay.text = dayOfWeek
+                Timber.d("Subject Item Size : " + item.subjectItem.size.toString())
+                val itemA = item.subjectItem.map {
+                    SubjectUiModel.Subject(
+                        it
+                    )
+                }
+                val result = listOf(SubjectUiModel.Header(dayOfWeek)) + itemA
+
+                adapter.submitList(result)
             }
         }
     }
