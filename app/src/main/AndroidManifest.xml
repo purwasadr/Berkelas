@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.alurwa.berkelas">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:name=".BerkelasApp"
         android:allowBackup="true"
@@ -11,7 +18,45 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Berkelas">
         <activity
-            android:name=".ui.choiceschool.ChoiceSchoolActivity"
+            android:name=".ui.cashdatedetail.CashDateDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.profilecrop.ProfileCropActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.roomuserdetail.RoomUserDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.roomuserlist.RoomUserListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cashall.CashAllActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cashaddedit.CashAddEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.cash.CashActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.roomdetail.RoomDetailActivity"
+            android:exported="true"
+            android:label="@string/title_activity_room_detail"
+            android:theme="@style/Theme.Berkelas.NoActionBar" />
+        <activity
+            android:name=".ui.roomlist.RoomListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.roomaddedit.RoomAddEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.accountedit.AccountEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.addeditsubject.AddEditSubjectActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.choiceroom.ChoiceRoomActivity"
             android:exported="true" />
         <activity
             android:name=".ui.subject.SubjectActivity"
@@ -33,6 +78,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>
