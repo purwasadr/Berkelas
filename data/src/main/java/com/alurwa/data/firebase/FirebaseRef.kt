@@ -21,3 +21,14 @@ fun FirebaseFirestore.subjectSharedCol(roomId: String) =
 fun FirebaseFirestore.roomCol() = collection("room")
 
 fun FirebaseFirestore.roomDoc(id: String) = roomCol().document(id)
+
+fun FirebaseFirestore.cashRootCol() = collection("cash")
+
+fun FirebaseFirestore.cashDataCol(roomId: String) =
+    cashRootCol()
+        .document(roomId)
+        .collection("cashData")
+
+fun FirebaseFirestore.cashDataDoc(roomId: String, id: String) =
+    cashDataCol(roomId)
+        .document(id)
