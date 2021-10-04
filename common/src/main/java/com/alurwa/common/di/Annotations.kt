@@ -9,3 +9,7 @@ annotation class DispatcherIO
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class SessionPreferences
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class ApplicationScope
