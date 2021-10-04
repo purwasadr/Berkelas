@@ -1,5 +1,6 @@
 package com.alurwa.berkelas.ui.accountedit
 
+import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.alurwa.common.model.UserWithoutRoom
@@ -47,4 +48,6 @@ class AccountEditViewModel @Inject constructor(
     fun setProfileImgUrl(url: String) {
         _profileImgUrl.value = url
     }
+
+    fun changeProfileImage(uri: Uri) = userRepository.changeImgProfile(uri)
 }
