@@ -17,6 +17,7 @@ import com.alurwa.berkelas.model.MainMenuItem
 import com.alurwa.berkelas.ui.accountedit.AccountEditActivity
 import com.alurwa.berkelas.ui.main.MainViewModel
 import com.alurwa.berkelas.ui.roomlist.RoomListActivity
+import com.alurwa.berkelas.ui.roomuserlist.RoomUserListActivity
 import com.alurwa.common.model.User
 import com.alurwa.common.model.UserWithoutRoom
 import com.alurwa.common.model.onSuccess
@@ -53,6 +54,9 @@ class AccountFragment : Fragment() {
 
         setupAccountMenu()
 
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         fillAccountMenuAdapter()
 
         observeMyUser()
@@ -77,7 +81,7 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun mapUserToUserWithoutSchool(user: User) =
+    private fun mapUserToUserWithoutRoom(user: User) =
         with(user) {
             UserWithoutRoom(
                 uid = uid,
@@ -100,10 +104,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun fillUserData(user: User) {
-        with(binding) {
-            txtEmail.text = user.email
-            txtUsername.text = user.username
-        }
+
     }
 
     private fun fillAccountMenuAdapter() {
@@ -114,6 +115,10 @@ class AccountFragment : Fragment() {
             ),
             MainMenuItem(
                 "Ganti Room",
+                true
+            ),
+            MainMenuItem(
+                "Daftar Anggota",
                 true
             ),
             MainMenuItem(
@@ -129,7 +134,7 @@ class AccountFragment : Fragment() {
         when (position) {
             0 -> {
                 val user = viewModel.user.value
-                val userWS = mapUserToUserWithoutSchool(user ?: User.EMPTY)
+                val userWS = mapUserToUserWithoutRoom(user ?: User.EMPTY)
 
                 Intent(requireContext(), AccountEditActivity::class.java)
                     .putExtra(AccountEditActivity.EXTRA_USER_WITHOUT_SCHOOL, userWS)
@@ -142,6 +147,12 @@ class AccountFragment : Fragment() {
                 val roomId = viewModel.user.value?.roomId ?: ""
 
                 Intent(requireContext(), RoomListActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+            }
+            2 -> {
+                Intent(requireContext(), RoomUserListActivity::class.java)
                     .also {
                         startActivity(it)
                     }
