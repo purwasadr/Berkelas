@@ -1,8 +1,8 @@
 package com.alurwa.data.firebase
 
 import com.alurwa.common.model.Result
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import timber.log.Timber
 
 inline fun <T> DocumentReference.listener(clazz: Class<T>, crossinline block: (result: Result<T?>) -> Unit) =
@@ -22,7 +22,7 @@ inline fun <T> DocumentReference.listener(clazz: Class<T>, crossinline block: (r
         }
     }
 
-inline fun <T> CollectionReference.listener(clazz: Class<T>, crossinline block: (result: Result<List<T>>) -> Unit) =
+inline fun <T> Query.listener(clazz: Class<T>, crossinline block: (result: Result<List<T>>) -> Unit) =
     this.addSnapshotListener { value, error ->
         if (error != null) {
             block(Result.Error(error))
