@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.alurwa.berkelas.databinding.ListItemCashAllAsCashBinding
+import com.alurwa.berkelas.databinding.ListItemCashAllDateBinding
 import com.alurwa.berkelas.model.CashAllDateItem
 
 class CashAllDateAdapter(
@@ -14,7 +14,7 @@ class CashAllDateAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
-            ListItemCashAllAsCashBinding.inflate(
+            ListItemCashAllDateBinding.inflate(
                 LayoutInflater.from(
                     parent.context
                 ), parent, false
@@ -26,7 +26,7 @@ class CashAllDateAdapter(
     }
 
     inner class ViewHolder(
-        private val binding: ListItemCashAllAsCashBinding
+        private val binding: ListItemCashAllDateBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
@@ -34,7 +34,7 @@ class CashAllDateAdapter(
             with(binding) {
                 binding.cashAllDate = item
                 root.setOnClickListener {
-
+                    onClick(item)
                 }
             }
 
