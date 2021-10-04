@@ -3,7 +3,6 @@ package com.alurwa.data.util
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.alurwa.common.di.SessionPreferences
-import com.alurwa.common.model.UserSchool
 import javax.inject.Inject
 
 class SessionManager @Inject constructor(
@@ -11,29 +10,39 @@ class SessionManager @Inject constructor(
     private val sharedPreferences: SharedPreferences
 ) {
 
-    fun saveUser(schoolId: String, kelasId: String) {
+    fun saveUser(roomId: String) {
         sharedPreferences.edit(true) {
-            putString(SCHOOL_ID, schoolId)
-            putString(KELAS_ID, kelasId)
+            putString(ROOM_ID, roomId)
         }
     }
 
     fun clearUser() {
         sharedPreferences.edit(true) {
-            putString(SCHOOL_ID, "")
-            putString(KELAS_ID, "")
+            putString(ROOM_ID, "")
         }
     }
 
-    fun getUserSchool(): UserSchool {
-        val schoolId = sharedPreferences.getString(SCHOOL_ID, "") ?: ""
-        val kelasId = sharedPreferences.getString(KELAS_ID, "") ?: ""
+    fun getRoomIdNotEmptyOrThrow(): String {
+        val roomId = sharedPreferences.getString(ROOM_ID, "") ?: ""
 
-        return UserSchool(schoolId = schoolId, kelasId = kelasId)
+        if (roomId.isEmpty()) {
+            throw IllegalStateException("id is empty")
+        }
+
+        return roomId
+    }
+
+    fun getUserRoomNotEmptyOrThrow(): String {
+        val roomId = sharedPreferences.getString(ROOM_ID, "") ?: ""
+
+        if (roomId.isEmpty()) {
+            throw IllegalStateException("id is empty")
+        }
+
+        return roomId
     }
 
     companion object {
-        const val SCHOOL_ID = "school_id"
-        const val KELAS_ID = "kelas_id"
+        const val ROOM_ID = "room_id"
     }
 }
