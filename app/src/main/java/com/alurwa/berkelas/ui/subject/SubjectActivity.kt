@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.SubjectVpAdapter
 import com.alurwa.berkelas.databinding.ActivitySubjectBinding
@@ -38,7 +40,7 @@ class SubjectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.toolbar.setupToolbar(
+        binding.appbar.toolbar.setupToolbar(
             this,
             getString(R.string.toolbar_title_subject),
             true
@@ -65,19 +67,22 @@ class SubjectActivity : AppCompatActivity() {
         lifecycleScope.launch {
 
             // FIXME: List Adapter not show list correctly when using repeatOnLifecycle
-            viewModel.observeSubject
-                .distinctUntilChanged()
-                .collectLatest { result ->
-                    result.onSuccess { data ->
-                        submitVpAdapter(data)
-                        Timber.d(data.get(2).toString())
-                    }.onLoading {
-
-                    }.onError {
-                        SnackbarUtil.showShort(binding.root, it.message)
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.observeSubject
+                    .distinctUntilChanged()
+                    .collectLatest { result ->
+                        result.onSuccess { data ->
+                            submitVpAdapter(data)
+                            Timber.d(data.getOrNull(0).toString())
+                        }.onLoading {
+                            SnackbarUtil.showShort(binding.root, "Loading")
+                        }.onError {
+                            SnackbarUtil.showShort(binding.root, it.message)
+                        }
                     }
-                }
+            }
         }
+
     }
 
 
@@ -92,7 +97,7 @@ class SubjectActivity : AppCompatActivity() {
             )
         }
 
-        vpAdapter.submitList(vpList)
+        vpAdapter.submitList(transform)
     }
 
     private fun showSubjectInfo(subjectItem: SubjectItem) {
@@ -101,9 +106,21 @@ class SubjectActivity : AppCompatActivity() {
                 navigateToEditSubject(subjectItem)
             }
             .setOnClickBtnDelete {
-
+                deleteSubject(subjectItem.id)
             }
             .show()
+    }
+
+    private fun deleteSubject(id: String) {
+        lifecycleScope.launch {
+            viewModel.deleteSubject(day = currentItem, id).collectLatest {
+                it.onSuccess {
+                    SnackbarUtil.showShort(binding.root, "Pelajaran telah dihapus")
+                }.onError {
+                    SnackbarUtil.showShort(binding.root, "Pelajaran gagal dihapus")
+                }
+            }
+        }
     }
 
     private fun navigateToAddSubject() {
