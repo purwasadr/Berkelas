@@ -31,7 +31,7 @@ class RoomDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(this,"", true)
+        binding.appbar.toolbar.setupToolbar(this, "", true)
 
         setupViews()
     }
@@ -42,11 +42,16 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.fab.setOnClickListener {
-            doVerifyPassword()
+
+            if (!viewModel.isChoice) {
+                doInputPassword()
+            } else {
+                SnackbarUtil.showShort(binding.root, "Room ini sudah dipilih")
+            }
         }
     }
 
-    private fun doVerifyPassword() {
+    private fun doInputPassword() {
         val dialogView =
             LayoutInflater.from(this).inflate(R.layout.dialog_room_password, null)
 
@@ -54,30 +59,45 @@ class RoomDetailActivity : AppCompatActivity() {
             .setTitle("Masukkan Password")
             .setView(dialogView)
             .setPositiveButton("Oke") { dialog, _ ->
-                val edtPass = dialogView.findViewById<TextInputEditText>(R.id.edt_password)
-                setRoomToUser(edtPass.text.toString())
                 dialog.dismiss()
+
+                val edtPass =
+                    dialogView.findViewById<TextInputEditText>(R.id.edt_password).text.toString()
+
+                if (verifyPassword(edtPass)) {
+                    setRoomToUser()
+                }
             }
-            .setNegativeButton("Batal") { dialog, which ->
+            .setNegativeButton("Batal") { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
     }
 
-    private fun setRoomToUser(password: String) {
-        if (password != "") {
-            lifecycleScope.launch {
-                viewModel.applyRoom2().collectLatest {
-                    it.onSuccess {
-                        SnackbarUtil.showShort(binding.root, "Success")
-                    }.onLoading {
-                        SnackbarUtil.showShort(binding.root, "Loading")
-                    }.onError {
-                        SnackbarUtil.showShort(binding.root, "Error")
-                    }
+    private fun verifyPassword(password: String): Boolean {
+        val passwordSet = viewModel.room.password
+        return if (passwordSet == password) {
+            true
+        } else {
+            SnackbarUtil.showShort(binding.root, "Password yang anda masukkan salah")
+            false
+        }
+    }
+
+    private fun setRoomToUser() {
+
+        lifecycleScope.launch {
+            viewModel.applyRoom2().collectLatest {
+                it.onSuccess {
+                    SnackbarUtil.showShort(binding.root, "Berhasil masuk room")
+                }.onLoading {
+                    SnackbarUtil.showShort(binding.root, "Loading")
+                }.onError {
+                    SnackbarUtil.showShort(binding.root, "Error")
                 }
             }
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -87,5 +107,6 @@ class RoomDetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_ROOM = "extra_room"
+        const val EXTRA_IS_CHOICE = "extra_is_choice"
     }
 }
