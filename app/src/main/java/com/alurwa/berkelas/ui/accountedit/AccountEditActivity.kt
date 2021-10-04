@@ -1,16 +1,23 @@
 package com.alurwa.berkelas.ui.accountedit
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityAccountEditBinding
 import com.alurwa.berkelas.extension.removeError
 import com.alurwa.berkelas.extension.setOnClickForDialog
 import com.alurwa.berkelas.extension.showError
+import com.alurwa.berkelas.ui.profilecrop.ProfileCropActivity
 import com.alurwa.berkelas.util.DateTimeUtil
 import com.alurwa.berkelas.util.Gender
 import com.alurwa.berkelas.util.SnackbarUtil
@@ -24,6 +31,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.*
 
 @AndroidEntryPoint
@@ -36,6 +44,35 @@ class AccountEditActivity : AppCompatActivity() {
 
     private var isDoneVisible = true
 
+    private val requestPermission = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+        if (it) {
+            pictFromGallery()
+        }
+    }
+
+    private val startPickGallery = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val uri = it.data?.data
+        if (uri != null) {
+
+            navigateToProfileCrop(uri)
+            Timber.d("result pickGallery")
+        }
+    }
+
+    private val startCropActivity = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        val uri = it.data?.data
+
+        if (uri != null) {
+            changeProfileImage(uri)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -47,6 +84,7 @@ class AccountEditActivity : AppCompatActivity() {
         )
 
         setupInputView()
+        setupProfileImage()
     }
 
     private fun setupInputView() {
@@ -61,6 +99,77 @@ class AccountEditActivity : AppCompatActivity() {
 
         binding.actDateOfBirth.setOnClickForDialog(this) {
             doChangeDateOfBirth()
+        }
+    }
+
+    private fun setupProfileImage() {
+        binding.imgProfile.setOnClickListener {
+            optionProfileImageDialog()
+        }
+    }
+
+    private fun optionProfileImageDialog() {
+        val arrayItems = arrayOf("Ambil file", "Ambil Camera")
+
+        MaterialAlertDialogBuilder(this)
+            .setItems(arrayItems) { dialog, which ->
+                if (which == 0) {
+                    requestReadExternal()
+                }
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun requestReadExternal() {
+        val permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
+
+        if (ContextCompat.checkSelfPermission(
+                this, permission
+            ) == PackageManager.PERMISSION_GRANTED) {
+            pictFromGallery()
+            return
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (shouldShowRequestPermissionRationale(permission)) {
+                Timber.d("ShouldRequest")
+            } else {
+                requestPermission.launch(permission)
+            }
+        }
+    }
+
+    private fun pictFromGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+            .setType("image/*")
+            .addCategory(Intent.CATEGORY_OPENABLE)
+        val mimeTypes = arrayOf("image/jpeg", "image/png")
+
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
+
+        Timber.d("pickFromGallery")
+
+        startPickGallery.launch(Intent.createChooser(intent, "Pilih Gambar"))
+    }
+
+    private fun navigateToProfileCrop(uri: Uri) {
+        Intent(this, ProfileCropActivity::class.java)
+            .also {
+                it.data = uri
+                startCropActivity.launch(it)
+            }
+    }
+
+    private fun changeProfileImage(uri: Uri) {
+        lifecycleScope.launch {
+            viewModel.changeProfileImage(uri).collectLatest {
+                it.onSuccess {
+                    viewModel.setProfileImgUrl(uri.toString())
+                }.onError {
+                    SnackbarUtil.showShort(binding.root, "Gagal meperbarui foto profil")
+                }
+            }
         }
     }
 
@@ -149,9 +258,9 @@ class AccountEditActivity : AppCompatActivity() {
 
             if (edtNickName.text.toString().isEmpty()) {
                 isValid = false
-                tilNickName.showError(getString(R.string.input_error_cause_empty))
+                tilNickname.showError(getString(R.string.input_error_cause_empty))
             } else {
-                tilNickName.removeError()
+                tilNickname.removeError()
             }
 
             if (edtUsername.text.toString().isEmpty()) {
