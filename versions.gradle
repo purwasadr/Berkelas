@@ -32,6 +32,8 @@ versions.constraintLayout = '2.1.1'
 versions.legacySupport = '1.0.0'
 versions.junit = '4.13.2'
 versions.recyclerView = '1.2.1'
+versions.epoxy = '4.6.4'
+versions.canhubImageCropper = '3.3.5'
 ext.versions = versions
 
 def buildVersions = [:]
@@ -61,6 +63,13 @@ coroutines.core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.corou
 coroutines.playServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$versions.coroutines"
 coroutines.test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$versions.coroutines"
 deps.coroutines = coroutines
+
+def epoxy = [:]
+epoxy.core = "com.airbnb.android:epoxy:$versions.epoxy"
+epoxy.processor = "com.airbnb.android:epoxy-processor:$versions.epoxy"
+epoxy.dataBinding = "com.airbnb.android:epoxy-databinding:$versions.epoxy"
+
+deps.epoxy = epoxy
 
 def firebase = [:]
 firebase.bom  = "com.google.firebase:firebase-bom:$versions.firebaseBom"
@@ -115,5 +124,7 @@ deps.truth = truth
 deps.timber = "com.jakewharton.timber:timber:$versions.timber"
 
 deps.recyclerView = "androidx.recyclerview:recyclerview:$versions.recyclerView"
+
+deps.canhubImageCropper = "com.github.CanHub:Android-Image-Cropper:$versions.canhubImageCropper"
 
 ext.deps = deps
