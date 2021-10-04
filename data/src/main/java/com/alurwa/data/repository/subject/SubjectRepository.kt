@@ -30,7 +30,7 @@ class SubjectRepository @Inject constructor(
     fun observeSubject() = callbackFlow<Result<List<Subject>>> {
         trySend(Result.Loading)
 
-        val roomId = sessionManager.getMyRoom()
+        val roomId = sessionManager.getRoomIdNotEmptyOrThrow()
 
         val listener = firestore.subjectSharedCol(roomId)
             .listener(Subject::class.java) {
@@ -45,7 +45,7 @@ class SubjectRepository @Inject constructor(
     fun addSubject(day: Int, subjectItem: SubjectItem) = flow {
         emit(Result.Loading)
 
-        val roomId = sessionManager.getMyRoom()
+        val roomId = sessionManager.getRoomIdNotEmptyOrThrow()
         val ref = firestore.subjectSharedCol(roomId)
             .document(day.toString())
 
@@ -69,7 +69,7 @@ class SubjectRepository @Inject constructor(
     fun editSubject(day: Int, subjectItem: SubjectItem) = flow {
         emit(Result.Loading)
 
-        val roomId = sessionManager.getMyRoom()
+        val roomId = sessionManager.getRoomIdNotEmptyOrThrow()
 
         val ref = firestore.subjectSharedCol(roomId)
             .document(day.toString())
@@ -89,6 +89,33 @@ class SubjectRepository @Inject constructor(
                         } else {
                             item
                         }
+                    }
+                )
+            )
+        }.await()
+
+        emit(Result.Success(true))
+    }.catchToResult().flowOn(dispatcher)
+
+    fun deleteSubject(day: Int, subjectItemId: String) = flow {
+        emit(Result.Loading)
+
+        val roomId = sessionManager.getRoomIdNotEmptyOrThrow()
+
+        val ref = firestore.subjectSharedCol(roomId)
+            .document(day.toString())
+
+        firestore.runTransaction {
+            val subjectResult = it.get(ref)
+                .toObject(Subject::class.java)
+
+            val subjectItemResult = subjectResult?.subjectItem!!
+
+            it.set(
+                ref,
+                Subject(
+                    day = day, subjectItem = subjectItemResult.filterNot { item ->
+                        subjectItemId == item.id
                     }
                 )
             )
