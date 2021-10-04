@@ -13,6 +13,7 @@ import com.alurwa.berkelas.adapter.MainCardAdapter
 import com.alurwa.berkelas.adapter.MainMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentHomeBinding
 import com.alurwa.berkelas.model.MainMenuItem
+import com.alurwa.berkelas.ui.cashall.CashAllActivity
 import com.alurwa.berkelas.ui.subject.SubjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,7 +55,7 @@ class HomeFragment : Fragment() {
     private fun setupListMenu() {
         with(binding) {
             listMenu.setHasFixedSize(true)
-            listMenu.layoutManager = GridLayoutManager(requireContext(), 3)
+            listMenu.layoutManager = GridLayoutManager(requireContext(), 4)
             listMenu.adapter = mainMenuAdapter
         }
     }
@@ -81,7 +82,7 @@ class HomeFragment : Fragment() {
             ),
 
             MainMenuItem(
-                name = "Tugas",
+                name = "Kas",
                 isActive = true
             )
         )
@@ -105,6 +106,12 @@ class HomeFragment : Fragment() {
         when(position) {
             0 -> {
                 Intent(requireContext(), SubjectActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+            }
+            1 -> {
+                Intent(requireContext(), CashAllActivity::class.java)
                     .also {
                         startActivity(it)
                     }
