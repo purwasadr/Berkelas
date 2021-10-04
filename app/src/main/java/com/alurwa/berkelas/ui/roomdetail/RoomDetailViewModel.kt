@@ -21,6 +21,8 @@ class RoomDetailViewModel @Inject constructor(
 
     val room = stateHandle.get<RoomData>(RoomDetailActivity.EXTRA_ROOM)!!
 
+    val isChoice = stateHandle.get<Boolean>(RoomDetailActivity.EXTRA_IS_CHOICE)!!
+
     fun applyRoom(password: String) = flow<Result<Boolean>> {
         val roomId = userRepository.getRoomIdLocal()
 
