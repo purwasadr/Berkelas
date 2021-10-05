@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="cashDateDetailItem"
+            type="com.alurwa.berkelas.model.CashDateDetailItem" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:text="@{cashDateDetailItem.name}"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            tools:text="Ariel Bandito" />
+
+        <ImageView
+            android:id="@+id/img_check"
+            setIsVisible="@{cashDateDetailItem.paid}"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            app:srcCompat="@drawable/ic_round_check_circle_24"
+            app:tint="@android:color/holo_green_dark" />
+    </LinearLayout>
+</layout>
