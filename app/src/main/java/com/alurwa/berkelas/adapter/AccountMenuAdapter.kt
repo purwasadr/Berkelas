@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alurwa.berkelas.databinding.ListItemMenuAccountBinding
-import com.alurwa.berkelas.model.MainMenuItem
+import com.alurwa.berkelas.model.AccountMenuItem
 
 class AccountMenuAdapter(
     private val onItemClick: (position: Int) -> Unit
-) : ListAdapter<MainMenuItem, AccountMenuAdapter.ViewHolder>(COMPARATOR) {
+) : ListAdapter<AccountMenuItem, AccountMenuAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -30,7 +30,10 @@ class AccountMenuAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
-            binding.txtName.text = getItem(position).name
+            val item = getItem(position)
+
+            binding.txtName.text = item.name
+            binding.imgItemAccount.setImageResource(item.drawableRes)
             binding.root.setOnClickListener {
                 onItemClick(position)
             }
@@ -39,12 +42,18 @@ class AccountMenuAdapter(
 
     companion object {
 
-        val COMPARATOR = object : DiffUtil.ItemCallback<MainMenuItem>() {
-            override fun areItemsTheSame(oldMenuItem: MainMenuItem, newMenuItem: MainMenuItem): Boolean =
-                oldMenuItem.name == newMenuItem.name
+        val COMPARATOR = object : DiffUtil.ItemCallback<AccountMenuItem>() {
+            override fun areItemsTheSame(
+                oldItem: AccountMenuItem,
+                newItem: AccountMenuItem
+            ): Boolean =
+                oldItem.name == newItem.name
 
-            override fun areContentsTheSame(oldMenuItem: MainMenuItem, newMenuItem: MainMenuItem): Boolean =
-                oldMenuItem == newMenuItem
+            override fun areContentsTheSame(
+                oldItem: AccountMenuItem,
+                newItem: AccountMenuItem
+            ): Boolean =
+                oldItem == newItem
 
         }
     }
