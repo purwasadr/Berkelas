@@ -2,21 +2,22 @@ package com.alurwa.berkelas.ui.cashall
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.alurwa.berkelas.adapter.CashAllAdapter
+import com.alurwa.berkelas.R
+import com.alurwa.berkelas.adapter.CashAllFragmentAdapter
 import com.alurwa.berkelas.databinding.ActivityCashAllBinding
 import com.alurwa.berkelas.ui.cashaddedit.CashAddEditActivity
 import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.onSuccess
+import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 @AndroidEntryPoint
 class CashAllActivity : AppCompatActivity() {
@@ -27,25 +28,22 @@ class CashAllActivity : AppCompatActivity() {
 
     private val viewModel: CashAllViewModel by viewModels()
 
-    private val adapter: CashAllAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CashAllAdapter {
-
-        }
+    private val vpAdapter: CashAllFragmentAdapter by lazy(LazyThreadSafetyMode.NONE){
+        CashAllFragmentAdapter(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(
+        binding.toolbar.setupToolbar(
             this,
             "Daftar kas",
             true
         )
 
-        setupRecyclerView()
         setupFab()
-
+        setupViewPager()
         observe()
     }
 
@@ -69,23 +67,18 @@ class CashAllActivity : AppCompatActivity() {
                 }
             }
         }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.userCashCombine.collectLatest {
-                    adapter.submitList(it)
-                    Timber.d("Item1 Amount : " + it.get(0).amount.toString())
-                }
-            }
-        }
     }
 
-    private fun setupRecyclerView() {
-        with(binding.listCashAll) {
-            layoutManager = LinearLayoutManager(this@CashAllActivity)
-            setHasFixedSize(true)
-            adapter = this@CashAllActivity.adapter
-        }
+    private fun setupViewPager() {
+        binding.vpCashAll.adapter = vpAdapter
+
+        TabLayoutMediator(binding.tabLayout, binding.vpCashAll) { tab, position ->
+            when (position) {
+                0 -> tab.text = "Person"
+                1 -> tab.text = "Date"
+                else -> throw IllegalStateException("Unknown tab")
+            }
+        }.attach()
     }
 
     private fun setupFab() {
@@ -104,6 +97,11 @@ class CashAllActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_cash_all, menu)
         return true
     }
 }
