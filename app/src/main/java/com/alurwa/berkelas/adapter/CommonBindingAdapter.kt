@@ -1,8 +1,10 @@
 package com.alurwa.berkelas.adapter
 
+import android.view.View
 import android.widget.AutoCompleteTextView
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.util.Gender
@@ -54,5 +56,13 @@ object CommonBindingAdapter {
         val dayString = view.context.resources.getStringArray(R.array.day_of_week)
 
         view.setText(dayString.getOrNull(day))
+    }
+
+    @JvmStatic
+    @BindingAdapter("setIsVisible")
+    fun setIsVisible(view: View, value: Boolean?) {
+        if (value != null) {
+            view.isVisible = value
+        }
     }
 }
