@@ -1,21 +1,36 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Berkelas" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Berkelas" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/blue_500</item>
+        <item name="colorPrimaryVariant">@color/blue_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/blue_500</item>
+        <item name="colorSecondaryVariant">@color/blue_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/darker_gray</item>
         <!-- Customize your theme here. -->
-
+        
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
+        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
 
-        <item name="textInputStyle">@style/Widget.Berkelas.TextInputLayout.OutlinedBox</item>
+        <item name="textInputStyle">@style/Widget.Berkelas.TextInputLayout</item>
+
+        <item name="textAppearanceHeadline1">@style/TextAppearance.Berkelas.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.Berkelas.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.Berkelas.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.Berkelas.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.Berkelas.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.Berkelas.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.Berkelas.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.Berkelas.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.Berkelas.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.Berkelas.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.Berkelas.Caption</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.Berkelas.Overline</item>
+        <item name="textAppearanceButton">@style/TextAppearance.Berkelas.Button</item>
     </style>
     <style name="Theme.Berkelas.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -25,6 +40,6 @@
     <style name="Theme.Berkelas.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Surface">
-        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Toolbar.Primary</item>
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MaterialComponents.Toolbar.Surface</item>
     </style>
 </resources>
