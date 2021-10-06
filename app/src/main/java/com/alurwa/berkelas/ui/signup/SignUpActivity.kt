@@ -110,7 +110,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (email.isEmpty()) {
             isValid = false
-            binding.tilEmail.showError(R.string.input_error_cause_empty)
+            binding.tilEmail.showError(R.string.error_cause_empty)
 
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             isValid = false
@@ -120,7 +120,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (fullName.isEmpty()) {
             isValid = false
-            binding.tilFullname.showError(R.string.input_error_cause_empty)
+            binding.tilFullname.showError(R.string.error_cause_empty)
         } else {
             binding.tilFullname.removeError()
         }
@@ -146,7 +146,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (repassword.isEmpty()) {
             isValid = false
-            binding.tilRepassword.showError(R.string.input_error_cause_empty)
+            binding.tilRepassword.showError(R.string.error_cause_empty)
         } else if (password != repassword) {
             isValid = false
             binding.tilRepassword.showError("Confirm password must same")
@@ -167,7 +167,7 @@ class SignUpActivity : AppCompatActivity() {
         val selectedItem = genderValue - 1
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Pilih Jenis Kelamin")
+            .setTitle(R.string.title_chose_gender)
             .setSingleChoiceItems(arrayItems, selectedItem) { dialog, which ->
                 viewModel.setGender(Gender.values()[which].code)
                 dialog.dismiss()
@@ -179,10 +179,9 @@ class SignUpActivity : AppCompatActivity() {
         val now = viewModel.dateOfBirth.value ?: Date().time
 
         val picker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Pilih Tanggal")
+            .setTitleText(R.string.title_chose_date)
             .setSelection(now)
             .build()
-
 
         picker.show(supportFragmentManager, "date_of_birth_picker")
         picker.addOnPositiveButtonClickListener {
