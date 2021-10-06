@@ -1,9 +1,13 @@
 package com.alurwa.berkelas.ui.roomdetail
 
+import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityRoomDetailBinding
@@ -34,6 +38,8 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.appbar.toolbar.setupToolbar(this, "", true)
 
         setupViews()
+
+        observe()
     }
 
     private fun setupViews() {
@@ -42,13 +48,72 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         binding.fab.setOnClickListener {
+            val userRoomId = viewModel.user.value?.roomId
+            val roomId = viewModel.room.id
 
-            if (!viewModel.isChoice) {
+            if (userRoomId != roomId) {
                 doInputPassword()
             } else {
-                SnackbarUtil.showShort(binding.root, "Room ini sudah dipilih")
+                removePasswordDialog()
             }
         }
+    }
+
+    private fun observe() {
+        uiLoading(true)
+
+        lifecycleScope.launch {
+            viewModel.userOther.collectLatest { result ->
+                result.onSuccess {
+                    val user = it
+
+                    if (user != null) {
+                        viewModel.setCreatorName(user.fullName)
+                    }
+                }
+            }
+
+            viewModel.observeUser.collectLatest { result ->
+                result.onSuccess {
+                    val user = it
+                    if (user != null) {
+                        viewModel.setUser(user)
+                        changePropertyFab(user.roomId)
+                    }
+
+                    uiLoading(false)
+                }
+            }
+        }
+    }
+
+    private fun changePropertyFab(userRoomId: String) {
+        val roomId = viewModel.room.id
+        if (userRoomId != roomId) {
+            val typeValue = TypedValue()
+            theme.resolveAttribute(R.attr.colorPrimary, typeValue, true)
+
+            binding.fab.backgroundTintList = ColorStateList.valueOf(typeValue.data)
+            binding.fab.setImageResource(R.drawable.ic_round_done_24)
+        } else {
+            binding.fab.setImageResource(R.drawable.ic_round_exit_to_app_24)
+            binding.fab.backgroundTintList = ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.red_500)
+            )
+        }
+    }
+
+    private fun removePasswordDialog() {
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Keluar room")
+            .setMessage("Anda yakin keluar dari room ini?")
+            .setPositiveButton("Keluar") { dialog, _ ->
+                removeRoomToUser()
+                dialog.dismiss()
+            }.setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun doInputPassword() {
@@ -56,7 +121,7 @@ class RoomDetailActivity : AppCompatActivity() {
             LayoutInflater.from(this).inflate(R.layout.dialog_room_password, null)
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Masukkan Password")
+            .setTitle(R.string.title_insert_password)
             .setView(dialogView)
             .setPositiveButton("Oke") { dialog, _ ->
                 dialog.dismiss()
@@ -68,7 +133,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     setRoomToUser()
                 }
             }
-            .setNegativeButton("Batal") { dialog, _ ->
+            .setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -79,25 +144,43 @@ class RoomDetailActivity : AppCompatActivity() {
         return if (passwordSet == password) {
             true
         } else {
-            SnackbarUtil.showShort(binding.root, "Password yang anda masukkan salah")
+            SnackbarUtil.showShort(binding.root, R.string.error_wrong_password)
             false
         }
     }
 
-    private fun setRoomToUser() {
+    private fun removeRoomToUser() {
+        lifecycleScope.launch {
+            viewModel.removeRoom().collectLatest {
+                it.onSuccess {
+                    SnackbarUtil.showShort(binding.root, "Berhasil keluar room")
+                }.onLoading {
 
+                }.onError {
+                    SnackbarUtil.showShort(binding.root, "Error")
+                }
+            }
+        }
+    }
+
+    private fun setRoomToUser() {
         lifecycleScope.launch {
             viewModel.applyRoom2().collectLatest {
                 it.onSuccess {
                     SnackbarUtil.showShort(binding.root, "Berhasil masuk room")
                 }.onLoading {
-                    SnackbarUtil.showShort(binding.root, "Loading")
+
                 }.onError {
                     SnackbarUtil.showShort(binding.root, "Error")
                 }
             }
         }
 
+    }
+
+    private fun uiLoading(value: Boolean) {
+        binding.maskWhite.isVisible = value
+        binding.fab.isVisible = !value
     }
 
     override fun onSupportNavigateUp(): Boolean {
