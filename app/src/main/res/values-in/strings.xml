@@ -19,6 +19,15 @@
     <string name="hint_amount">Jumlah</string>
     <string name="hint_date">Tanggal</string>
 
+    <!-- Button -->
+    <string name="btn_sign_up">Daftar</string>
+    <string name="alert_dialog_cancel">Batal</string>
+    <string name="btn_edit">Ubah</string>
+    <string name="btn_delete">Hapus</string>
+    <string name="btn_finish">Selesai</string>
+    <string name="btn_cancel">Batal</string>
+    <string name="btn_sign_out">Sign Out</string>
+
 
     <string-array name="day_of_week">
         <item>Senin</item>

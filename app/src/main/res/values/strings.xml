@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Berkelas</string>
 
-    <string name="title_activity_sign_up">SignUpActivity</string>
-
     <!-- Hint -->
     <string name="hint_full_name">Full Name</string>
     <string name="hint_username">Username</string>
@@ -27,8 +25,9 @@
     <string name="alert_dialog_cancel">Cancel</string>
     <string name="btn_edit">Edit</string>
     <string name="btn_delete">Delete</string>
-    <string name="btn_finish">Selesai</string>
+    <string name="btn_finish">Finish</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_sign_out">Sign Out</string>
 
     <!-- ImageButton -->
     <string name="img_btn_item_menu">Item Menu</string>
@@ -36,6 +35,7 @@
     <!-- Error -->
     <string name="error_subject">Isi subject dahulu</string>
     <string name="error_cause_empty">Bidang ini tidak boleh kosong</string>
+    <string name="error_wrong_password">Password yang anda masukkan salah</string>
 
     <!-- Content Description -->
     <string name="desc_school">Icon School</string>
@@ -46,6 +46,9 @@
     <string name="dialog_positive_btn_signout">Sign Out</string>
     <string name="title_signout">Sign Out</string>
     <string name="title_choose_kelas">Pilih kelas</string>
+    <string name="title_chose_date">Chose Date</string>
+    <string name="title_chose_gender">Chose Gender</string>
+    <string name="title_insert_password">Insert password</string>
 
     <!-- Message -->
     <string name="message_signout">Yakin ingin sign out?</string>
@@ -58,6 +61,7 @@
     <string name="toolbar_account_edit">Edit Account</string>
     <string name="toolbar_choice_room">Pilih Room</string>
     <string name="toolbar_room_detail">RoomDetailActivity</string>
+    <string name="toolbar_sign_up">SignUpActivity</string>
 
     <!-- Menu -->
     <string name="menu_sign_out">Sign Out</string>
@@ -66,8 +70,10 @@
     <string name="tv_login">Login</string>
     <string name="tv_sign_up">Sign Up</string>
     <string name="tv_role">Role</string>
+    <string name="tv_privacy_information">Privacy Information</string>
 
 
+    <!-- String Array -->
     <string-array name="day_of_week">
         <item>Monday</item>
         <item>Tuesday</item>
@@ -90,7 +96,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <!-- Role Enum -->
     <string name="role_leader">Leader</string>
     <string name="role_co_leader">Co-Leader</string>
@@ -103,5 +108,4 @@
     <string name="female">Female</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="tv_privacy_information">Privacy Information</string>
 </resources>
