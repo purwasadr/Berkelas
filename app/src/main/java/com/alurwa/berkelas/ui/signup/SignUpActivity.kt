@@ -1,20 +1,25 @@
 package com.alurwa.berkelas.ui.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
+import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivitySignUpBinding
 import com.alurwa.berkelas.extension.removeError
 import com.alurwa.berkelas.extension.setOnClickForDialog
-import com.alurwa.berkelas.util.DateTimeUtil
+import com.alurwa.berkelas.extension.showError
+import com.alurwa.berkelas.ui.main.MainActivity
 import com.alurwa.berkelas.util.Gender
 import com.alurwa.berkelas.util.SnackbarUtil
 import com.alurwa.common.model.SignUpParams
+import com.alurwa.common.model.onError
 import com.alurwa.common.model.onLoading
 import com.alurwa.common.model.onSuccess
-import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,13 +43,12 @@ class SignUpActivity : AppCompatActivity() {
     private val password get() = binding.edtPassword.text.toString()
     private val repassword get() = binding.edtRepassword.text.toString()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setupInputView()
         setupViews()
+        setupInputView()
     }
 
     private fun setupInputView() {
@@ -58,6 +62,9 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
         binding.btnSignUp.setOnClickListener {
             doSignUp()
         }
@@ -68,14 +75,20 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun doSignUp() {
+        if (!checkValidity()) return
+
         lifecycleScope.launch {
             viewModel.signUpWithEmail(
                 inputToSignUpParam()
             ).collectLatest { result ->
                 result.onSuccess {
-
+                    navigateToMain()
+                    finishAffinity()
                 }.onLoading {
-
+                    pbIsVisible(true)
+                }.onError {
+                    pbIsVisible(false)
+                    SnackbarUtil.showShort(binding.root, it.message)
                 }
             }
         }
@@ -83,11 +96,11 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun inputToSignUpParam() =
         SignUpParams(
-            email = binding.edtEmail.toString(),
-            password = binding.edtPassword.toString(),
-            username = binding.edtUsername.toString(),
-            fullName = binding.edtFullname.toString(),
-            nickname = binding.edtNickname.toString(),
+            email = email,
+            password = password,
+            username = username,
+            fullName = fullName,
+            nickname = nickName,
             dateOfBirth = viewModel.dateOfBirth.value,
             gender = viewModel.gender.value
         )
@@ -97,6 +110,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (email.isEmpty()) {
             isValid = false
+            binding.tilEmail.showError(R.string.input_error_cause_empty)
 
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             isValid = false
@@ -106,6 +120,7 @@ class SignUpActivity : AppCompatActivity() {
 
         if (fullName.isEmpty()) {
             isValid = false
+            binding.tilFullname.showError(R.string.input_error_cause_empty)
         } else {
             binding.tilFullname.removeError()
         }
@@ -131,8 +146,10 @@ class SignUpActivity : AppCompatActivity() {
 
         if (repassword.isEmpty()) {
             isValid = false
+            binding.tilRepassword.showError(R.string.input_error_cause_empty)
         } else if (password != repassword) {
             isValid = false
+            binding.tilRepassword.showError("Confirm password must same")
         } else {
             binding.tilRepassword.removeError()
         }
@@ -163,21 +180,25 @@ class SignUpActivity : AppCompatActivity() {
 
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Pilih Tanggal")
-            .setCalendarConstraints(
-                CalendarConstraints.Builder()
-                    .setStart(now)
-                    .build()
-            )
+            .setSelection(now)
             .build()
 
 
         picker.show(supportFragmentManager, "date_of_birth_picker")
         picker.addOnPositiveButtonClickListener {
             viewModel.setDateOfBirth(it)
-            SnackbarUtil.showShort(
-                binding.root,
-                DateTimeUtil.convertDateMillisToString(it)
-            )
         }
+    }
+
+    private fun navigateToMain() {
+        Intent(this, MainActivity::class.java)
+            .also {
+                startActivity(it)
+            }
+    }
+
+    private fun pbIsVisible(value: Boolean) {
+        binding.pb.isVisible = value
+        binding.btnSignUp.visibility = if(value) View.INVISIBLE else View.VISIBLE
     }
 }
