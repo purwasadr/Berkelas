@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:hint="@string/input_hint_date">
+            android:hint="@string/hint_date">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/act_date"
@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:hint="@string/input_hint_amount"
+            android:hint="@string/hint_amount"
             app:prefixText="Rp. ">
 
             <com.google.android.material.textfield.TextInputEditText
