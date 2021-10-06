@@ -41,7 +41,7 @@
         <activity
             android:name=".ui.roomdetail.RoomDetailActivity"
             android:exported="true"
-            android:label="@string/title_activity_room_detail"
+            android:label="@string/label_room_detail_activity"
             android:theme="@style/Theme.Berkelas.NoActionBar" />
         <activity
             android:name=".ui.roomlist.RoomListActivity"
@@ -64,7 +64,7 @@
         <activity
             android:name=".ui.signup.SignUpActivity"
             android:exported="true"
-            android:label="@string/title_activity_sign_up"
+            android:label="@string/label_sign_up_activity"
             android:theme="@style/Theme.Berkelas.NoActionBar" />
         <activity
             android:name=".ui.login.LoginActivity"
