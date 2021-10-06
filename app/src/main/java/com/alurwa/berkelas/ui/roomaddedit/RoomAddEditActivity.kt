@@ -12,8 +12,11 @@ import com.alurwa.berkelas.extension.removeError
 import com.alurwa.berkelas.extension.showError
 import com.alurwa.berkelas.util.SnackbarUtil
 import com.alurwa.berkelas.util.setupToolbar
-import com.alurwa.common.model.*
-import com.alurwa.common.util.autoId
+import com.alurwa.common.model.Result
+import com.alurwa.common.model.onError
+import com.alurwa.common.model.onLoading
+import com.alurwa.common.model.onSuccess
+import com.alurwa.data.model.RoomAddParams
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -35,7 +38,7 @@ class RoomAddEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(this, "Tambah Room", true)
+        setupToolbar()
 
         setupInputViews()
     }
@@ -45,13 +48,11 @@ class RoomAddEditActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
     }
 
-    private fun inputToAddRoom() = RoomData(
-        id = autoId(),
+    private fun inputToAddRoomParams() = RoomAddParams(
         roomName = binding.edtName.text.toString(),
         kelasName = binding.edtKelas.text.toString(),
         schoolName = binding.edtSchool.text.toString(),
         password = binding.edtPassword.text.toString(),
-        creatorId = ""
     )
 
     private fun inputToEditRoom() = room!!.copy(
@@ -64,7 +65,7 @@ class RoomAddEditActivity : AppCompatActivity() {
         if (checkValidity()) {
             if (viewModel.mode == MODE_ADD) {
                 lifecycleScope.launch {
-                    viewModel.addRoom(inputToAddRoom()).collectLatest {
+                    viewModel.addRoom(inputToAddRoomParams()).collectLatest {
                         resultAction(it)
                     }
                 }
@@ -88,7 +89,7 @@ class RoomAddEditActivity : AppCompatActivity() {
             isDoneVisible = true
             invalidateOptionsMenu()
             SnackbarUtil.showShort(binding.root, it.message)
-            Timber.d(it.message)
+            Timber.d(it)
         }
     }
 
@@ -97,12 +98,24 @@ class RoomAddEditActivity : AppCompatActivity() {
 
         if (binding.edtName.text.toString().isEmpty()) {
             isValid = false
-            binding.tilName.showError(getString(R.string.input_error_cause_empty))
+            binding.tilName.showError(getString(R.string.error_cause_empty))
         } else {
             binding.tilName.removeError()
         }
 
         return isValid
+    }
+
+    private fun setupToolbar() {
+        val title = if (viewModel.mode == MODE_ADD) {
+            getString(R.string.toolbar_room_add)
+        } else if (viewModel.mode == MODE_EDIT) {
+            getString(R.string.toolbar_edit_room)
+        } else {
+            ""
+        }
+
+        binding.appbar.toolbar.setupToolbar(this, title, true)
     }
 
     override fun onSupportNavigateUp(): Boolean {
