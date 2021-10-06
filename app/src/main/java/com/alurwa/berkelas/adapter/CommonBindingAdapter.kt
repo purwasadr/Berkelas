@@ -9,6 +9,7 @@ import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.util.Gender
 import com.bumptech.glide.Glide
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,6 +52,18 @@ object CommonBindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("imgProfileUrl")
+    fun imgProfileImgUrl(view: ImageView, url: String?) {
+        if (url.isNullOrEmpty()) {
+            view.setImageResource(R.drawable.ic_round_account_circle_24)
+        } else {
+            Glide.with(view.context)
+                .load(url)
+                .into(view)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("actDay")
     fun actDay(view: AutoCompleteTextView, day: Int) {
         val dayString = view.context.resources.getStringArray(R.array.day_of_week)
@@ -63,6 +76,15 @@ object CommonBindingAdapter {
     fun setIsVisible(view: View, value: Boolean?) {
         if (value != null) {
             view.isVisible = value
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("txtRupiah")
+    fun txtRupiah(view: TextView, value: Int?) {
+        if (value != null) {
+            val decimalFormat = DecimalFormat("#,###").format(value)
+            view.text = "Rp. $decimalFormat"
         }
     }
 }
