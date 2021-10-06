@@ -3,6 +3,7 @@ package com.alurwa.data.repository.auth
 import com.alurwa.common.di.DispatcherIO
 import com.alurwa.common.extension.catchToResult
 import com.alurwa.common.model.Result
+import com.alurwa.data.util.SessionManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth,
+    private val sessionManager: SessionManager,
     @DispatcherIO
     private val dispatcherIO: CoroutineDispatcher
 ) {
@@ -59,6 +61,7 @@ class AuthRepository @Inject constructor(
 
     fun signOut() {
         auth.signOut()
+        sessionManager.clearSession()
     }
 }
 
