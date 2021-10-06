@@ -1,6 +1,7 @@
 package com.alurwa.berkelas.ui.signup
 
 import androidx.lifecycle.ViewModel
+import com.alurwa.common.extension.catchToResult
 import com.alurwa.common.model.Result
 import com.alurwa.common.model.SignUpParams
 import com.alurwa.common.model.User
@@ -28,19 +29,26 @@ class SignUpViewModel @Inject constructor(
     fun signUpWithEmail(signUpParams: SignUpParams) = flow<Result<Boolean>> {
         emit(Result.Loading)
 
-        authRepository.signUpWithEmail(signUpParams.email, signUpParams.password)
+        val userResult = authRepository.signUpWithEmail(signUpParams.email, signUpParams.password)
             .first {
                 it !is Result.Loading
-            }.also {
+            }.let {
 
                 // Jika Result error akan langsung return ke flow
-                if (it is Result.Error) {
-                    emit(it)
-                    return@flow
+                when (it) {
+                    is Result.Error -> {
+                        emit(it)
+                        return@flow
+                    }
+                    else -> {
+                        val data = it as Result.Success
+                        data.data
+                    }
                 }
             }
 
         val user = User(
+            uid = userResult.uid,
             email = signUpParams.email,
             username = signUpParams.username,
             fullName = signUpParams.fullName,
@@ -54,7 +62,7 @@ class SignUpViewModel @Inject constructor(
         }.also {
             emit(it)
         }
-    }
+    }.catchToResult()
 
     fun setGender(gender: Int) {
         _gender.value = gender
