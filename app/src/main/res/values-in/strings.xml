@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Hint -->
+    <string name="hint_full_name">Nama Lengkap</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Kata Sandi</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_reenter_password">Reenter Password</string>
+    <string name="hint_date_of_birth">Tanggal Lahit</string>
+    <string name="hint_gender">Jenis Kelamin</string>
+    <string name="hint_subject">Pelajaran</string>
+    <string name="hint_end_time">Waktu Berakhir</string>
+    <string name="hint_school">Sekolah</string>
+    <string name="hint_start_time">Waktu Mulai</string>
+    <string name="hint_day">Hari</string>
+    <string name="hint_name">Nama</string>
+    <string name="hint_teacher">Guru</string>
+    <string name="hint_nickname">Nama Panggilan</string>
+    <string name="hint_amount">Jumlah</string>
+    <string name="hint_date">Tanggal</string>
+
+
     <string-array name="day_of_week">
         <item>Senin</item>
         <item>Selasa</item>
