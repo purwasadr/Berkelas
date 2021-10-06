@@ -42,7 +42,7 @@ class SubjectActivity : AppCompatActivity() {
 
         binding.appbar.toolbar.setupToolbar(
             this,
-            getString(R.string.toolbar_title_subject),
+            R.string.toolbar_subject,
             true
         )
 
@@ -50,7 +50,6 @@ class SubjectActivity : AppCompatActivity() {
         setupFab()
         observeSubject()
     }
-
 
     private fun setupVp() {
         binding.vpListSubject.offscreenPageLimit = 3
@@ -75,7 +74,7 @@ class SubjectActivity : AppCompatActivity() {
                             submitVpAdapter(data)
                             Timber.d(data.getOrNull(0).toString())
                         }.onLoading {
-                            SnackbarUtil.showShort(binding.root, "Loading")
+
                         }.onError {
                             SnackbarUtil.showShort(binding.root, it.message)
                         }
@@ -143,7 +142,7 @@ class SubjectActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
         return true
     }
 }
