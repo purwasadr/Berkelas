@@ -100,7 +100,7 @@ class CashAddEditActivity : AppCompatActivity() {
 
         if (binding.edtAmount.text.toString().isEmpty()) {
             isValid = false
-            binding.tilAmount.showError(R.string.input_error_cause_empty)
+            binding.tilAmount.showError(R.string.error_cause_empty)
         } else {
             binding.tilAmount.removeError()
         }
