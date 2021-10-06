@@ -3,6 +3,7 @@ package com.alurwa.berkelas.ui.roomaddedit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.alurwa.common.model.RoomData
+import com.alurwa.data.model.RoomAddParams
 import com.alurwa.data.repository.room.RoomRepository
 import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,7 @@ class RoomAddEditViewModel @Inject constructor(
         null
     }
 
-    fun addRoom(roomData: RoomData) = roomRepository.addRoomData(roomData)
+    fun addRoom(roomData: RoomAddParams) = roomRepository.addRoomData(roomData)
 
     fun editRoom(roomData: RoomData) = roomRepository.ediRoomData(roomData)
 }
