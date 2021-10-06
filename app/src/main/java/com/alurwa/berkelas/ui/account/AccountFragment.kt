@@ -11,9 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.AccountMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentAccountBinding
-import com.alurwa.berkelas.model.MainMenuItem
+import com.alurwa.berkelas.model.AccountMenuItem
 import com.alurwa.berkelas.ui.accountedit.AccountEditActivity
 import com.alurwa.berkelas.ui.main.MainViewModel
 import com.alurwa.berkelas.ui.roomlist.RoomListActivity
@@ -69,8 +70,6 @@ class AccountFragment : Fragment() {
                     result.onSuccess {
                         val data = it
                         if (data != null) {
-                            fillUserData(data)
-
                             viewModel.setUser(
                                 data
                             )
@@ -103,26 +102,26 @@ class AccountFragment : Fragment() {
         }
     }
 
-    private fun fillUserData(user: User) {
-
-    }
-
     private fun fillAccountMenuAdapter() {
         val accountMenuList = listOf(
-            MainMenuItem(
+            AccountMenuItem(
                 "Edit Akun",
+                R.drawable.ic_round_person_24,
                 true
             ),
-            MainMenuItem(
+            AccountMenuItem(
                 "Ganti Room",
+                R.drawable.ic_round_meeting_room_24,
                 true
             ),
-            MainMenuItem(
+            AccountMenuItem(
                 "Daftar Anggota",
+                R.drawable.ic_round_people_alt_24,
                 true
             ),
-            MainMenuItem(
+            AccountMenuItem(
                 "Setting",
+                R.drawable.ic_round_people_alt_24,
                 true
             )
         )
@@ -144,7 +143,6 @@ class AccountFragment : Fragment() {
             }
 
             1 -> {
-                val roomId = viewModel.user.value?.roomId ?: ""
 
                 Intent(requireContext(), RoomListActivity::class.java)
                     .also {
