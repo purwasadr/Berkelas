@@ -60,8 +60,10 @@
     <string name="toolbar_subject">Pelajaran</string>
     <string name="toolbar_account_edit">Edit Account</string>
     <string name="toolbar_choice_room">Pilih Room</string>
-    <string name="toolbar_room_detail">RoomDetailActivity</string>
-    <string name="toolbar_sign_up">SignUpActivity</string>
+
+    <!-- Label -->
+    <string name="label_room_detail_activity">RoomDetailActivity</string>
+    <string name="label_sign_up_activity">SignUpActivity</string>
 
     <!-- Menu -->
     <string name="menu_sign_out">Sign Out</string>
