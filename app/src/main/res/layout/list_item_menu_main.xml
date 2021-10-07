@@ -15,10 +15,10 @@
         android:background="@drawable/circle"
         android:contentDescription="@string/img_btn_item_menu"
         android:src="@drawable/ic_round_home_24"
-        app:tint="#FFFFFF" />
+        app:tint="@color/white" />
 
     <TextView
-        android:id="@+id/txt_caption"
+        android:id="@+id/tv_caption"
         android:layout_width="48dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
