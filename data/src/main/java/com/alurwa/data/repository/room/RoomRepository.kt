@@ -4,9 +4,13 @@ import com.alurwa.common.di.DispatcherIO
 import com.alurwa.common.extension.catchToResult
 import com.alurwa.common.model.Result
 import com.alurwa.common.model.RoomData
+import com.alurwa.common.util.autoId
 import com.alurwa.data.firebase.listener
 import com.alurwa.data.firebase.roomCol
 import com.alurwa.data.firebase.roomDoc
+import com.alurwa.data.model.RoomAddParams
+import com.alurwa.data.util.SessionManager
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +24,8 @@ import javax.inject.Inject
 
 class RoomRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
+    private val auth: FirebaseAuth,
+    private val sessionManager: SessionManager,
     @DispatcherIO
     private val dispatcher: CoroutineDispatcher
 ) {
@@ -39,6 +45,24 @@ class RoomRepository @Inject constructor(
 
     }
 
+    /**
+     * observe room this user
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeRoom() = callbackFlow<Result<RoomData?>> {
+        trySend(Result.Loading)
+
+        val myRoomId = sessionManager.getRoomIdNotEmptyOrThrow()
+
+        val listener = firestore.roomDoc(myRoomId).listener(RoomData::class.java) {
+            trySendBlocking(it)
+        }
+
+        awaitClose {
+            listener.remove()
+        }
+    }.catchToResult()
+
     fun getRooms() = flow<Result<List<RoomData>>> {
 
         emit(Result.Loading)
@@ -57,11 +81,22 @@ class RoomRepository @Inject constructor(
         emit(Result.Success(result))
     }.catchToResult().flowOn(dispatcher)
 
-    fun addRoomData(roomData: RoomData) = flow<Result<Boolean>> {
+    fun addRoomData(roomAddParams: RoomAddParams) = flow<Result<Boolean>> {
+        val room = roomAddParams.run {
+            RoomData(
+                id = autoId(),
+                roomName = roomName,
+                kelasName = kelasName,
+                schoolName = schoolName,
+                password = password,
+                creatorId = auth.uid!!,
+            )
+        }
+
         emit(Result.Loading)
 
         firestore.runTransaction {
-            it.set(firestore.roomDoc(roomData.id), roomData)
+            it.set(firestore.roomDoc(room.id), room)
         }.await()
 
         emit(Result.Success(true))
@@ -90,5 +125,9 @@ class RoomRepository @Inject constructor(
 
         emit(Result.Success(true))
     }.catchToResult().flowOn(dispatcher)
+
+    fun deleteRoom(roomId: String) {
+        firestore.roomDoc(roomId).delete()
+    }
 
 }
