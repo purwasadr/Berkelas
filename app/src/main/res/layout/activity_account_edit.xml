@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
             type="com.alurwa.berkelas.ui.accountedit.AccountEditViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -40,7 +40,9 @@
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Berkelas.Circle"
+                    tools:srcCompat="@drawable/ic_round_account_circle_24" />
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/pb"
@@ -73,7 +75,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilNickName"
+                    android:id="@+id/til_nickname"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -96,7 +98,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tilNickName">
+                    app:layout_constraintTop_toBottomOf="@id/til_nickname">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edt_username"
@@ -107,7 +109,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilDateBirth"
+                    android:id="@+id/til_datebirth"
                     style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,10 +130,10 @@
                     android:id="@+id/til_gender"
                     style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     app:endIconDrawable="@drawable/ic_round_wc_24"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tilDateBirth">
+                    app:layout_constraintTop_toBottomOf="@id/til_datebirth">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:id="@+id/act_gender"
@@ -155,10 +157,10 @@
                     app:layout_constraintTop_toBottomOf="@id/til_gender" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/tilEmail"
+                    android:id="@+id/til_email"
                     style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_pribadi">
