@@ -47,7 +47,7 @@ class CashRepository @Inject constructor(
     }.catchToResult().flowOn(dispatcher)
 
     fun editCash(cash: Cash) {
-        firestore.cashDataDoc(cash.cashId, myRoomId).set(cash)
+        firestore.cashDataDoc(roomId = myRoomId, id = cash.cashId).set(cash)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -55,6 +55,19 @@ class CashRepository @Inject constructor(
         trySend(Result.Loading)
 
         val listener = firestore.cashDataCol(myRoomId).listener(Cash::class.java) {
+            trySendBlocking(it)
+        }
+
+        awaitClose {
+            listener.remove()
+        }
+    }.catchToResult()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeCash(id: String) = callbackFlow {
+        trySend(Result.Loading)
+
+        val listener = firestore.cashDataDoc(myRoomId, id).listener(Cash::class.java) {
             trySendBlocking(it)
         }
 
