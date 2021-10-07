@@ -55,10 +55,12 @@ class SubjectRepository @Inject constructor(
 
             val subjectItemResult = subjectResult?.subjectItem ?: emptyList()
 
+            val subjectItemSorted = subjectItemResult.plus(subjectItem).sortByStartTime()
+
             it.set(
                 ref,
                 Subject(
-                    day = day, subjectItem = subjectItemResult.plus(subjectItem)
+                    day = day, subjectItem = subjectItemSorted
                 )
             )
         }.await()
@@ -80,16 +82,18 @@ class SubjectRepository @Inject constructor(
 
             val subjectItemResult = subjectResult?.subjectItem!!
 
+            val subjectMapAndSort = subjectItemResult.map { item ->
+                if (subjectItem.id == item.id) {
+                    subjectItem
+                } else {
+                    item
+                }
+            }.sortByStartTime()
+
             it.set(
                 ref,
                 Subject(
-                    day = day, subjectItem = subjectItemResult.map { item ->
-                        if (subjectItem.id == item.id) {
-                            subjectItem
-                        } else {
-                            item
-                        }
-                    }
+                    day = day, subjectItem = subjectMapAndSort
                 )
             )
         }.await()
@@ -123,4 +127,9 @@ class SubjectRepository @Inject constructor(
 
         emit(Result.Success(true))
     }.catchToResult().flowOn(dispatcher)
+
+    private fun List<SubjectItem>.sortByStartTime() =
+        this.sortedBy {
+            it.startTime.replace(":", "").toInt()
+        }
 }
