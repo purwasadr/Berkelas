@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.alurwa.berkelas.ui.addeditsubject.AddEditSubjectViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.addeditsubject.AddEditSubjectActivity">
@@ -33,6 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences"
+                android:text="@{viewModel.subjectItem.subject}"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
+                actDay="@{viewModel.day}"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -62,7 +66,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:hint="@string/input_hint_start_time"
+            android:layout_marginEnd="@dimen/spacing_small"
+            android:hint="@string/hint_start_time"
             app:layout_constraintEnd_toStartOf="@id/til_end_time"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_day">
@@ -71,8 +76,8 @@
                 android:id="@+id/act_start_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.startTime}"
                 android:inputType="none" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,8 +85,9 @@
             style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:hint="@string/input_hint_end_time"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:hint="@string/hint_end_time"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/til_start_time"
             app:layout_constraintTop_toBottomOf="@id/til_day">
@@ -90,6 +96,7 @@
                 android:id="@+id/act_end_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@{viewModel.endTime}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -109,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapSentences"
+                android:text="@{viewModel.subjectItem.teacher}"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
