@@ -6,7 +6,7 @@
     <string name="hint_password">Kata Sandi</string>
     <string name="hint_email">Email</string>
     <string name="hint_reenter_password">Reenter Password</string>
-    <string name="hint_date_of_birth">Tanggal Lahit</string>
+    <string name="hint_date_of_birth">Tanggal Lahir</string>
     <string name="hint_gender">Jenis Kelamin</string>
     <string name="hint_subject">Pelajaran</string>
     <string name="hint_end_time">Waktu Berakhir</string>
@@ -21,13 +21,11 @@
 
     <!-- Button -->
     <string name="btn_sign_up">Daftar</string>
-    <string name="alert_dialog_cancel">Batal</string>
     <string name="btn_edit">Ubah</string>
     <string name="btn_delete">Hapus</string>
     <string name="btn_finish">Selesai</string>
     <string name="btn_cancel">Batal</string>
     <string name="btn_sign_out">Sign Out</string>
-
 
     <string-array name="day_of_week">
         <item>Senin</item>
@@ -38,4 +36,11 @@
         <item>Sabtu</item>
         <item>Minggu</item>
     </string-array>
+
+    <!-- Role Enum -->
+    <string name="role_leader">Ketua</string>
+    <string name="role_co_leader">Wakil Ketua</string>
+    <string name="role_secretary">Sekretaris</string>
+    <string name="role_treasury">Bendahara</string>
+    <string name="role_member">Anggota</string>
 </resources>
