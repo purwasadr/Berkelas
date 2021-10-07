@@ -50,6 +50,17 @@ class UserRepository @Inject constructor(
         emit(Result.Success(true))
     }.catchToResult().flowOn(defaultDispatcher)
 
+    fun getUser(uid: String) = flow {
+        emit(Result.Loading)
+
+        firestore.userCol()
+            .document(uid).get().await().toObject(User::class.java)
+            .also {
+                emit(Result.Success(it))
+            }
+
+    }.catchToResult().flowOn(defaultDispatcher)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun observeUser() = callbackFlow<Result<User?>> {
         trySend(Result.Loading)
@@ -102,7 +113,9 @@ class UserRepository @Inject constructor(
         }
     }.catchToResult()
 
-    fun getRoomIdLocal() = sessionManager.getRoomIdNotEmptyOrThrow()
+    fun getRoomIdLocal() = sessionManager.getRoomId()
+
+    fun getRoomIdLocalNotEmptyOrThrow() = sessionManager.getRoomIdNotEmptyOrThrow()
 
     fun editUserWithoutRoom(userWithoutRoom: UserWithoutRoom) = flow {
         emit(Result.Loading)
@@ -152,5 +165,9 @@ class UserRepository @Inject constructor(
         }
 
         emit(ww.await())
+    }
+
+    fun editRole(uid: String, role: String) {
+        firestore.userDoc(uid).update(User.FIELD_ROLE, role)
     }
 }
