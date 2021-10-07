@@ -16,7 +16,7 @@ class SessionManager @Inject constructor(
         }
     }
 
-    fun clearUser() {
+    fun clearSession() {
         sharedPreferences.edit(true) {
             putString(ROOM_ID, "")
         }
@@ -32,14 +32,8 @@ class SessionManager @Inject constructor(
         return roomId
     }
 
-    fun getUserRoomNotEmptyOrThrow(): String {
-        val roomId = sharedPreferences.getString(ROOM_ID, "") ?: ""
-
-        if (roomId.isEmpty()) {
-            throw IllegalStateException("id is empty")
-        }
-
-        return roomId
+    fun getRoomId(): String {
+        return sharedPreferences.getString(ROOM_ID, "") ?: ""
     }
 
     companion object {
