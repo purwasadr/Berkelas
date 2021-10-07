@@ -23,7 +23,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="@dimen/spacing_tiny"
             android:layout_marginEnd="16dp"
-            android:hint="@string/input_hint_subject"
+            android:hint="@string/hint_subject"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appbar">
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/input_hint_day"
+            android:hint="@string/hint_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_subject">
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:hint="@string/input_hint_teacher"
+            android:hint="@string/hint_teacher"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_start_time">
