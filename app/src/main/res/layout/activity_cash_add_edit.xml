@@ -3,12 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.alurwa.berkelas.ui.cashaddedit.CashAddEditViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         tools:context=".ui.cashaddedit.CashAddEditActivity">
 
@@ -29,6 +32,7 @@
                 android:id="@+id/act_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                actDateOfBirth="@{viewModel.date}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -43,6 +47,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_amount"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
