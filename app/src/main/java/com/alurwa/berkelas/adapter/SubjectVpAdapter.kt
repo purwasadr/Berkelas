@@ -6,12 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ListItemSubjectBinding
 import com.alurwa.berkelas.model.SubjectUiModel
 import com.alurwa.common.model.Subject
 import com.alurwa.common.model.SubjectItem
-import timber.log.Timber
 
 class SubjectVpAdapter(
     private val onSubjectItemClick: (subjectItem: SubjectItem) -> Unit
@@ -49,20 +47,14 @@ class SubjectVpAdapter(
         fun bind(position: Int) {
             val item = getItem(position)
 
-            if (item != null) {
-                val dayOfWeek = binding.root.context
-                    .resources.getStringArray(R.array.day_of_week).getOrNull(item.day!!) ?: ""
-                binding.txtDay.text = dayOfWeek
-                Timber.d("Subject Item Size : " + item.subjectItem.size.toString())
-                val itemA = item.subjectItem.map {
-                    SubjectUiModel.Subject(
-                        it
-                    )
-                }
-                val result = listOf(SubjectUiModel.Header(dayOfWeek)) + itemA
-
-                adapter.submitList(result)
+            val itemA = item.subjectItem.map {
+                SubjectUiModel.Subject(
+                    it
+                )
             }
+            val result = listOf(SubjectUiModel.Header(item.day ?: -1)) + itemA
+
+            adapter.submitList(result)
         }
     }
 
