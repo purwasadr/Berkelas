@@ -8,6 +8,7 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.util.Gender
+import com.alurwa.berkelas.util.Role
 import com.bumptech.glide.Glide
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -21,14 +22,6 @@ object CommonBindingAdapter {
         val gender = Gender.values().getOrNull(code - 1)?.getValue(view.context) ?: ""
 
         view.setText(gender)
-    }
-
-    @JvmStatic
-    @BindingAdapter("txtGender")
-    fun txtGender(view: TextView, code: Int) {
-        val gender = Gender.values().getOrNull(code - 1)?.getValue(view.context) ?: ""
-
-        view.text = gender
     }
 
     @JvmStatic
@@ -80,11 +73,45 @@ object CommonBindingAdapter {
     }
 
     @JvmStatic
-    @BindingAdapter("txtRupiah")
-    fun txtRupiah(view: TextView, value: Int?) {
+    @BindingAdapter("txtRupiah", "txtRupiahIsPositive", requireAll = false)
+    fun txtRupiah(view: TextView, value: Int?, isPositive: Boolean = true) {
         if (value != null) {
             val decimalFormat = DecimalFormat("#,###").format(value)
-            view.text = "Rp. $decimalFormat"
+            val rp = if (isPositive) {
+                "Rp. "
+            } else {
+                "- Rp. "
+            }
+            view.text = rp + decimalFormat
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("txtRole")
+    fun txtRole(view: TextView, value: String?) {
+        if (value != null) {
+            val roleName = Role.values().find {
+                it.code == value
+            }
+            view.text = roleName?.toString(view.context)
+        }
+    }
+
+    /**
+     * Makes the View [View.INVISIBLE] unless the condition is met.
+     */
+    @BindingAdapter("invisibleUnless")
+    @JvmStatic
+    fun invisibleUnless(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
+    }
+
+    /**
+     * Makes the View [View.GONE] unless the condition is met.
+     */
+    @BindingAdapter("goneUnless")
+    @JvmStatic
+    fun goneUnless(view: View, visible: Boolean) {
+        view.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
