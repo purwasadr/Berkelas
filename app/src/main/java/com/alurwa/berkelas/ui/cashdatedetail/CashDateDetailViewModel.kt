@@ -32,7 +32,10 @@ class CashDateDetailViewModel @Inject constructor(
     val cash = _cash.asStateFlow()
 
     private val _paidedList = MutableStateFlow<List<CashDateDetailItem>>(emptyList())
-    val paidedList =  _paidedList.asStateFlow()
+    val paidedList = _paidedList.asStateFlow()
+
+    private val _totalAmount = MutableStateFlow<Int>(0)
+    val totalAmount = _totalAmount.asStateFlow()
 
     init {
         viewModelScope.launch {
@@ -44,16 +47,33 @@ class CashDateDetailViewModel @Inject constructor(
                         user.uid == it
                     }
 
-                    CashDateDetailItem(uid = user.uid, name = user.fullName, isPaid = isAny)
+                    CashDateDetailItem(
+                        uid = user.uid,
+                        name = user.fullName,
+                        amount = cashP.amount,
+                        isPaid = isAny
+                    )
                 }
             }.collectLatest {
                 _paidedList.value = it
+                _totalAmount.value = it.sumOf { sum ->
+                    if (!sum.isPaid) {
+                        sum.amount
+                    } else {
+                        0
+                    }
+
+                }
             }
         }
     }
 
     fun editCash(cash: Cash) {
         cashRepository.editCash(cash)
+    }
+
+    fun deleteCash(cashId: String) {
+        cashRepository.deleteCash(cashId)
     }
 
     fun setUsers(list: List<User>) {
