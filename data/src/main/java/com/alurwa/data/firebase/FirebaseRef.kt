@@ -32,3 +32,13 @@ fun FirebaseFirestore.cashDataCol(roomId: String) =
 fun FirebaseFirestore.cashDataDoc(roomId: String, id: String) =
     cashDataCol(roomId)
         .document(id)
+
+fun FirebaseFirestore.picketRootCol() = collection("picket")
+
+fun FirebaseFirestore.picketCol(roomId: String) =
+    picketRootCol().document(roomId)
+        .collection("picketData")
+
+fun FirebaseFirestore.picketDoc(roomId: String, picketId: String) =
+    picketCol(roomId)
+        .document(picketId)
