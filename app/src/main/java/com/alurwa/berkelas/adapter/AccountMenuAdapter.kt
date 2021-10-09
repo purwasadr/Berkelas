@@ -32,7 +32,7 @@ class AccountMenuAdapter(
         fun bind(position: Int) {
             val item = getItem(position)
 
-            binding.txtName.text = item.name
+            binding.tvName.text = item.name
             binding.imgItemAccount.setImageResource(item.drawableRes)
             binding.root.setOnClickListener {
                 onItemClick(position)
