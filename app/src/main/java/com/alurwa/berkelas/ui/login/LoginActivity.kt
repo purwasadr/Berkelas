@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupSignUpTv() {
-        binding.txtSignup.setOnClickListener {
+        binding.tvSignup.setOnClickListener {
             navigateToSignUp()
         }
     }
