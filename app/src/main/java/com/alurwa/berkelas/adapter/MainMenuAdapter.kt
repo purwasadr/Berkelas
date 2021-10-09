@@ -34,12 +34,11 @@ class MainMenuAdapter(
 
         fun bind(position: Int) {
             with(binding) {
-                txtCaption.text = getItem(position).name
+                tvCaption.text = getItem(position).name
                 ibItem.setOnClickListener {
                     onItemClick(position)
                 }
             }
-
         }
     }
 
