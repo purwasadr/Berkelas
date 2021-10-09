@@ -59,7 +59,7 @@ class SubjectListAdapter(
 
         fun bind(position: Int) {
             val item = getItem(position) as SubjectUiModel.Header
-            binding.day = item.title
+            binding.day = item.day
         }
     }
 
@@ -75,6 +75,8 @@ class SubjectListAdapter(
             binding.root.setOnClickListener {
                 onClick(item.subject)
             }
+
+            binding.executePendingBindings()
         }
     }
 
@@ -88,9 +90,11 @@ class SubjectListAdapter(
                 val subject = oldItem is SubjectUiModel.Subject
                         && newItem is SubjectUiModel.Subject && oldItem.subject.id == newItem.subject.id
 
-                return subject
-            }
+                val header = oldItem is SubjectUiModel.Header
+                        && newItem is SubjectUiModel.Header && oldItem.day == newItem.day
 
+                return subject || header
+            }
 
             override fun areContentsTheSame(
                 oldItem: SubjectUiModel,
