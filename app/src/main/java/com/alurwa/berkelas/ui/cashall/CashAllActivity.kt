@@ -72,6 +72,8 @@ class CashAllActivity : AppCompatActivity() {
     private fun setupViewPager() {
         binding.vpCashAll.adapter = vpAdapter
 
+        // Menggunakan TabLayoutMediator untuk mengikat TabLayout dan ViewPager
+        // dan secara otomatis membuat tab di TabLayout
         TabLayoutMediator(binding.tabLayout, binding.vpCashAll) { tab, position ->
             when (position) {
                 0 -> tab.text = "Person"
