@@ -29,6 +29,7 @@ class SignUpViewModel @Inject constructor(
     fun signUpWithEmail(signUpParams: SignUpParams) = flow<Result<Boolean>> {
         emit(Result.Loading)
 
+        // Melakukan signUp di AuthFirebase terlebih dahulu
         val userResult = authRepository.signUpWithEmail(signUpParams.email, signUpParams.password)
             .first {
                 it !is Result.Loading
@@ -57,6 +58,8 @@ class SignUpViewModel @Inject constructor(
             gender = signUpParams.gender
         )
 
+        // Kemudian insert ke Firestore untuk data yang lebih
+        // lengkap dari user
         userRepository.addUser(user).first {
             it !is Result.Loading
         }.also {
