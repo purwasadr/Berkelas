@@ -14,6 +14,7 @@ import com.alurwa.berkelas.adapter.MainMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentHomeBinding
 import com.alurwa.berkelas.model.MainMenuItem
 import com.alurwa.berkelas.ui.cashall.CashAllActivity
+import com.alurwa.berkelas.ui.picket.PicketActivity
 import com.alurwa.berkelas.ui.subject.SubjectActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -84,6 +85,10 @@ class HomeFragment : Fragment() {
             MainMenuItem(
                 name = "Kas",
                 isActive = true
+            ),
+            MainMenuItem(
+                name = "Piket",
+                isActive = true
             )
         )
 
@@ -103,7 +108,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun mainMenuNavigateTo(position: Int) {
-        when(position) {
+        when (position) {
             0 -> {
                 Intent(requireContext(), SubjectActivity::class.java)
                     .also {
@@ -115,6 +120,14 @@ class HomeFragment : Fragment() {
                     .also {
                         startActivity(it)
                     }
+            }
+            2 -> {
+
+                Intent(requireContext(), PicketActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
+
             }
         }
     }
