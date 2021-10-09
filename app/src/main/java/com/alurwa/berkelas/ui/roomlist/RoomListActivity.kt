@@ -41,7 +41,7 @@ class RoomListActivity : AppCompatActivity() {
 
         binding.appbar.toolbar.setupToolbar(
             this,
-            getString(R.string.toolbar_title_room_list)
+            getString(R.string.toolbar_room_list)
             , true
         )
 
