@@ -1,5 +1,6 @@
 package com.alurwa.berkelas.ui.picket
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -8,10 +9,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.adapter.PicketDayAdapter
 import com.alurwa.berkelas.databinding.ActivityPicketBinding
+import com.alurwa.berkelas.model.PicketDayUi
+import com.alurwa.berkelas.ui.picketaddedit.PicketAddEditActivity
 import com.alurwa.berkelas.util.setupToolbar
+import com.alurwa.common.model.Picket
+import com.alurwa.common.model.onSuccess
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class PicketActivity : AppCompatActivity() {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityPicketBinding.inflate(layoutInflater)
@@ -19,7 +26,7 @@ class PicketActivity : AppCompatActivity() {
 
     private val vpAdapter by lazy(LazyThreadSafetyMode.NONE) {
         PicketDayAdapter() {
-
+           // navigateToEditPicket(it)
         }
     }
 
@@ -34,6 +41,8 @@ class PicketActivity : AppCompatActivity() {
         setupVp()
         setupFab()
         observePickets()
+        observeUsers()
+        observePicketDayUiList()
     }
 
     private fun setupVp() {
@@ -51,19 +60,57 @@ class PicketActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.observePickets.collectLatest { result ->
-
+                    result.onSuccess {
+                        viewModel.setPicketDays(it)
+                    }
                 }
             }
         }
     }
 
-    private fun submitToVpAdapter() {
+    private fun observeUsers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.observeUsers.collectLatest { result ->
+                    result.onSuccess {
+                        viewModel.setUsers(it)
+                    }
+                }
+            }
+        }
+    }
 
-        vpAdapter.submitList()
+    private fun observePicketDayUiList() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.picketDayListUi.collectLatest { result ->
+                    submitToVpAdapter(result)
+                }
+            }
+        }
+    }
+
+    private fun submitToVpAdapter(items: List<PicketDayUi>) {
+        vpAdapter.submitList(items)
     }
 
     private fun navigateToAddPicket() {
+        Intent(this, PicketAddEditActivity::class.java)
+            .putExtra(PicketAddEditActivity.EXTRA_MODE, PicketAddEditActivity.MODE_ADD)
+            .putExtra(PicketAddEditActivity.EXTRA_DAY, binding.vpPicket.currentItem)
+            .also {
+                startActivity(it)
+            }
+    }
 
+    private fun navigateToEditPicket(picket: Picket) {
+        Intent(this, PicketAddEditActivity::class.java)
+            .putExtra(PicketAddEditActivity.EXTRA_MODE, PicketAddEditActivity.MODE_EDIT)
+            .putExtra(PicketAddEditActivity.EXTRA_PICKET, picket)
+            .putExtra(PicketAddEditActivity.EXTRA_DAY, binding.vpPicket.currentItem)
+            .also {
+                startActivity(it)
+            }
     }
 
     override fun onSupportNavigateUp(): Boolean {
