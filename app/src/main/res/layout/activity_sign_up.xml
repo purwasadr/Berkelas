@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
             type="com.alurwa.berkelas.ui.signup.SignUpViewModel" />
     </data>
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="64dp"
-                android:text="SignUp"
+                android:text="Masukkan data anda"
                 android:textAppearance="?attr/textAppearanceHeadline5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -39,9 +39,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/spacing_huge"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_full_name"
+                android:hint="@string/hint_full_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/txt_signup">
@@ -62,7 +62,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_nickname"
+                android:hint="@string/hint_nickname"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_fullname">
@@ -84,7 +84,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_username"
+                android:hint="@string/hint_username"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_nickname">
@@ -106,7 +106,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_email"
+                android:hint="@string/hint_email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_username">
@@ -127,7 +127,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_password"
+                android:hint="@string/hint_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_email">
@@ -149,7 +149,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_reenter_password"
+                android:hint="@string/hint_reenter_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_password">
@@ -164,14 +164,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_date_of_birth"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_date_of_birth"
+                android:hint="@string/hint_date_of_birth"
                 app:endIconDrawable="@drawable/ic_round_event_24"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -189,14 +189,14 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_gender"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/input_hint_gender"
+                android:hint="@string/hint_gender"
                 app:endIconDrawable="@drawable/ic_round_wc_24"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -218,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:layout_marginEnd="24dp"
                 android:text="@string/btn_sign_up"
                 app:cornerRadius="6dp"
@@ -241,7 +241,7 @@
                 android:id="@+id/txInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/spacing_large"
                 android:text="Jika anda sudah punya akun"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
@@ -254,12 +254,12 @@
                 android:id="@+id/txtLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="2dp"
-                android:paddingTop="8dp"
+                android:paddingStart="3dp"
+                android:paddingTop="@dimen/spacing_small"
                 android:paddingEnd="8dp"
                 android:paddingBottom="8dp"
-                android:text="@string/txt_login"
-                android:textAppearance="?attr/textAppearanceBody2"
+                android:text="@string/tv_login"
+                android:textAppearance="?attr/textAppearanceSubtitle2"
                 android:textColor="?attr/colorPrimary"
                 app:layout_constraintBaseline_toBaselineOf="@id/txInfo"
                 app:layout_constraintEnd_toEndOf="parent"
