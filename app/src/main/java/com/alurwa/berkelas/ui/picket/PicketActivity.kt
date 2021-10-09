@@ -10,9 +10,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.adapter.PicketDayAdapter
 import com.alurwa.berkelas.databinding.ActivityPicketBinding
 import com.alurwa.berkelas.model.PicketDayUi
+import com.alurwa.berkelas.model.PicketUi
 import com.alurwa.berkelas.ui.picketaddedit.PicketAddEditActivity
 import com.alurwa.berkelas.util.setupToolbar
-import com.alurwa.common.model.Picket
 import com.alurwa.common.model.onSuccess
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -26,7 +26,7 @@ class PicketActivity : AppCompatActivity() {
 
     private val vpAdapter by lazy(LazyThreadSafetyMode.NONE) {
         PicketDayAdapter() {
-           // navigateToEditPicket(it)
+           showPicketDetailDialog(it)
         }
     }
 
@@ -94,6 +94,17 @@ class PicketActivity : AppCompatActivity() {
         vpAdapter.submitList(items)
     }
 
+    private fun showPicketDetailDialog(picketUi: PicketUi) {
+        PicketDetailDialog(this, picketUi)
+            .setOnClickBtnEdit {
+                navigateToEditPicket(picketUi)
+            }
+            .setOnClickBtnDelete {
+
+            }
+            .show()
+    }
+
     private fun navigateToAddPicket() {
         Intent(this, PicketAddEditActivity::class.java)
             .putExtra(PicketAddEditActivity.EXTRA_MODE, PicketAddEditActivity.MODE_ADD)
@@ -103,10 +114,10 @@ class PicketActivity : AppCompatActivity() {
             }
     }
 
-    private fun navigateToEditPicket(picket: Picket) {
+    private fun navigateToEditPicket(picketUi: PicketUi) {
         Intent(this, PicketAddEditActivity::class.java)
             .putExtra(PicketAddEditActivity.EXTRA_MODE, PicketAddEditActivity.MODE_EDIT)
-            .putExtra(PicketAddEditActivity.EXTRA_PICKET, picket)
+            .putExtra(PicketAddEditActivity.EXTRA_PICKET, picketUi)
             .putExtra(PicketAddEditActivity.EXTRA_DAY, binding.vpPicket.currentItem)
             .also {
                 startActivity(it)
