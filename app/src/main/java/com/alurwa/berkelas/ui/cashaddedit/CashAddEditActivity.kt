@@ -48,6 +48,9 @@ class CashAddEditActivity : AppCompatActivity() {
 
     private fun setupInputView() {
 
+        // Menghilangkan focus dari semua view agar focus tidak
+        // diterapkan pada actDate yang mana akan langsung memanggil
+        // metode onClick dan menyebabkan dialog langsung terbuka
         currentFocus?.clearFocus()
         binding.actDate.setOnClickForDialog(this) {
             doChangeDate()
@@ -95,6 +98,8 @@ class CashAddEditActivity : AppCompatActivity() {
         }
     }
 
+    // Mengecek input - input text apakah text didalamnya valid untuk
+    // dilanjutkan ke proses input data
     private fun checkValidity(): Boolean {
         var isValid = true
 
@@ -126,6 +131,7 @@ class CashAddEditActivity : AppCompatActivity() {
         }
     }
 
+    // Memasukkan input - input view ke model
     private fun inputToCashAddParams() =
         CashAddParams(
             date = viewModel.date.value,
