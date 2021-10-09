@@ -31,9 +31,9 @@ class SubjectInfoDialog(
 
     private fun setupView() {
 
-        binding.txtSubject.text = subjectItem.subject
-        binding.txtTime.text = "${subjectItem.startTime} - ${subjectItem.endTime}"
-        binding.txtTeacher.text = if (subjectItem.teacher.isNotEmpty()) {
+        binding.tvSubject.text = subjectItem.subject
+        binding.tvTime.text = "${subjectItem.startTime} - ${subjectItem.endTime}"
+        binding.tvTeacher.text = if (subjectItem.teacher.isNotEmpty()) {
             subjectItem.teacher
         } else {
             "-"
