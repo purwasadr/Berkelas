@@ -11,10 +11,12 @@ import com.alurwa.common.model.onSuccess
 import com.alurwa.data.firebase.listener
 import com.alurwa.data.firebase.userCol
 import com.alurwa.data.firebase.userDoc
+import com.alurwa.data.model.RoomSetParams
 import com.alurwa.data.util.SessionManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -61,6 +63,17 @@ class UserRepository @Inject constructor(
 
     }.catchToResult().flowOn(defaultDispatcher)
 
+    fun getUsers() = flow {
+        emit(Result.Loading)
+
+        firestore.userCol()
+            .get().await().toObjects<User>()
+            .also {
+                emit(Result.Success(it))
+            }
+
+    }.catchToResult().flowOn(defaultDispatcher)
+
     @OptIn(ExperimentalCoroutinesApi::class)
     fun observeUser() = callbackFlow<Result<User?>> {
         trySend(Result.Loading)
@@ -70,8 +83,10 @@ class UserRepository @Inject constructor(
             .listener(User::class.java) {
                 trySendBlocking(it)
                 it.onSuccess { user ->
-                    sessionManager.saveUser(
-                        user?.roomId ?: ""
+                    sessionManager.saveSession(
+                        user?.roomId ?: "",
+                        user?.role ?: "",
+                        user?.isRoomOwner ?: false,
                     )
                 }
             }
@@ -115,6 +130,8 @@ class UserRepository @Inject constructor(
 
     fun getRoomIdLocal() = sessionManager.getRoomId()
 
+    fun getRoleLocal() = sessionManager.getRole()
+
     fun getRoomIdLocalNotEmptyOrThrow() = sessionManager.getRoomIdNotEmptyOrThrow()
 
     fun editUserWithoutRoom(userWithoutRoom: UserWithoutRoom) = flow {
@@ -129,17 +146,19 @@ class UserRepository @Inject constructor(
         emit(Result.Success(true))
     }.catchToResult().flowOn(defaultDispatcher)
 
-    fun editRoomId(roomId: String) = flow {
+    fun setRoom(roomSetParams: RoomSetParams) = flow {
         emit(Result.Loading)
 
         val ref = firestore.userDoc(auth.uid!!)
 
         firestore.runTransaction {
-            it.update(ref, User.FIELD_ROOM_ID, roomId)
+            it.set(ref, roomSetParams, SetOptions.merge())
         }.await()
 
-        sessionManager.saveUser(
-            roomId
+        sessionManager.saveSession(
+            roomSetParams.roomId,
+            roomSetParams.role,
+            roomSetParams.isRoomOwner
         )
 
         emit(Result.Success(true))
@@ -151,7 +170,7 @@ class UserRepository @Inject constructor(
         val ww = applicationScope.async(defaultDispatcher) {
             try {
                 val uid = auth.uid!!
-                val profileImageRef =  storage.getReference("profile_image/$uid.jpg")
+                val profileImageRef = storage.getReference("profile_image/$uid.jpg")
 
                 profileImageRef.putFile(uri).await()
                 profileImageRef.downloadUrl.await().let {
