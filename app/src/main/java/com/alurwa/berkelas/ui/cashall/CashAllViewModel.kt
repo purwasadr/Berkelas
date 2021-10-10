@@ -53,7 +53,7 @@ class CashAllViewModel @Inject constructor(
                         hasPaid == user.uid
                     }
                     Timber.d("isPaid : %s", isPaid.toString())
-                    if (isPaid) 0 else -cash.amount
+                    if (isPaid) 0 else cash.amount
                 }
 
                 Timber.d("amount" + amount.toString())
@@ -91,7 +91,7 @@ class CashAllViewModel @Inject constructor(
 
                     if (isPaid) 0 else {
                         count++
-                        -cash.amount
+                        cash.amount
                     }
                 }
 
