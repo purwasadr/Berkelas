@@ -57,8 +57,8 @@ class CashAllAdapter(
 
         fun bind(item: CashAllItem.People) {
             with(binding) {
-                txtName.text = item.name
-                txtCount.text = item.amount.toString()
+                tvName.text = item.name
+                tvCount.text = item.amount.toString()
             }
 
         }
