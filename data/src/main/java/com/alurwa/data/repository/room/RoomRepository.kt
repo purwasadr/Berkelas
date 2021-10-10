@@ -63,6 +63,23 @@ class RoomRepository @Inject constructor(
         }
     }.catchToResult()
 
+    /**
+     * observe room other user
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observeRoom(roomId: String) = callbackFlow<Result<RoomData?>> {
+        trySend(Result.Loading)
+
+
+        val listener = firestore.roomDoc(roomId).listener(RoomData::class.java) {
+            trySendBlocking(it)
+        }
+
+        awaitClose {
+            listener.remove()
+        }
+    }.catchToResult()
+
     fun getRooms() = flow<Result<List<RoomData>>> {
 
         emit(Result.Loading)
