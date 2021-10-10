@@ -59,6 +59,7 @@ class RoomAddEditActivity : AppCompatActivity() {
         roomName = binding.edtName.text.toString(),
         kelasName = binding.edtKelas.text.toString(),
         schoolName = binding.edtSchool.text.toString(),
+        password = binding.edtPassword.text.toString()
     )
 
     private fun saveRoom() {
