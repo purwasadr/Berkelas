@@ -32,11 +32,11 @@ class CashAllPersonAdapter(
         fun bind(position: Int) {
             val item = getItem(position)
             with(binding) {
-                txtName.text = item.name
-                txtCount.text = item.amount.toString()
+                cashAllPersonItem = item
                 root.setOnClickListener {
                     onClick(item)
                 }
+                executePendingBindings()
             }
 
         }
