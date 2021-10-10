@@ -92,7 +92,8 @@ class CashAddEditActivity : AppCompatActivity() {
         if (viewModel.mode == MODE_ADD) {
             addCash()
         } else if (viewModel.mode == MODE_EDIT) {
-
+            editCash()
+            finish()
         } else {
             throw IllegalStateException()
         }
@@ -121,6 +122,12 @@ class CashAddEditActivity : AppCompatActivity() {
         }
     }
 
+    private fun editCash() {
+        lifecycleScope.launch {
+            viewModel.editCash(inputToCashEditParams())
+        }
+    }
+
     private fun resultResponse(result: Result<Boolean>) {
         result.onSuccess {
             finish()
@@ -137,6 +144,11 @@ class CashAddEditActivity : AppCompatActivity() {
             date = viewModel.date.value,
             amount = binding.edtAmount.text.toString().toInt(),
             hasPaid = emptyList()
+        )
+
+    private fun inputToCashEditParams() =
+        viewModel.cash!!.copy(
+            amount = binding.edtAmount.text.toString().toInt(),
         )
 
     private fun setMenuDoneVisibility(value: Boolean) {
