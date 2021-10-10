@@ -82,6 +82,34 @@ class PicketRepository @Inject constructor(
         emit(Result.Success(true))
     }.catchToResult().flowOn(dispatcher)
 
+
+    fun deletePicket(day: Int, picketId: String) =  flow {
+        emit(Result.Loading)
+
+        val roomId = sessionManager.getRoomIdNotEmptyOrThrow()
+
+        val ref = firestore.picketDoc(roomId, day.toString())
+
+        firestore.runTransaction {
+            val picketDay = it.get(ref)
+                .toObject(PicketDay::class.java)
+
+            val pickets = picketDay?.pickets!!
+
+            it.set(
+                ref,
+                PicketDay(
+                    day = day,
+                    pickets = pickets.filterNot { item ->
+                        picketId == item.id
+                    }
+                )
+            )
+        }.await()
+
+        emit(Result.Success(true))
+    }.catchToResult().flowOn(dispatcher)
+
     fun observePickets() = callbackFlow {
         val listener = firestore.picketCol(roomId = myRoomId).listener(PicketDay::class.java) {
             trySendBlocking(it)
