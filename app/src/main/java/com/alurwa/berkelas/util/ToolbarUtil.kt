@@ -14,19 +14,17 @@ fun Toolbar.setupToolbar(
         supportActionBar?.setDisplayHomeAsUpEnabled(isHomeAsUpEnable)
         supportActionBar?.setTitle(title)
     }
-
 }
 
 fun Toolbar.setupToolbar(
     appCompat: AppCompatActivity,
     @StringRes
-    Restitle: Int,
+    resTitle: Int,
     isHomeAsUpEnable: Boolean = false
 ) {
     with(appCompat) {
         setSupportActionBar(this@setupToolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(isHomeAsUpEnable)
-        supportActionBar?.setTitle(Restitle)
+        supportActionBar?.setTitle(resTitle)
     }
-
 }
