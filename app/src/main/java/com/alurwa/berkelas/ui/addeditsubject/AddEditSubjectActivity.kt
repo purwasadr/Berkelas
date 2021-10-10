@@ -87,7 +87,7 @@ class AddEditSubjectActivity : AppCompatActivity() {
         picker.addOnPositiveButtonClickListener {
             val minute = DecimalFormat("00").format(picker.minute)
 
-            binding.actStartTime.setText("${picker.hour}:${minute}")
+            viewModel.setStartTime("${picker.hour}:$minute")
         }
     }
 
@@ -107,8 +107,9 @@ class AddEditSubjectActivity : AppCompatActivity() {
 
         picker.addOnPositiveButtonClickListener {
             val minute = DecimalFormat("00").format(picker.minute)
+            viewModel.setEndTime("${picker.hour}:$minute")
 
-            binding.actEndTime.setText("${picker.hour}:${minute}")
+            //binding.actEndTime.setText("${picker.hour}:${minute}")
         }
     }
 
@@ -179,7 +180,7 @@ class AddEditSubjectActivity : AppCompatActivity() {
         with(binding) {
             if (edtSubject.text.toString().isEmpty()) {
                 isValid = false
-                tilSubject.showError(getString(R.string.input_error_subject))
+                tilSubject.showError(R.string.error_subject)
             } else {
                 tilSubject.removeError()
             }
@@ -206,7 +207,6 @@ class AddEditSubjectActivity : AppCompatActivity() {
             startTime = binding.actStartTime.text.toString(),
             endTime = binding.actEndTime.text.toString(),
             teacher = binding.edtTeacher.text.toString()
-
         )
 
     private fun inputToEditObject() =
