@@ -4,7 +4,7 @@
     <data>
         <variable
             name="picket"
-            type="com.alurwa.common.model.Picket" />
+            type="com.alurwa.berkelas.model.PicketUi" />
     </data>
 
     <LinearLayout
@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_large"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:singleLine="true"
             android:text="@{picket.name}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
