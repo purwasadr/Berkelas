@@ -1,25 +1,29 @@
 package com.alurwa.berkelas.ui.roomdetail
 
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityRoomDetailBinding
+import com.alurwa.berkelas.ui.roomaddedit.RoomAddEditActivity
+import com.alurwa.berkelas.util.Role
 import com.alurwa.berkelas.util.SnackbarUtil
 import com.alurwa.berkelas.util.setupToolbar
-import com.alurwa.common.model.onError
-import com.alurwa.common.model.onLoading
-import com.alurwa.common.model.onSuccess
+import com.alurwa.common.model.*
+import com.alurwa.data.model.RoomSetParams
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -49,7 +53,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener {
             val userRoomId = viewModel.user.value?.roomId
-            val roomId = viewModel.room.id
+            val roomId = viewModel.room.value?.id
 
             if (userRoomId != roomId) {
                 doInputPassword()
@@ -60,7 +64,7 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun observe() {
-        uiLoading(true)
+        viewModel.setIsLoading(true)
 
         lifecycleScope.launch {
             viewModel.userOther.collectLatest { result ->
@@ -73,22 +77,32 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
 
-            viewModel.observeUser.collectLatest { result ->
-                result.onSuccess {
+            viewModel.observeRoom.combine(viewModel.observeUser) { roomP, userP ->
+                Pair(roomP, userP)
+            }.collectLatest { result ->
+                result.first.onSuccess {
+                    if (it != null) {
+                        viewModel.setRoom(it)
+                    }
+                }
+
+                result.second.onSuccess {
                     val user = it
                     if (user != null) {
                         viewModel.setUser(user)
                         changePropertyFab(user.roomId)
                     }
+                }
 
-                    uiLoading(false)
+                if (result.first !is Result.Loading && result.second !is Result.Loading) {
+                    viewModel.setIsLoading(false)
                 }
             }
         }
     }
 
     private fun changePropertyFab(userRoomId: String) {
-        val roomId = viewModel.room.id
+        val roomId = viewModel.room.value?.id
         if (userRoomId != roomId) {
             val typeValue = TypedValue()
             theme.resolveAttribute(R.attr.colorPrimary, typeValue, true)
@@ -98,19 +112,18 @@ class RoomDetailActivity : AppCompatActivity() {
         } else {
             binding.fab.setImageResource(R.drawable.ic_round_exit_to_app_24)
             binding.fab.backgroundTintList = ColorStateList.valueOf(
-                    ContextCompat.getColor(this, R.color.red_500)
+                ContextCompat.getColor(this, R.color.red_500)
             )
         }
     }
 
     private fun removePasswordDialog() {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Keluar room")
             .setMessage("Anda yakin keluar dari room ini?")
             .setPositiveButton("Keluar") { dialog, _ ->
                 removeRoomToUser()
                 dialog.dismiss()
-            }.setNegativeButton("Cancel") { dialog, _ ->
+            }.setNegativeButton(R.string.btn_cancel) { dialog, _ ->
                 dialog.dismiss()
             }
             .show()
@@ -123,7 +136,7 @@ class RoomDetailActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.title_insert_password)
             .setView(dialogView)
-            .setPositiveButton("Oke") { dialog, _ ->
+            .setPositiveButton("Masuk") { dialog, _ ->
                 dialog.dismiss()
 
                 val edtPass =
@@ -140,12 +153,32 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun verifyPassword(password: String): Boolean {
-        val passwordSet = viewModel.room.password
+        val passwordSet = viewModel.room.value?.password
         return if (passwordSet == password) {
             true
         } else {
             SnackbarUtil.showShort(binding.root, R.string.error_wrong_password)
             false
+        }
+    }
+
+    private fun deleteRoomDialog(action: () -> Unit) {
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.title_delete_room)
+            .setPositiveButton(R.string.btn_delete) { dialog, _ ->
+                action()
+                dialog.dismiss()
+            }
+            .setNegativeButton(R.string.btn_cancel) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun deleteRoom() {
+        deleteRoomDialog {
+            viewModel.deleteRoom()
+            finish()
         }
     }
 
@@ -164,8 +197,18 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     private fun setRoomToUser() {
+        val roomExtra = viewModel.roomExtra
+
+        val isRoomOwner = roomExtra.creatorId == viewModel.user.value?.uid
+
+        val roomSetParams = RoomSetParams(
+            roomId = roomExtra.id,
+            role = Role.MEMBER.code,
+            isRoomOwner = isRoomOwner
+        )
+
         lifecycleScope.launch {
-            viewModel.applyRoom2().collectLatest {
+            viewModel.applyRoom(roomSetParams).collectLatest {
                 it.onSuccess {
                     SnackbarUtil.showShort(binding.root, "Berhasil masuk room")
                 }.onLoading {
@@ -175,17 +218,46 @@ class RoomDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun navigateToRoomEdit(roomData: RoomData) {
+        Intent(this, RoomAddEditActivity::class.java)
+            .putExtra(RoomAddEditActivity.EXTRA_MODE, RoomAddEditActivity.MODE_EDIT)
+            .putExtra(RoomAddEditActivity.EXTRA_ROOM, roomData)
+            .also {
+                startActivity(it)
+            }
 
     }
 
-    private fun uiLoading(value: Boolean) {
-        binding.maskWhite.isVisible = value
-        binding.fab.isVisible = !value
-    }
+//    private fun uiLoading(value: Boolean) {
+//        binding.maskWhite.isVisible = value
+//        binding.fab.isVisible = !value
+//    }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_room_detail, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            R.id.menu_delete -> {
+                deleteRoom()
+                true
+            }
+            R.id.menu_edit -> {
+                navigateToRoomEdit(viewModel.room.value!!)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     companion object {
