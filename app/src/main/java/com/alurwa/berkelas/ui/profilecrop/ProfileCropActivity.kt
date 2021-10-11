@@ -30,20 +30,27 @@ class ProfileCropActivity : AppCompatActivity(), CropImageView.OnCropImageComple
         with(binding.cropImg) {
             setImageUriAsync(intentUri)
             setAspectRatio(1, 1)
-            setMultiTouchEnabled(true)
             setOnCropImageCompleteListener(this@ProfileCropActivity)
         }
 
     }
 
     private fun setupBtnView() {
-        binding.txtDone.setOnClickListener {
+        binding.btnDone.setOnClickListener {
             binding.cropImg.croppedImageAsync(
                 saveCompressFormat = Bitmap.CompressFormat.JPEG,
                 saveCompressQuality = 90,
                 reqWidth = 500,
                 reqHeight = 500,
             )
+        }
+
+        binding.imgbtnRotate.setOnClickListener {
+            binding.cropImg.rotateImage(-90)
+        }
+
+        binding.btnCancel.setOnClickListener {
+            finish()
         }
     }
 
