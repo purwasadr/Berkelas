@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.PicketDayAdapter
 import com.alurwa.berkelas.databinding.ActivityPicketBinding
 import com.alurwa.berkelas.model.PicketDayUi
@@ -36,7 +37,7 @@ class PicketActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(this, "Picket", true)
+        binding.appbar.toolbar.setupToolbar(this, R.string.toolbar_picket, true)
 
         setupVp()
         setupFab()
@@ -91,7 +92,8 @@ class PicketActivity : AppCompatActivity() {
     }
 
     private fun submitToVpAdapter(items: List<PicketDayUi>) {
-        vpAdapter.submitList(items)
+        val transform = viewModel.transformToUntilAWeek(items)
+        vpAdapter.submitList(transform)
     }
 
     private fun showPicketDetailDialog(picketUi: PicketUi) {
@@ -100,9 +102,15 @@ class PicketActivity : AppCompatActivity() {
                 navigateToEditPicket(picketUi)
             }
             .setOnClickBtnDelete {
-
+                deletePicket(picketUi.id)
             }
             .show()
+    }
+
+    private fun deletePicket(picketId: String) {
+        lifecycleScope.launch {
+            viewModel.deletePicket(binding.vpPicket.currentItem, picketId)
+        }
     }
 
     private fun navigateToAddPicket() {
