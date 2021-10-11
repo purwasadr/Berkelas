@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -11,6 +12,7 @@ import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.SubjectVpAdapter
 import com.alurwa.berkelas.databinding.ActivitySubjectBinding
 import com.alurwa.berkelas.ui.addeditsubject.AddEditSubjectActivity
+import com.alurwa.berkelas.util.Role
 import com.alurwa.berkelas.util.SnackbarUtil
 import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.*
@@ -57,6 +59,7 @@ class SubjectActivity : AppCompatActivity() {
     }
 
     private fun setupFab() {
+        binding.fab.isVisible = isCanEdit()
         binding.fab.setOnClickListener {
             navigateToAddSubject()
         }
@@ -84,6 +87,15 @@ class SubjectActivity : AppCompatActivity() {
 
     }
 
+    private fun isCanEdit(): Boolean {
+        val lis = arrayOf(
+            Role.LEADER.code,
+            Role.CO_LEADER.code,
+            Role.SECRETARY.code
+        )
+
+        return lis.contains(viewModel.role.role) || viewModel.role.isRoomOwner
+    }
 
     private fun submitVpAdapter(vpList: List<Subject>) {
 
@@ -100,7 +112,7 @@ class SubjectActivity : AppCompatActivity() {
     }
 
     private fun showSubjectInfo(subjectItem: SubjectItem) {
-        SubjectInfoDialog(this, subjectItem)
+        SubjectInfoDialog(this, subjectItem, isCanEdit())
             .setOnClickBtnEdit {
                 navigateToEditSubject(subjectItem)
             }
