@@ -3,11 +3,10 @@ package com.alurwa.berkelas.ui.picketaddedit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alurwa.berkelas.model.PicketUi
 import com.alurwa.berkelas.ui.picketaddedit.PicketAddEditActivity.Companion.MODE_EDIT
-import com.alurwa.common.model.User
-import com.alurwa.common.model.onError
-import com.alurwa.common.model.onLoading
-import com.alurwa.common.model.onSuccess
+import com.alurwa.common.model.*
+import com.alurwa.data.model.PicketAddParams
 import com.alurwa.data.repository.picket.PicketRepository
 import com.alurwa.data.repository.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +29,12 @@ class PicketAddEditViewModel @Inject constructor(
         }
     }
 
-    val userId = stateHandle.get<String?>(PicketAddEditActivity.EXTRA_USER_ID).also {
+    val dayExtra = stateHandle.get<Int>(PicketAddEditActivity.EXTRA_DAY) ?: 0
+
+    private val _day = MutableStateFlow<Int>(dayExtra)
+    val day = _day.asStateFlow()
+
+    val picket = stateHandle.get<PicketUi?>(PicketAddEditActivity.EXTRA_PICKET).also {
         if (mode == MODE_EDIT) {
             if (it == null) {
                 throw Exception("In mode edit this cannot null")
@@ -47,7 +51,7 @@ class PicketAddEditViewModel @Inject constructor(
     init {
         if (mode == MODE_EDIT) {
             viewModelScope.launch {
-                userRepository.getUser(userId!!).collectLatest { result ->
+                userRepository.getUser(picket?.userId!!).collectLatest { result ->
                     result.onSuccess {
                         _selectedUser.value = it
                         setIsLoading(false)
@@ -63,9 +67,12 @@ class PicketAddEditViewModel @Inject constructor(
 
     fun getUsers() = userRepository.getUsers()
 
-    fun addPicket() {
+    fun addPicket(picketAddParams: PicketAddParams) = picketRepository.addPicket(
+        day.value,
+        picketAddParams
+    )
 
-    }
+    fun editPicket(picket: Picket) = picketRepository.editPicket(day.value, picket)
 
     fun setSelectedUser(userId: User) {
         _selectedUser.value = userId
@@ -73,5 +80,9 @@ class PicketAddEditViewModel @Inject constructor(
 
     fun setIsLoading(value: Boolean) {
         _isLoading.value = value
+    }
+
+    fun setDay(day: Int) {
+        _day.value = day
     }
 }
