@@ -35,7 +35,7 @@ class RoomListAdapter(
             val data = getItem(position)
             val roomData = data.roomData
 
-            binding.txtName.text = roomData.roomName
+            binding.tvName.text = roomData.roomName
             binding.txtSchool.text = roomData.schoolName
             binding.imgCheck.isVisible = data.checked
             binding.root.setOnClickListener {
