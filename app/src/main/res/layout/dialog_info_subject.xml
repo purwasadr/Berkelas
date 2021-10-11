@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/ic_round_book_24" />
 
     <TextView
-        android:id="@+id/txt_subject"
+        android:id="@+id/tv_subject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,7 +40,7 @@
         app:srcCompat="@drawable/ic_round_access_time_24" />
 
     <TextView
-        android:id="@+id/txt_time"
+        android:id="@+id/tv_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -64,7 +64,7 @@
         app:srcCompat="@drawable/ic_round_person_24" />
 
     <TextView
-        android:id="@+id/txt_teacher"
+        android:id="@+id/tv_teacher"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -84,13 +84,13 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:text="@string/btn_info_subject_text_edit"
+        android:text="@string/btn_edit"
         android:textAllCaps="true"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btn_delete"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txt_teacher" />
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_delete"
@@ -99,10 +99,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:text="@string/btn_info_subject_text_delete"
+        android:text="@string/btn_delete"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_edit"
-        app:layout_constraintTop_toBottomOf="@id/txt_teacher" />
+        app:layout_constraintTop_toBottomOf="@id/tv_teacher" />
 </androidx.constraintlayout.widget.ConstraintLayout>
