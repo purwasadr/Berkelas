@@ -3,7 +3,7 @@
     <data>
         <variable
             name="day"
-            type="String" />
+            type="Integer" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:text="@{day}"
+            tvDayOfWeek="@{day}"
             android:textAlignment="center"
             android:textAppearance="?attr/textAppearanceHeadline5"
             tools:text="Senin" />
