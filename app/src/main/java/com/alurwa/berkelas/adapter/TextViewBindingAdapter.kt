@@ -4,6 +4,8 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.util.Gender
+import java.text.SimpleDateFormat
+import java.util.*
 
 object TextViewBindingAdapter {
     @JvmStatic
@@ -22,5 +24,17 @@ object TextViewBindingAdapter {
         val gender = Gender.values().getOrNull(code - 1)?.getValue(view.context) ?: ""
 
         view.text = gender
+    }
+
+    @JvmStatic
+    @BindingAdapter("tvDate")
+    fun tvDate(view: TextView, value: Long?) {
+        if (value != null) {
+            val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+            val date = Date(value)
+
+            view.setText(dateFormat.format(date))
+        }
     }
 }
