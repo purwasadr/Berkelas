@@ -13,6 +13,7 @@ import com.alurwa.berkelas.adapter.MainCardAdapter
 import com.alurwa.berkelas.adapter.MainMenuAdapter
 import com.alurwa.berkelas.databinding.FragmentHomeBinding
 import com.alurwa.berkelas.model.MainMenuItem
+import com.alurwa.berkelas.ui.attendance.AttendanceActivity
 import com.alurwa.berkelas.ui.cashall.CashAllActivity
 import com.alurwa.berkelas.ui.picket.PicketActivity
 import com.alurwa.berkelas.ui.subject.SubjectActivity
@@ -89,6 +90,10 @@ class HomeFragment : Fragment() {
             MainMenuItem(
                 name = "Piket",
                 isActive = true
+            ),
+            MainMenuItem(
+                name = "Absensi",
+                isActive = false
             )
         )
 
@@ -128,6 +133,12 @@ class HomeFragment : Fragment() {
                         startActivity(it)
                     }
 
+            }
+            3 -> {
+                Intent(requireContext(), AttendanceActivity::class.java)
+                    .also {
+                        startActivity(it)
+                    }
             }
         }
     }
