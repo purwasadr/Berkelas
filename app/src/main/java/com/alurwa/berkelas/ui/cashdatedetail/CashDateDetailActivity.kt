@@ -1,5 +1,6 @@
 package com.alurwa.berkelas.ui.cashdatedetail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,7 +14,10 @@ import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.CashDateDetailAdapter
 import com.alurwa.berkelas.databinding.ActivityCashDateDetailBinding
 import com.alurwa.berkelas.model.CashDateDetailItem
+import com.alurwa.berkelas.ui.cashaddedit.CashAddEditActivity
+import com.alurwa.berkelas.util.SnackbarUtil
 import com.alurwa.berkelas.util.setupToolbar
+import com.alurwa.common.model.Cash
 import com.alurwa.common.model.onError
 import com.alurwa.common.model.onSuccess
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -37,10 +41,15 @@ class CashDateDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        binding.appbar.toolbar.setupToolbar(this, "Detail Kas", true)
+        binding.appbar.toolbar.setupToolbar(
+            this
+            , R.string.toolbar_cash_detail,
+            true
+        )
 
         setupBinding()
         setupList()
+        setupFab()
 
         observeData()
     }
@@ -58,6 +67,12 @@ class CashDateDetailActivity : AppCompatActivity() {
         binding.listCashDateDetail.layoutManager = LinearLayoutManager(this)
         binding.listCashDateDetail.adapter = adapter
 
+    }
+
+    private fun setupFab() {
+        binding.fab.setOnClickListener {
+            editPaidDialog()
+        }
     }
 
     private fun observeData() {
@@ -101,6 +116,7 @@ class CashDateDetailActivity : AppCompatActivity() {
 
     private fun editPaidDialog() {
         val paidedList = viewModel.paidedList.value
+
         val arrayItems = Array(paidedList.size) {
             paidedList[it].name
         }
@@ -118,7 +134,11 @@ class CashDateDetailActivity : AppCompatActivity() {
 
                 editPaid(paidedList2)
                 dialog.dismiss()
-            }.show()
+            }
+            .setNegativeButton(R.string.btn_back) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun paidBooleanArrayToUidList(
@@ -149,7 +169,7 @@ class CashDateDetailActivity : AppCompatActivity() {
 
     private fun deleteCashDialog(action: () -> Unit) {
         MaterialAlertDialogBuilder(this)
-            .setTitle("Delete Cash")
+       //     .setTitle("Delete Cash")
             .setMessage("Apakah anda yakin?")
             .setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 action()
@@ -172,6 +192,16 @@ class CashDateDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun navigateToCashEdit(cash: Cash) {
+        Intent(this, CashAddEditActivity::class.java)
+            .putExtra(CashAddEditActivity.EXTRA_MODE, CashAddEditActivity.MODE_EDIT)
+            .putExtra(CashAddEditActivity.EXTRA_CASH, cash)
+            .also {
+                startActivity(it)
+            }
+
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
@@ -184,8 +214,16 @@ class CashDateDetailActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.menu_edit_paid -> {
-                editPaidDialog()
+            R.id.menu_edit -> {
+               // editPaidDialog()
+                val cash = viewModel.cash.value
+
+                if (cash != null) {
+                    navigateToCashEdit(cash)
+                } else {
+                    SnackbarUtil.showShort(binding.root, "Data belum dimuat")
+                }
+
                 true
             }
 
