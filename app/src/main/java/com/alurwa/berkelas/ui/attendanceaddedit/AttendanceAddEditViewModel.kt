@@ -24,4 +24,8 @@ class AttendanceAddEditViewModel @Inject constructor(
 
     fun addAttendance(attendance: Attendance) =
         attendanceRepository.addAttendance(attendance)
+
+    fun setDate(date: Long) {
+        _date.value = date
+    }
 }
