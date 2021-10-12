@@ -3,13 +3,15 @@ package com.alurwa.berkelas.ui.subject
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import com.alurwa.berkelas.databinding.DialogInfoSubjectBinding
 import com.alurwa.common.model.SubjectItem
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class SubjectInfoDialog(
     context: Context,
-    val subjectItem: SubjectItem
+    val subjectItem: SubjectItem,
+    private val isCanEdit: Boolean,
 ) : MaterialAlertDialogBuilder(context) {
 
     private var builder: AlertDialog? = null
@@ -30,6 +32,9 @@ class SubjectInfoDialog(
     }
 
     private fun setupView() {
+
+        binding.btnEdit.isVisible = isCanEdit
+        binding.btnDelete.isVisible = isCanEdit
 
         binding.tvSubject.text = subjectItem.subject
         binding.tvTime.text = "${subjectItem.startTime} - ${subjectItem.endTime}"
