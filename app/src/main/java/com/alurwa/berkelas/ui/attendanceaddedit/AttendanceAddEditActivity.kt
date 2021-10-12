@@ -10,8 +10,10 @@ import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityAttendanceAddEditBinding
 import com.alurwa.berkelas.extension.MODE_ADD
 import com.alurwa.berkelas.extension.MODE_EDIT
+import com.alurwa.berkelas.extension.setOnClickForDialog
 import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.*
+import com.google.android.material.datepicker.MaterialDatePicker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,7 +32,28 @@ class AttendanceAddEditActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.appbar.toolbar.setupToolbar(this, "Add Attendance", true)
+        setupInputViews()
+    }
 
+    private fun setupInputViews() {
+        binding.actDate.setOnClickForDialog(this) {
+            changeDate()
+        }
+    }
+
+    private fun changeDate() {
+        val selection = viewModel.date.value
+
+        val picker = MaterialDatePicker.Builder
+            .datePicker()
+            .setTitleText("Pilih Tanggal")
+            .setSelection(selection)
+            .build()
+
+        picker.show(supportFragmentManager, "date_of_birth_picker")
+        picker.addOnPositiveButtonClickListener {
+            viewModel.setDate(it)
+        }
     }
 
     private fun saveAttendance() {
