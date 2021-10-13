@@ -42,3 +42,13 @@ fun FirebaseFirestore.picketCol(roomId: String) =
 fun FirebaseFirestore.picketDoc(roomId: String, picketId: String) =
     picketCol(roomId)
         .document(picketId)
+
+fun FirebaseFirestore.attendanceRootCol() = collection("attendance")
+
+fun FirebaseFirestore.attendanceCol(roomId: String) =
+    attendanceRootCol().document(roomId)
+        .collection("attendanceData")
+
+fun FirebaseFirestore.attendanceDoc(roomId: String, attendanceId: String) =
+    attendanceCol(roomId)
+        .document(attendanceId)
