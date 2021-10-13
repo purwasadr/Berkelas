@@ -65,7 +65,7 @@ class PicketAddEditViewModel @Inject constructor(
         }
     }
 
-    fun getUsers() = userRepository.getUsers()
+    fun getUsersByRoomId() = userRepository.getUsersByRoomId()
 
     fun addPicket(picketAddParams: PicketAddParams) = picketRepository.addPicket(
         day.value,
