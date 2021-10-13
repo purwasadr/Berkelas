@@ -10,7 +10,9 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ActivityRoomDetailBinding
 import com.alurwa.berkelas.ui.roomaddedit.RoomAddEditActivity
@@ -42,7 +44,7 @@ class RoomDetailActivity : AppCompatActivity() {
         binding.appbar.toolbar.setupToolbar(this, "", true)
 
         setupViews()
-
+        observeViewsState()
         observe()
     }
 
@@ -59,6 +61,16 @@ class RoomDetailActivity : AppCompatActivity() {
                 doInputPassword()
             } else {
                 removePasswordDialog()
+            }
+        }
+    }
+
+    private fun observeViewsState() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.isCanEdit.collectLatest {
+                    invalidateOptionsMenu()
+                }
             }
         }
     }
@@ -164,7 +176,7 @@ class RoomDetailActivity : AppCompatActivity() {
 
     private fun deleteRoomDialog(action: () -> Unit) {
         MaterialAlertDialogBuilder(this)
-            .setTitle(R.string.title_delete_room)
+            .setMessage(R.string.msg_are_you_sure)
             .setPositiveButton(R.string.btn_delete) { dialog, _ ->
                 action()
                 dialog.dismiss()
@@ -230,13 +242,16 @@ class RoomDetailActivity : AppCompatActivity() {
 
     }
 
-//    private fun uiLoading(value: Boolean) {
-//        binding.maskWhite.isVisible = value
-//        binding.fab.isVisible = !value
-//    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val isCanEdit = viewModel.isCanEdit.value
+
+        menu?.findItem(R.id.menu_delete)?.isVisible = isCanEdit
+        menu?.findItem(R.id.menu_edit)?.isVisible = isCanEdit
         return true
     }
 
