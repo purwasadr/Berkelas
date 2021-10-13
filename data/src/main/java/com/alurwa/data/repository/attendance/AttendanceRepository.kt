@@ -46,10 +46,22 @@ class AttendanceRepository @Inject constructor(
     }.catchToResult().flowOn(dispatcher)
 
 
-    fun observeAttendance() = callbackFlow {
+    fun observeAttendanceList() = callbackFlow {
         trySend(Result.Loading)
 
         val listener = firestore.attendanceCol(myRoomId).listener(Attendance::class.java) {
+            trySendBlocking(it)
+        }
+
+        awaitClose {
+            listener.remove()
+        }
+    }
+
+    fun observeAttendance(date: String) = callbackFlow {
+        trySend(Result.Loading)
+
+        val listener = firestore.attendanceDoc(myRoomId, date).listener(Attendance::class.java) {
             trySendBlocking(it)
         }
 
