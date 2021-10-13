@@ -41,7 +41,7 @@ class SignUpActivity : AppCompatActivity() {
     private val email get() = binding.edtEmail.text.toString()
     private val username get() = binding.edtUsername.text.toString()
     private val password get() = binding.edtPassword.text.toString()
-    private val repassword get() = binding.edtRepassword.text.toString()
+    private val confirmPassword get() = binding.edtConfirmPassword.text.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +69,7 @@ class SignUpActivity : AppCompatActivity() {
             doSignUp()
         }
 
-        binding.txtLogin.setOnClickListener {
+        binding.tvLogin.setOnClickListener {
             finish()
         }
     }
@@ -114,6 +114,7 @@ class SignUpActivity : AppCompatActivity() {
 
         } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             isValid = false
+            binding.tilEmail.showError(R.string.error_invalid_email_format)
         } else {
             binding.tilEmail.removeError()
         }
@@ -133,25 +134,26 @@ class SignUpActivity : AppCompatActivity() {
 
         if (username.isEmpty()) {
             isValid = false
-
+            binding.tilConfirmPassword.showError(R.string.error_cause_empty)
         } else {
             binding.tilUsername.removeError()
         }
 
         if (password.isEmpty()) {
             isValid = false
+            binding.tilConfirmPassword.showError(R.string.error_cause_empty)
         } else {
             binding.tilPassword.removeError()
         }
 
-        if (repassword.isEmpty()) {
+        if (confirmPassword.isEmpty()) {
             isValid = false
-            binding.tilRepassword.showError(R.string.error_cause_empty)
-        } else if (password != repassword) {
+            binding.tilConfirmPassword.showError(R.string.error_cause_empty)
+        } else if (password != confirmPassword) {
             isValid = false
-            binding.tilRepassword.showError("Confirm password must same")
+            binding.tilConfirmPassword.showError(R.string.error_confirm_password_not_same)
         } else {
-            binding.tilRepassword.removeError()
+            binding.tilConfirmPassword.removeError()
         }
 
         return isValid
@@ -198,6 +200,6 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun pbIsVisible(value: Boolean) {
         binding.pb.isVisible = value
-        binding.btnSignUp.visibility = if(value) View.INVISIBLE else View.VISIBLE
+        binding.btnSignUp.visibility = if (value) View.INVISIBLE else View.VISIBLE
     }
 }
