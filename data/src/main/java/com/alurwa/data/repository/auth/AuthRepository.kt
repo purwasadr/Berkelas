@@ -8,7 +8,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
@@ -58,6 +61,26 @@ class AuthRepository @Inject constructor(
     }.catchToResult().flowOn(dispatcherIO)
 
     fun isLogged() = auth.currentUser != null
+
+    fun isLoggedListener() = callbackFlow {
+        trySend(Result.Loading)
+
+        val listener = FirebaseAuth.AuthStateListener {
+            val isUserNotNull = it.currentUser != null
+
+            if (!isUserNotNull) {
+                sessionManager.clearSession()
+            }
+
+            trySendBlocking(Result.Success(isUserNotNull))
+        }
+
+        auth.addAuthStateListener(listener)
+
+        awaitClose {
+            auth.removeAuthStateListener(listener)
+        }
+    }
 
     fun signOut() {
         auth.signOut()
