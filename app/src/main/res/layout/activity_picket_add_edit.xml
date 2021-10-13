@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.alurwa.berkelas.ui.picketaddedit.PicketAddEditViewModel" />
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
         tools:context=".ui.picketaddedit.PicketAddEditActivity">
 
         <include
@@ -22,7 +26,27 @@
             invisibleUnless="@{viewModel.isLoading()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible" />
+            android:indeterminate="true"
+            android:visibility="visible"
+            app:trackCornerRadius="8dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_day"
+            style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:hint="@string/hint_day">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/act_day"
+                actDay="@{viewModel.day}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_student"
@@ -30,14 +54,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:hint="Murid">
 
             <com.google.android.material.textfield.MaterialAutoCompleteTextView
                 android:id="@+id/act_student"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:text="@{viewModel.selectedUser.fullName}" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +76,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_note"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.picket.note}" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </layout>
