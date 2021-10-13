@@ -90,7 +90,7 @@ class SubjectActivity : AppCompatActivity() {
     private fun isCanEdit(): Boolean {
         val lis = arrayOf(
             Role.LEADER.code,
-            Role.CO_LEADER.code,
+            Role.VICE_LEADER.code,
             Role.SECRETARY.code
         )
 
