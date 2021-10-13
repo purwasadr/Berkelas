@@ -25,7 +25,6 @@ import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.onError
 import com.alurwa.common.model.onLoading
 import com.alurwa.common.model.onSuccess
-import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +47,7 @@ class AccountEditActivity : AppCompatActivity() {
         ActivityResultContracts.RequestPermission()
     ) {
         if (it) {
-            pictFromGallery()
+            navigateToGallery()
         }
     }
 
@@ -79,7 +78,7 @@ class AccountEditActivity : AppCompatActivity() {
 
         binding.appbar.toolbar.setupToolbar(
             this,
-            getString(R.string.toolbar_title_account_edit),
+            getString(R.string.toolbar_account_edit),
             true
         )
 
@@ -109,25 +108,28 @@ class AccountEditActivity : AppCompatActivity() {
     }
 
     private fun optionProfileImageDialog() {
-        val arrayItems = arrayOf("Ambil file", "Ambil Camera")
+        val arrayItems = arrayOf(
+            "Ambil dari gallery", "Ambil dari Camera"
+        )
 
         MaterialAlertDialogBuilder(this)
             .setItems(arrayItems) { dialog, which ->
                 if (which == 0) {
-                    requestReadExternal()
+                    pickFromGallery()
                 }
                 dialog.dismiss()
             }
             .show()
     }
 
-    private fun requestReadExternal() {
+    private fun pickFromGallery() {
         val permission = android.Manifest.permission.READ_EXTERNAL_STORAGE
 
         if (ContextCompat.checkSelfPermission(
                 this, permission
-            ) == PackageManager.PERMISSION_GRANTED) {
-            pictFromGallery()
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            navigateToGallery()
             return
         }
 
@@ -140,7 +142,7 @@ class AccountEditActivity : AppCompatActivity() {
         }
     }
 
-    private fun pictFromGallery() {
+    private fun navigateToGallery() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
             .setType("image/*")
             .addCategory(Intent.CATEGORY_OPENABLE)
@@ -192,15 +194,11 @@ class AccountEditActivity : AppCompatActivity() {
     }
 
     private fun doChangeDateOfBirth() {
-        val now = viewModel.dateOfBirth.value ?: Date().time
+        val selection = viewModel.dateOfBirth.value ?: Date().time
 
         val picker = MaterialDatePicker.Builder.datePicker()
             .setTitleText("Pilih Tanggal")
-            .setCalendarConstraints(
-                CalendarConstraints.Builder()
-                    .setOpenAt(now)
-                    .build()
-            )
+            .setSelection(selection)
             .build()
 
 
@@ -241,7 +239,7 @@ class AccountEditActivity : AppCompatActivity() {
             profileImgUrl = viewModel.profileImgUrl.value,
             username = binding.edtUsername.text.toString(),
             fullName = binding.edtFullname.text.toString(),
-            nickname = binding.edtNickName.text.toString(),
+            nickname = binding.edtNickname.text.toString(),
             dateOfBirth = viewModel.dateOfBirth.value,
             gender = viewModel.gender.value
         )
@@ -251,14 +249,14 @@ class AccountEditActivity : AppCompatActivity() {
         with(binding) {
             if (edtFullname.text.toString().isEmpty()) {
                 isValid = false
-                tilFullName.showError(getString(R.string.input_error_subject))
+                tilFullName.showError(getString(R.string.error_subject))
             } else {
                 tilFullName.removeError()
             }
 
-            if (edtNickName.text.toString().isEmpty()) {
+            if (edtNickname.text.toString().isEmpty()) {
                 isValid = false
-                tilNickname.showError(getString(R.string.input_error_cause_empty))
+                tilNickname.showError(getString(R.string.error_cause_empty))
             } else {
                 tilNickname.removeError()
             }
@@ -284,7 +282,7 @@ class AccountEditActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        finish()
+        onBackPressed()
         return true
     }
 
