@@ -60,7 +60,7 @@ class PicketAddEditActivity : AppCompatActivity() {
 
     private fun getUser(action: (users: List<User>) -> Unit) {
         lifecycleScope.launch {
-            viewModel.getUsers().collectLatest { result ->
+            viewModel.getUsersByRoomId().collectLatest { result ->
                 result.onSuccess {
                     action(it)
                 }.onLoading {
