@@ -39,6 +39,9 @@ class RoomDetailViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow<Boolean>(false)
     val isLoading = _isLoading.asStateFlow()
 
+    private val _isCanEdit = MutableStateFlow(false)
+    val isCanEdit = _isCanEdit.asStateFlow()
+
     fun setCreatorName(name: String) {
         _creatorName.value = name
     }
@@ -53,6 +56,10 @@ class RoomDetailViewModel @Inject constructor(
 
     fun setIsLoading(value: Boolean) {
         _isLoading.value = value
+    }
+
+    fun setIsCanEdit(value: Boolean) {
+        _isCanEdit.value = value
     }
 
     fun applyRoom(roomSetParams: RoomSetParams) = userRepository.setRoom(roomSetParams)
