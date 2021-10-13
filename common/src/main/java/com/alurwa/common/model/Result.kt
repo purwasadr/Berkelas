@@ -36,3 +36,12 @@ inline fun <T> Result<T>.onLoading(action: () -> Unit): Result<T> {
     if (this is Result.Loading) action()
     return this
 }
+
+@OptIn(ExperimentalContracts::class)
+inline fun <T> Result<T>.onNotLoading(action: () -> Unit): Result<T> {
+    contract {
+        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+    }
+    if (this !is Result.Loading) action()
+    return this
+}
