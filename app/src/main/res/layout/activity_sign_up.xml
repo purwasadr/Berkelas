@@ -3,11 +3,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.alurwa.berkelas.ui.signup.SignUpViewModel" />
     </data>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,7 +63,6 @@
                 android:layout_height="match_parent"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_nickname"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -77,12 +79,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_username"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_username"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
                     android:id="@+id/edt_username"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName|textCapSentences" />
+                    android:inputType="text" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +104,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_email"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -125,7 +124,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_password"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -136,29 +134,29 @@
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_repassword"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:id="@+id/til_confirm_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
-                android:hint="@string/hint_reenter_password"
+                android:hint="@string/hint_confirm_password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/til_password">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_repassword"
+                    android:id="@+id/edt_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,16 +165,14 @@
                 style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_date_of_birth"
                 app:endIconDrawable="@drawable/ic_round_event_24"
                 app:endIconMode="custom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_repassword">
+                app:layout_constraintTop_toBottomOf="@id/til_confirm_password">
 
                 <com.google.android.material.textfield.MaterialAutoCompleteTextView
                     android:id="@+id/act_date_of_birth"
@@ -194,7 +190,6 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="@dimen/spacing_small"
                 android:layout_marginEnd="24dp"
                 android:hint="@string/hint_gender"
                 app:endIconDrawable="@drawable/ic_round_wc_24"
@@ -231,11 +226,11 @@
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/btnSignUp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/til_gender" />
+                app:layout_constraintTop_toTopOf="@+id/btnSignUp" />
 
             <TextView
                 android:id="@+id/txInfo"
@@ -245,13 +240,13 @@
                 android:text="Jika anda sudah punya akun"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary"
-                app:layout_constraintEnd_toStartOf="@id/txtLogin"
+                app:layout_constraintEnd_toStartOf="@id/tv_login"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
 
             <TextView
-                android:id="@+id/txtLogin"
+                android:id="@+id/tv_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="3dp"
