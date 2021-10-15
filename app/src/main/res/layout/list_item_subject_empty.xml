@@ -4,6 +4,14 @@
         <variable
             name="day"
             type="Integer" />
+
+        <variable
+            name="emptyImg"
+            type="Integer" />
+
+        <variable
+            name="emptyText"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,7 +19,6 @@
         xmlns:bind="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
 
         <include
             android:id="@+id/header"
@@ -28,14 +35,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header"
             app:layout_constraintVertical_chainStyle="packed"
-            app:srcCompat="@drawable/ic_round_class_24" />
+            imgResource="@{emptyImg}" />
 
         <TextView
             android:id="@+id/tv_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_small"
-            android:text="No Subject"
+            android:text="@{emptyText}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
