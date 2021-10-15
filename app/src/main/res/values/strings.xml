@@ -6,7 +6,7 @@
     <string name="hint_username">Username</string>
     <string name="hint_password">Password</string>
     <string name="hint_email">Email</string>
-    <string name="hint_reenter_password">Reenter Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_date_of_birth">Date of Birth</string>
     <string name="hint_gender">Gender</string>
     <string name="hint_subject">Subject</string>
@@ -28,6 +28,8 @@
     <string name="btn_finish">Finish</string>
     <string name="btn_cancel">Cancel</string>
     <string name="btn_sign_out">Sign Out</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_login">Login</string>
 
     <!-- ImageButton -->
     <string name="img_btn_item_menu">Item Menu</string>
@@ -49,6 +51,8 @@
     <string name="title_chose_date">Chose Date</string>
     <string name="title_chose_gender">Chose Gender</string>
     <string name="title_insert_password">Insert password</string>
+    <string name="title_close">Close</string>
+    <string name="title_delete_room">Delete Room</string>
 
     <!-- Message -->
     <string name="message_signout">Yakin ingin sign out?</string>
@@ -56,8 +60,8 @@
     <!-- Toolbar -->
     <string name="toolbar_room_add">Add Room</string>
     <string name="toolbar_edit_room">Edit Room</string>
-    <string name="toolbar_room_list">Daftar Room</string>
-    <string name="toolbar_subject">Pelajaran</string>
+    <string name="toolbar_room_list">Room List</string>
+    <string name="toolbar_subject">Subject</string>
     <string name="toolbar_account_edit">Edit Account</string>
     <string name="toolbar_choice_room">Pilih Room</string>
 
@@ -67,6 +71,8 @@
 
     <!-- Menu -->
     <string name="menu_sign_out">Sign Out</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_done">Done</string>
 
     <!-- TextView -->
     <string name="tv_login">Login</string>
@@ -100,7 +106,7 @@
 
     <!-- Role Enum -->
     <string name="role_leader">Leader</string>
-    <string name="role_co_leader">Co-Leader</string>
+    <string name="role_vice_leader">Vice Leader</string>
     <string name="role_secretary">Secretary</string>
     <string name="role_treasury">Treasury</string>
     <string name="role_member">Member</string>
@@ -110,7 +116,26 @@
     <string name="female">Female</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="menu_delete">Delete</string>
-    <string name="title_delete_room">Delete Room</string>
-    <string name="btn_login">Login</string>
+    <string name="toolbar_picket">Picket</string>
+    <string name="hint_class">Class</string>
+    <string name="toolbar_cash_detail">Cash Detail</string>
+    <string name="error_confirm_password_not_same">Confirm password must same</string>
+    <string name="error_invalid_email_format">Format email salah</string>
+    <string name="title_choose_role">Choose Role</string>
+    <string name="msg_are_you_sure">Apakah anda yakin?</string>
+    <string name="tv_sign_out">Sign Out</string>
+    <string name="tv_no_subject">No Subject</string>
+    <string name="btn_close">Close</string>
+    <string name="tab_item_member">Member</string>
+    <string name="tab_item_date">Date</string>
+    <string name="toolbar_kas">Cash</string>
+    <string name="hint_text">Text</string>
+    <string name="hint_background_color">Background Color</string>
+
+    <string name="red">Red</string>
+    <string name="purple">Purple</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="brown">Brown</string>
+    <string name="gray">Gray</string>
 </resources>
