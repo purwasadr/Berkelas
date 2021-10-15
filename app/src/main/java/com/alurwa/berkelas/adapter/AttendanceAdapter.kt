@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alurwa.berkelas.databinding.ListItemAttendanceBinding
 import com.alurwa.berkelas.model.AttendanceItem
 
-class AttendanceAdapter: ListAdapter<AttendanceItem, AttendanceAdapter.ViewHolder>(COMPARATOR) {
+class AttendanceAdapter(
+    private val onItemClick: (item: AttendanceItem) -> Unit
+): ListAdapter<AttendanceItem, AttendanceAdapter.ViewHolder>(COMPARATOR) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
         ViewHolder(
@@ -29,6 +31,9 @@ class AttendanceAdapter: ListAdapter<AttendanceItem, AttendanceAdapter.ViewHolde
 
         fun bind(item: AttendanceItem) {
             binding.attendanceItem = item
+            binding.root.setOnClickListener {
+                onItemClick(item)
+            }
             binding.executePendingBindings()
         }
     }
