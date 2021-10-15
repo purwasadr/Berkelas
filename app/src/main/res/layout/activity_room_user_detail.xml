@@ -102,6 +102,7 @@
 
         <TextView
             android:id="@+id/tv_role_val"
+            tvRole="@{viewModel.user.role}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_normal"
@@ -113,7 +114,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/img_role"
             app:layout_constraintTop_toBottomOf="@+id/tv_role_info"
-            app:txtRole="@{viewModel.user.role}"
             tools:text="Ketua" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
