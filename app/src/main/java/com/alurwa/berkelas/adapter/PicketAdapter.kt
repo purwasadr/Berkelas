@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.databinding.ListItemPicketBinding
+import com.alurwa.berkelas.databinding.ListItemSubjectEmptyBinding
 import com.alurwa.berkelas.databinding.ListItemSubjectHeaderBinding
 import com.alurwa.berkelas.model.HeaderDay
 import com.alurwa.berkelas.model.ListItem
+import com.alurwa.berkelas.model.PicketEmpty
 import com.alurwa.berkelas.model.PicketUi
 
 class PicketAdapter(
@@ -26,6 +28,13 @@ class PicketAdapter(
                     HeaderViewHolder(it)
                 }
             }
+            R.layout.list_item_subject_empty -> {
+                ListItemSubjectEmptyBinding.inflate(
+                    layoutInflater, parent, false
+                ).let {
+                    EmptyViewHolder(it)
+                }
+            }
             else -> {
                 ListItemPicketBinding.inflate(
                     layoutInflater, parent, false
@@ -39,12 +48,14 @@ class PicketAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is HeaderViewHolder -> holder.bind(position)
+            is EmptyViewHolder -> holder.bind(position)
             is PicketViewHolder -> holder.bind(position)
         }
     }
 
     override fun getItemViewType(position: Int): Int = when (getItem(position)) {
         is HeaderDay -> R.layout.list_item_subject_header
+        is PicketEmpty -> R.layout.list_item_subject_empty
         is PicketUi -> R.layout.list_item_picket
         else -> throw IllegalStateException("Unknown view")
     }
@@ -77,6 +88,20 @@ class PicketAdapter(
         }
     }
 
+    inner class EmptyViewHolder(
+        private val binding: ListItemSubjectEmptyBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(position: Int) {
+            val item = getItem(position) as PicketEmpty
+
+            binding.day = item.day
+            binding.emptyText = "No picket"
+            binding.emptyImg = R.drawable.ic_round_class_24
+            binding.executePendingBindings()
+        }
+    }
+
     companion object {
 
         val COMPARATOR = object : DiffUtil.ItemCallback<ListItem>() {
@@ -84,10 +109,13 @@ class PicketAdapter(
                 val subject = oldItem is PicketUi
                         && newItem is PicketUi && oldItem.id == newItem.id
 
+                val empty = oldItem is PicketEmpty
+                        && newItem is PicketEmpty && oldItem.day == newItem.day
+
                 val header = oldItem is HeaderDay
                         && newItem is HeaderDay && oldItem.day == newItem.day
 
-                return subject || header
+                return subject || header || empty
             }
 
             override fun areContentsTheSame(
