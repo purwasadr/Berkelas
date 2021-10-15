@@ -47,14 +47,21 @@ class SubjectVpAdapter(
         fun bind(position: Int) {
             val item = getItem(position)
 
+            val day = item.day ?: -1
+
             val itemA = item.subjectItem.map {
                 SubjectUiModel.Subject(
                     it
                 )
+            }.let {
+                if (it.isEmpty()) {
+                    listOf(SubjectUiModel.Empty(day))
+                } else {
+                    listOf(SubjectUiModel.Header(day)) +  it
+                }
             }
-            val result = listOf(SubjectUiModel.Header(item.day ?: -1)) + itemA
 
-            adapter.submitList(result)
+            adapter.submitList(itemA)
         }
     }
 
