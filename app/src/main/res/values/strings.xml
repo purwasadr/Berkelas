@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Berkelas</string>
+    <string name="app_name" translatable="false">Berkelas</string>
 
     <!-- Hint -->
     <string name="hint_full_name">Full Name</string>
@@ -19,6 +19,8 @@
     <string name="hint_nickname">Nickname</string>
     <string name="hint_amount">Amount</string>
     <string name="hint_date">Date</string>
+    <string name="hint_text">Text</string>
+    <string name="hint_background_color">Background Color</string>
 
     <!-- Button -->
     <string name="btn_sign_up">Sign Up</string>
@@ -38,6 +40,8 @@
     <string name="error_subject">Isi subject dahulu</string>
     <string name="error_cause_empty">Bidang ini tidak boleh kosong</string>
     <string name="error_wrong_password">Password yang anda masukkan salah</string>
+    <string name="error_confirm_password_not_same">Confirm password must same</string>
+    <string name="error_invalid_email_format">Format email salah</string>
 
     <!-- Content Description -->
     <string name="desc_school">Icon School</string>
@@ -79,6 +83,8 @@
     <string name="tv_sign_up">Sign Up</string>
     <string name="tv_role">Role</string>
     <string name="tv_privacy_information">Privacy Information</string>
+    <string name="tv_sign_out">Sign Out</string>
+    <string name="tv_no_subject">No Subject</string>
 
 
     <!-- String Array -->
@@ -111,6 +117,14 @@
     <string name="role_treasury">Treasury</string>
     <string name="role_member">Member</string>
 
+    <!-- Colors -->
+    <string name="red">Red</string>
+    <string name="purple">Purple</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="brown">Brown</string>
+    <string name="gray">Gray</string>
+
     <!-- Other -->
     <string name="male">Male</string>
     <string name="female">Female</string>
@@ -119,23 +133,17 @@
     <string name="toolbar_picket">Picket</string>
     <string name="hint_class">Class</string>
     <string name="toolbar_cash_detail">Cash Detail</string>
-    <string name="error_confirm_password_not_same">Confirm password must same</string>
-    <string name="error_invalid_email_format">Format email salah</string>
+
     <string name="title_choose_role">Choose Role</string>
     <string name="msg_are_you_sure">Apakah anda yakin?</string>
-    <string name="tv_sign_out">Sign Out</string>
-    <string name="tv_no_subject">No Subject</string>
+
     <string name="btn_close">Close</string>
     <string name="tab_item_member">Member</string>
     <string name="tab_item_date">Date</string>
     <string name="toolbar_kas">Cash</string>
-    <string name="hint_text">Text</string>
-    <string name="hint_background_color">Background Color</string>
 
-    <string name="red">Red</string>
-    <string name="purple">Purple</string>
-    <string name="blue">Blue</string>
-    <string name="green">Green</string>
-    <string name="brown">Brown</string>
-    <string name="gray">Gray</string>
+
+
+    <string name="hint_current_password">Current Password</string>
+    <string name="hint_new_email">New Email</string>
 </resources>

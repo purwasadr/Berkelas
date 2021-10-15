@@ -2,10 +2,10 @@
 <resources>
     <!-- Hint -->
     <string name="hint_full_name">Nama Lengkap</string>
-    <string name="hint_username">Username</string>
+    <string name="hint_username">Nama Pengguna</string>
     <string name="hint_password">Kata Sandi</string>
     <string name="hint_email">Email</string>
-    <string name="hint_reenter_password">Reenter Password</string>
+    <string name="hint_confirm_password">Konfirmasi Kata Sandi</string>
     <string name="hint_date_of_birth">Tanggal Lahir</string>
     <string name="hint_gender">Jenis Kelamin</string>
     <string name="hint_subject">Pelajaran</string>
@@ -18,15 +18,85 @@
     <string name="hint_nickname">Nama Panggilan</string>
     <string name="hint_amount">Jumlah</string>
     <string name="hint_date">Tanggal</string>
+    <string name="hint_class">Kelas</string>
+    <string name="hint_text">Teks</string>
+    <string name="hint_background_color">Warna Latar Belakang</string>
+    <string name="hint_current_password">Kata Sandi Saat Ini</string>
+    <string name="hint_new_email">Email Baru</string>
 
     <!-- Button -->
     <string name="btn_sign_up">Daftar</string>
+    <string name="alert_dialog_cancel">Batal</string>
     <string name="btn_edit">Ubah</string>
     <string name="btn_delete">Hapus</string>
     <string name="btn_finish">Selesai</string>
     <string name="btn_cancel">Batal</string>
-    <string name="btn_sign_out">Sign Out</string>
+    <string name="btn_sign_out">Keluar</string>
+    <string name="btn_back">Kembali</string>
+    <string name="btn_login">Masuk</string>
+    <string name="btn_close">Tutup</string>
 
+    <!-- ImageButton -->
+    <string name="img_btn_item_menu">Item Menu</string>
+
+    <!-- Error -->
+    <string name="error_subject">Isi pelajaran dahulu</string>
+    <string name="error_cause_empty">Bidang ini tidak boleh kosong</string>
+    <string name="error_wrong_password">Password yang anda masukkan salah</string>
+    <string name="error_confirm_password_not_same">Confirm password must same</string>
+    <string name="error_invalid_email_format">Format email salah</string>
+
+    <!-- Content Description -->
+    <string name="desc_school">Ikon Sekolah</string>
+    <string name="desc_kelas">Ikon Kelas</string>
+    <string name="desc_add_cash">Tambah Kas</string>
+
+    <!-- Title -->
+    <string name="dialog_positive_btn_signout">Sign Out</string>
+    <string name="title_chose_gender">Pilih jenis kelamin</string>
+    <string name="title_insert_password">Masukkan kata sandi</string>
+    <string name="title_close">Tutup</string>
+    <string name="title_delete_room">Hapus Room</string>
+    <string name="title_chose_date">Pilih tanggal</string>
+    <string name="title_choose_kelas">Pilih kelas</string>
+    <string name="title_signout">Keluar</string>
+
+    <!-- Message -->
+    <string name="message_signout">Yakin ingin sign out?</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_room_add">Tambah Room</string>
+    <string name="toolbar_edit_room">Ubah Room</string>
+    <string name="toolbar_room_list">Daftar Room</string>
+    <string name="toolbar_subject">Pelajaran</string>
+    <string name="toolbar_account_edit">Ubah Akun</string>
+    <string name="toolbar_choice_room">Pilih Room</string>
+    <string name="toolbar_kas">Kas</string>
+    <string name="toolbar_picket">Piket</string>
+    <string name="toolbar_cash_detail">Detail Kas</string>
+
+    <!-- TabItem -->
+    <string name="tab_item_member">Anggota</string>
+    <string name="tab_item_date">Tanggal</string>
+
+    <!-- Label -->
+    <string name="label_room_detail_activity">RoomDetailActivity</string>
+    <string name="label_sign_up_activity">SignUpActivity</string>
+
+    <!-- Menu -->
+    <string name="menu_sign_out">Keluar</string>
+    <string name="menu_delete">Hapus</string>
+    <string name="menu_done">Selesai</string>
+
+    <!-- TextView -->
+    <string name="tv_login">Masuk</string>
+    <string name="tv_sign_up">Daftar</string>
+    <string name="tv_role">Role</string>
+    <string name="tv_privacy_information">Informasi Pribadi</string>
+    <string name="tv_sign_out">Keluar</string>
+    <string name="tv_no_subject">Tidak ada pelajaran</string>
+
+    <!-- String Array -->
     <string-array name="day_of_week">
         <item>Senin</item>
         <item>Selasa</item>
@@ -39,8 +109,25 @@
 
     <!-- Role Enum -->
     <string name="role_leader">Ketua</string>
-    <string name="role_co_leader">Wakil Ketua</string>
+    <string name="role_vice_leader">Wakil Ketua</string>
     <string name="role_secretary">Sekretaris</string>
     <string name="role_treasury">Bendahara</string>
     <string name="role_member">Anggota</string>
+
+    <!-- Colors -->
+    <string name="red">Merah</string>
+    <string name="purple">Ungu</string>
+    <string name="blue">Biru</string>
+    <string name="green">Hijau</string>
+    <string name="brown">Coklat</string>
+    <string name="gray">Abu-abu</string>
+
+    <!-- Other -->
+    <string name="male">Laki-Laki</string>
+    <string name="female">Perempuan</string>
+
+
+    <string name="msg_are_you_sure">Apakah anda yakin?</string>
+
+
 </resources>
