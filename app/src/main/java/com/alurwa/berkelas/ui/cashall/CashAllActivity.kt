@@ -38,9 +38,10 @@ class CashAllActivity : AppCompatActivity() {
 
         binding.toolbar.setupToolbar(
             this,
-            "Daftar kas",
+            R.string.toolbar_kas,
             true
         )
+        getString(R.string.tv_no_subject, "s")
 
         setupFab()
         setupViewPager()
@@ -76,8 +77,8 @@ class CashAllActivity : AppCompatActivity() {
         // dan secara otomatis membuat tab di TabLayout
         TabLayoutMediator(binding.tabLayout, binding.vpCashAll) { tab, position ->
             when (position) {
-                0 -> tab.text = "Person"
-                1 -> tab.text = "Date"
+                0 -> tab.text = getString(R.string.tab_item_member)
+                1 -> tab.text = getString(R.string.tab_item_date)
                 else -> throw IllegalStateException("Unknown tab")
             }
         }.attach()
