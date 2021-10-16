@@ -103,6 +103,7 @@ class RoomDetailActivity : AppCompatActivity() {
                     if (user != null) {
                         viewModel.setUser(user)
                         changePropertyFab(user.roomId)
+                        isOwner(user.uid)
                     }
                 }
 
@@ -129,6 +130,12 @@ class RoomDetailActivity : AppCompatActivity() {
         }
     }
 
+    private fun isOwner(userId: String) {
+        val isOwner = viewModel.roomExtra.creatorId == userId
+
+        viewModel.setIsCanEdit(isOwner)
+    }
+
     private fun removePasswordDialog() {
         MaterialAlertDialogBuilder(this)
             .setMessage("Anda yakin keluar dari room ini?")
@@ -148,9 +155,8 @@ class RoomDetailActivity : AppCompatActivity() {
         MaterialAlertDialogBuilder(this)
             .setTitle(R.string.title_insert_password)
             .setView(dialogView)
-            .setPositiveButton("Masuk") { dialog, _ ->
+            .setPositiveButton(R.string.btn_login) { dialog, _ ->
                 dialog.dismiss()
-
                 val edtPass =
                     dialogView.findViewById<TextInputEditText>(R.id.edt_password).text.toString()
 
@@ -261,7 +267,6 @@ class RoomDetailActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId) {
             R.id.menu_delete -> {
                 deleteRoom()
