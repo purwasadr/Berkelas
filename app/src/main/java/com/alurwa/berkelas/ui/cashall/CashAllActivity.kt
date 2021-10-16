@@ -41,7 +41,6 @@ class CashAllActivity : AppCompatActivity() {
             R.string.toolbar_kas,
             true
         )
-        getString(R.string.tv_no_subject, "s")
 
         setupFab()
         setupViewPager()
