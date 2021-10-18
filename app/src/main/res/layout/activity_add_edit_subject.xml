@@ -46,6 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:enabled="@{viewModel.mode != 1}"
             android:hint="@string/hint_day"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="none"
+                android:enabled="@{viewModel.mode != 1}"
                 actDay="@{viewModel.day}"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
