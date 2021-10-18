@@ -134,8 +134,7 @@
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -155,8 +154,7 @@
                     android:id="@+id/edt_confirm_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPassword"
-                    android:maxLines="1" />
+                    android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -208,7 +206,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSignUp"
+                android:id="@+id/btn_sign_up"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -227,10 +225,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/btnSignUp"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_sign_up"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/btnSignUp" />
+                app:layout_constraintTop_toTopOf="@+id/btn_sign_up" />
 
             <TextView
                 android:id="@+id/txInfo"
@@ -243,7 +241,7 @@
                 app:layout_constraintEnd_toStartOf="@id/tv_login"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnSignUp" />
+                app:layout_constraintTop_toBottomOf="@id/btn_sign_up" />
 
             <TextView
                 android:id="@+id/tv_login"
