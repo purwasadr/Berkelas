@@ -102,10 +102,10 @@ class LoginActivity : AppCompatActivity() {
             }
             !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
                 stateReturn = false
-                binding.tilPassword.showError("Format email tidak benar")
+                binding.tilEmail.showError("Format email tidak benar")
             }
             else -> {
-                binding.tilPassword.removeError()
+                binding.tilEmail.removeError()
             }
         }
 
@@ -114,8 +114,8 @@ class LoginActivity : AppCompatActivity() {
                 stateReturn = false
                 binding.tilPassword.showError("Password tidak boleh kosong ")
             }
-            password.length <= 6 -> {
-                binding.tilPassword.showError("Minimal karakter password 6 :)")
+            password.length < 8 -> {
+                binding.tilPassword.showError("Minimal karakter password 8 :)")
                 stateReturn = false
             }
             else -> {
