@@ -40,13 +40,13 @@ class AttendanceDetailAdapter: ListAdapter<AttendanceDetailItem, AttendanceDetai
                 oldItem: AttendanceDetailItem,
                 newItem: AttendanceDetailItem
             ): Boolean =
-                oldItem.userId == oldItem.userId
+                oldItem.userId == newItem.userId
 
             override fun areContentsTheSame(
                 oldItem: AttendanceDetailItem,
                 newItem: AttendanceDetailItem
             ): Boolean =
-                oldItem == oldItem
+                oldItem == newItem
 
         }
     }
