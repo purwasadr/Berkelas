@@ -6,23 +6,23 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.alurwa.berkelas.R
-import com.alurwa.berkelas.util.AttendanceCheck
+import com.alurwa.common.util.AttendanceType
 
 object AttendanceDetailBindingAdapter {
     @JvmStatic
     @BindingAdapter("imgAttendanceCheck")
     fun imgAttendanceCheck(view: ImageView, value: String) {
         val color: Int? = when (value) {
-            AttendanceCheck.PRESENCE.code -> {
+            AttendanceType.PRESENCE.code -> {
                 R.color.green_500
 
             }
 
-            AttendanceCheck.PERMIT.code -> {
+            AttendanceType.PERMIT.code -> {
                 R.color.blue_500
             }
 
-            AttendanceCheck.SICK.code -> {
+            AttendanceType.SICK.code -> {
                 R.color.red_500
             }
             else -> {
