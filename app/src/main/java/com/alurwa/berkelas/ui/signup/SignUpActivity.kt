@@ -139,21 +139,32 @@ class SignUpActivity : AppCompatActivity() {
             binding.tilUsername.removeError()
         }
 
-        if (password.isEmpty()) {
-            isValid = false
-            binding.tilConfirmPassword.showError(R.string.error_cause_empty)
-        } else {
-            binding.tilPassword.removeError()
+        when {
+            password.isEmpty() -> {
+                isValid = false
+                binding.tilPassword.showError("Password tidak boleh kosong ")
+            }
+            password.length < 8 -> {
+                binding.tilPassword.showError("Minimal karakter password 8")
+                isValid = false
+            }
+            else -> {
+                binding.tilPassword.removeError()
+            }
         }
 
-        if (confirmPassword.isEmpty()) {
-            isValid = false
-            binding.tilConfirmPassword.showError(R.string.error_cause_empty)
-        } else if (password != confirmPassword) {
-            isValid = false
-            binding.tilConfirmPassword.showError(R.string.error_confirm_password_not_same)
-        } else {
-            binding.tilConfirmPassword.removeError()
+        when {
+            confirmPassword.isEmpty() -> {
+                isValid = false
+                binding.tilConfirmPassword.showError(R.string.error_cause_empty)
+            }
+            password != confirmPassword -> {
+                isValid = false
+                binding.tilConfirmPassword.showError(R.string.error_confirm_password_not_same)
+            }
+            else -> {
+                binding.tilConfirmPassword.removeError()
+            }
         }
 
         return isValid
