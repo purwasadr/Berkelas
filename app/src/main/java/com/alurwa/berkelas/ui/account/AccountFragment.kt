@@ -7,9 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alurwa.berkelas.R
 import com.alurwa.berkelas.adapter.AccountMenuAdapter
@@ -21,10 +18,7 @@ import com.alurwa.berkelas.ui.roomlist.RoomListActivity
 import com.alurwa.berkelas.ui.roomuserlist.RoomUserListActivity
 import com.alurwa.common.model.User
 import com.alurwa.common.model.UserWithoutRoom
-import com.alurwa.common.model.onSuccess
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
@@ -59,25 +53,6 @@ class AccountFragment : Fragment() {
         binding.lifecycleOwner = this
 
         fillAccountMenuAdapter()
-
-        observeMyUser()
-    }
-
-    private fun observeMyUser() {
-        viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.observeUser.collectLatest { result ->
-                    result.onSuccess {
-                        val data = it
-                        if (data != null) {
-                            viewModel.setUser(
-                                data
-                            )
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private fun mapUserToUserWithoutRoom(user: User) =
