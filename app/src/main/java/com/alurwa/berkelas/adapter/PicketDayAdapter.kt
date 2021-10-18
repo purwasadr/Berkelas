@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alurwa.berkelas.databinding.ListItemPicketDayBinding
 import com.alurwa.berkelas.model.HeaderDay
 import com.alurwa.berkelas.model.PicketDayUi
+import com.alurwa.berkelas.model.PicketEmpty
 import com.alurwa.berkelas.model.PicketUi
 
 class PicketDayAdapter(
@@ -54,7 +55,15 @@ class PicketDayAdapter(
 //            }
 //            val result = listOf(ListItem.Header(item.day)) + picketItem
 
-            adapter.submitList(listOf(HeaderDay(item.day)) + item.picketsUi)
+            val transform = item.picketsUi.let {
+                if (it.isEmpty()) {
+                    listOf(PicketEmpty(item.day))
+                } else {
+                    listOf(HeaderDay(item.day)) +  it
+                }
+            }
+
+            adapter.submitList(transform)
         }
 
     }
