@@ -9,7 +9,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alurwa.berkelas.adapter.AttendanceDetailAdapter
 import com.alurwa.berkelas.databinding.ActivityAttendanceDetailBinding
+import com.alurwa.berkelas.util.setupToolbar
 import com.alurwa.common.model.onSuccess
+import com.alurwa.common.util.AttendanceType
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -31,14 +34,43 @@ class AttendanceDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        binding.appbar.toolbar.setupToolbar(this, "Detail Presensi", true)
+
+        setupDataBinding()
         setupList()
+        setupFab()
         observe()
         observeAttendanceDetailItems()
+    }
+
+    private fun setupDataBinding() {
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
     }
 
     private fun setupList() {
         binding.listAttendanceDetail.layoutManager = LinearLayoutManager(this)
         binding.listAttendanceDetail.adapter = adapter
+    }
+
+    private fun setupFab() {
+        binding.fab.setOnClickListener {
+            fillAttendance()
+        }
+    }
+
+    private fun fillAttendance() {
+        val arrayItems = Array(AttendanceType.values().size) {
+            AttendanceType.values()[it].getValue(this)
+        }
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle("Pilih")
+            .setItems(arrayItems) { dialog, which ->
+                dialog.dismiss()
+                setAttendance(AttendanceType.values()[which].code)
+            }
+            .show()
     }
 
     private fun observe() {
@@ -61,7 +93,20 @@ class AttendanceDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.attendanceDetailItems.collectLatest {
-                    adapter.submitList(it)
+                    adapter.submitList(it.items)
+                    viewModel.setAttendanceDetailHeader(it.info)
+                }
+            }
+        }
+    }
+
+    private fun setAttendance(code: String) {
+        val userId = viewModel.userId ?: return
+
+        lifecycleScope.launch {
+            viewModel.setAttendance(code, userId).collectLatest {
+                it.onSuccess {
+
                 }
             }
         }
