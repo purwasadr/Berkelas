@@ -19,6 +19,7 @@ class EmailEditViewModel @Inject constructor(
 ) : ViewModel() {
 
     fun editEmail(editEmailParams: EditEmailParams) = flow {
+        emit(Result.Loading)
         authRepository.editEmail(editEmailParams).filterNot {
             it is Result.Loading
         }.first().also { result ->
