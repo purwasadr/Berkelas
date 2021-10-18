@@ -3,13 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.alurwa.berkelas.ui.attendanceaddedit.AttendanceAddEditViewModel" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:focusableInTouchMode="true"
         tools:context=".ui.attendanceaddedit.AttendanceAddEditActivity">
         <include
             android:id="@+id/appbar"
@@ -32,6 +35,7 @@
                 android:id="@+id/act_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                actDate="@{viewModel.date}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
