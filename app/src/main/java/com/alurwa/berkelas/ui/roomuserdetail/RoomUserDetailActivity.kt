@@ -26,6 +26,8 @@ class RoomUserDetailActivity : AppCompatActivity() {
 
     private val viewModel: RoomUserDetailViewModel by viewModels()
 
+    private var isCanEdit: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -49,12 +51,37 @@ class RoomUserDetailActivity : AppCompatActivity() {
 
                     if (user != null) {
                         viewModel.setUser(user)
+                        canEditOrNot(user.role, user.isRoomOwner)
                     }
                 }.onError {
-                    SnackbarUtil.showShort(binding.root, "Gagal mendapatkan data")
+                    SnackbarUtil.showShort(binding.root, "Fail to get data")
                 }
             }
         }
+    }
+
+    private fun canEditOrNot(memberRole: String, isMemberOwner: Boolean) {
+        isCanEdit(memberRole, isMemberOwner)
+            .also {
+                setEditMenuVisibility(it)
+            }
+    }
+
+    private fun isCanEdit(memberRole: String, isMemberOwner: Boolean): Boolean {
+        val lis = arrayOf(
+            Role.LEADER.code,
+            Role.VICE_LEADER.code,
+        )
+
+        return (!isMemberOwner &&
+                !lis.contains(memberRole) &&
+                lis.contains(viewModel.getUserRole().role)) ||
+                viewModel.getUserRole().isRoomOwner
+    }
+
+    private fun setEditMenuVisibility(value: Boolean) {
+        isCanEdit = value
+        invalidateOptionsMenu()
     }
 
     private fun choseRoleDialog(action: (roleCode: String) -> Unit) {
@@ -64,10 +91,14 @@ class RoomUserDetailActivity : AppCompatActivity() {
             roles[it].toString(this)
         }
 
-        val selectionItem = -1
+        val userRole = viewModel.user.value.role
+
+        val selectionItem = roles.indexOfFirst {
+            it.code == userRole
+        }
 
         MaterialAlertDialogBuilder(this)
-            .setTitle("Pilih Role")
+            .setTitle(R.string.title_choose_role)
             .setSingleChoiceItems(itemArray, selectionItem) { dialog, which ->
                 action(roles[which].code)
                 dialog.dismiss()
@@ -83,6 +114,11 @@ class RoomUserDetailActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.menu_role)?.isVisible = isCanEdit
         return true
     }
 
