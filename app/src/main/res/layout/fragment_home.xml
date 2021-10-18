@@ -14,7 +14,6 @@
             android:id="@+id/list_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:clipToPadding="false"
             android:nestedScrollingEnabled="false"
             tools:listitem="@layout/list_item_card_main" />
@@ -24,6 +23,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:nestedScrollingEnabled="false" />
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:paddingStart="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_large"
+            android:paddingBottom="@dimen/spacing_huge" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
