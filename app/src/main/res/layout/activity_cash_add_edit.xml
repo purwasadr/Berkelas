@@ -24,6 +24,7 @@
             style="@style/Widget.Berkelas.TextInputLayout.ExposedDialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:enabled="@{viewModel.mode == 0}"
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:hint="@string/hint_date">
@@ -32,6 +33,7 @@
                 android:id="@+id/act_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="@{viewModel.mode == 0}"
                 actDateOfBirth="@{viewModel.date}"
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -47,9 +49,11 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_amount"
-                android:inputType="number"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="7"
+                android:text="@{`` + viewModel.cash.amount}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
