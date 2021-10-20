@@ -43,8 +43,16 @@
     <string name="error_subject">Isi pelajaran dahulu</string>
     <string name="error_cause_empty">Bidang ini tidak boleh kosong</string>
     <string name="error_wrong_password">Password yang anda masukkan salah</string>
-    <string name="error_confirm_password_not_same">Confirm password must same</string>
+    <string name="error_confirm_password_not_same">Konfirmasi password harus sama</string>
     <string name="error_invalid_email_format">Format email salah</string>
+    <string name="error_subject_delete_fail">Pelajaran gagal dihapus</string>
+    <string name="error_fail_get_data">Gagal mendapatkan data</string>
+    <string name="error_email_cannot_empty">Email tidak boleh kosong</string>
+    <string name="error_email_format_invalid">Format email tidak benar</string>
+    <string name="error_password_cannot_empty">"Password tidak boleh kosong "</string>
+    <string name="error_password_min_char">Minimal karakter password 8</string>
+    <string name="error_not_in_room_yet">Anda belum masuk room</string>
+    <string name="error_save_data">Gagal menyimpan data</string>
 
     <!-- Content Description -->
     <string name="desc_school">Ikon Sekolah</string>
@@ -53,11 +61,11 @@
 
     <!-- Title -->
     <string name="dialog_positive_btn_signout">Sign Out</string>
-    <string name="title_chose_gender">Pilih jenis kelamin</string>
+    <string name="title_choose_gender">Pilih jenis kelamin</string>
     <string name="title_insert_password">Masukkan kata sandi</string>
     <string name="title_close">Tutup</string>
     <string name="title_delete_room">Hapus Room</string>
-    <string name="title_chose_date">Pilih tanggal</string>
+    <string name="title_choose_date">Pilih tanggal</string>
     <string name="title_choose_kelas">Pilih kelas</string>
     <string name="title_signout">Keluar</string>
 
@@ -74,6 +82,9 @@
     <string name="toolbar_kas">Kas</string>
     <string name="toolbar_picket">Piket</string>
     <string name="toolbar_cash_detail">Detail Kas</string>
+    <string name="toolbar_account">Akun</string>
+    <string name="toolbar_add_picket">Tambah piket</string>
+    <string name="toolbar_edit_picket">Ubah piket</string>
 
     <!-- TabItem -->
     <string name="tab_item_member">Anggota</string>
@@ -95,6 +106,14 @@
     <string name="tv_privacy_information">Informasi Pribadi</string>
     <string name="tv_sign_out">Keluar</string>
     <string name="tv_no_subject">Tidak ada pelajaran</string>
+    <string name="tv_subject">Pelajaran</string>
+    <string name="tv_cash">Cash</string>
+    <string name="tv_picket">Picket</string>
+    <string name="tv_presence">Absen</string>
+    <string name="tv_permit">Ijin</string>
+    <string name="tv_sick">Sakit</string>
+    <string name="tv_edit_account">Ubah Akun</string>
+    <string name="tv_members">Daftar Anggota</string>
 
     <!-- String Array -->
     <string-array name="day_of_week">
@@ -129,5 +148,6 @@
 
     <string name="msg_are_you_sure">Apakah anda yakin?</string>
 
+    <string name="succes_subject_deleted">Pelajaran berhasil dihapus</string>
 
 </resources>

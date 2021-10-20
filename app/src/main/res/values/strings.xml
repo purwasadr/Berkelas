@@ -37,23 +37,23 @@
     <string name="img_btn_item_menu">Item Menu</string>
 
     <!-- Error -->
-    <string name="error_subject">Isi subject dahulu</string>
-    <string name="error_cause_empty">Bidang ini tidak boleh kosong</string>
-    <string name="error_wrong_password">Password yang anda masukkan salah</string>
+    <string name="error_subject">fill in the subject first</string>
+    <string name="error_cause_empty">This field cannot be empty</string>
+    <string name="error_wrong_password">The password you entered is wrong</string>
     <string name="error_confirm_password_not_same">Confirm password must same</string>
-    <string name="error_invalid_email_format">Format email salah</string>
+    <string name="error_invalid_email_format">Email format is not correct</string>
 
     <!-- Content Description -->
-    <string name="desc_school">Icon School</string>
-    <string name="desc_kelas">Icon Kelas</string>
+    <string name="desc_school">School Icon</string>
+    <string name="desc_kelas">Class Icon</string>
     <string name="desc_add_cash">Add Cash</string>
 
     <!-- Title -->
     <string name="dialog_positive_btn_signout">Sign Out</string>
     <string name="title_signout">Sign Out</string>
-    <string name="title_choose_kelas">Pilih kelas</string>
-    <string name="title_chose_date">Chose Date</string>
-    <string name="title_chose_gender">Chose Gender</string>
+    <string name="title_choose_kelas">Choose class</string>
+    <string name="title_choose_date">Choose Date</string>
+    <string name="title_choose_gender">Choose Gender</string>
     <string name="title_insert_password">Insert password</string>
     <string name="title_close">Close</string>
     <string name="title_delete_room">Delete Room</string>
@@ -135,15 +135,33 @@
     <string name="toolbar_cash_detail">Cash Detail</string>
 
     <string name="title_choose_role">Choose Role</string>
-    <string name="msg_are_you_sure">Apakah anda yakin?</string>
+    <string name="msg_are_you_sure">Are you sure?</string>
 
     <string name="btn_close">Close</string>
     <string name="tab_item_member">Member</string>
     <string name="tab_item_date">Date</string>
     <string name="toolbar_kas">Cash</string>
 
-
-
     <string name="hint_current_password">Current Password</string>
     <string name="hint_new_email">New Email</string>
+    <string name="tv_subject">Subject</string>
+    <string name="tv_cash">Cash</string>
+    <string name="tv_picket">Picket</string>
+    <string name="tv_presence">Presence</string>
+    <string name="tv_permit">Permit</string>
+    <string name="tv_sick">Sick</string>
+    <string name="error_save_data">Gagal menyimpan data</string>
+    <string name="tv_edit_account">Edit Account</string>
+    <string name="tv_members">Members</string>
+    <string name="succes_subject_deleted">Subject deleted successfully</string>
+    <string name="error_subject_delete_fail">Subject failed to delete</string>
+    <string name="error_fail_get_data">Failed to get data</string>
+    <string name="toolbar_add_picket">Add Picket</string>
+    <string name="toolbar_edit_picket">Edit Picket</string>
+    <string name="error_email_cannot_empty">Email cannot be empty</string>
+    <string name="error_email_format_invalid">Email format is not correct</string>
+    <string name="error_password_cannot_empty">"Password cannot be empty"</string>
+    <string name="error_password_min_char">Al least 8 characters</string>
+    <string name="error_not_in_room_yet">You haven\'t entered the room</string>
+    <string name="toolbar_account">Account</string>
 </resources>
