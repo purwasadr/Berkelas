@@ -45,13 +45,13 @@ class AttendanceAdapter(
                 oldItem: AttendanceItem,
                 newItem: AttendanceItem
             ): Boolean =
-                newItem.date == oldItem.date
+                oldItem.date == newItem.date
 
             override fun areContentsTheSame(
                 oldItem: AttendanceItem,
                 newItem: AttendanceItem
             ): Boolean =
-                newItem == oldItem
+                oldItem == newItem
 
         }
     }
