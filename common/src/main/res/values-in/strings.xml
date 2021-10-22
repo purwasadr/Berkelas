@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="presence">Absen</string>
+    <string name="permit">Izin</string>
+    <string name="sick">Sakit</string>
+</resources>
