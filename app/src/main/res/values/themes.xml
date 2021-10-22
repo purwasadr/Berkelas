@@ -10,13 +10,16 @@
         <item name="colorSecondaryVariant">@color/blue_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/darker_gray</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/statusBarColor</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!-- Customize your theme here. -->
         
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
         <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
-
+        <item name="floatingActionButtonStyle">@style/Widget.Berkelas.FloatingActionButton</item>
+        <item name="buttonStyle">@style/Widget.Berkelas.Button</item>
         <item name="textInputStyle">@style/Widget.Berkelas.TextInputLayout</item>
+        <item name="bottomSheetDialogTheme">@style/Widget.Berkelas.BottomSheetDialog</item>
 
         <item name="textAppearanceHeadline1">@style/TextAppearance.Berkelas.Headline1</item>
         <item name="textAppearanceHeadline2">@style/TextAppearance.Berkelas.Headline2</item>
