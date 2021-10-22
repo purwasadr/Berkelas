@@ -67,6 +67,7 @@
     <string name="title_delete_room">Hapus Room</string>
     <string name="title_choose_date">Pilih tanggal</string>
     <string name="title_choose_kelas">Pilih kelas</string>
+    <string name="title_choose_role">Pilih Role</string>
     <string name="title_signout">Keluar</string>
 
     <!-- Message -->
@@ -149,5 +150,14 @@
     <string name="msg_are_you_sure">Apakah anda yakin?</string>
 
     <string name="succes_subject_deleted">Pelajaran berhasil dihapus</string>
-
+    <string name="tv_fill_your_data">Masukkan data anda</string>
+    <string name="toolbar_add_cash">Add Cash</string>
+    <string name="toolbar_edit_cash">Edit Cash</string>
+    <string name="snackbar_data_not_load_yet">Data belum dimuat</string>
+    <string name="btn_apply">Apply</string>
+    <string name="tv_gallery">Gallery</string>
+    <string name="tv_camera">Camera</string>
+    <string name="toolbar_add_attendance">Add Attendance</string>
+    <string name="tv_or_you_can">Atau anda bisa</string>
+    <string name="toolbar_my_account">Akun Saya</string>
 </resources>

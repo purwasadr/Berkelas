@@ -164,4 +164,14 @@
     <string name="error_password_min_char">Al least 8 characters</string>
     <string name="error_not_in_room_yet">You haven\'t entered the room</string>
     <string name="toolbar_account">Account</string>
+    <string name="tv_fill_your_data">Masukkan data anda</string>
+    <string name="toolbar_add_cash">Add Cash</string>
+    <string name="toolbar_edit_cash">Edit Cash</string>
+    <string name="snackbar_data_not_load_yet">Data belum dimuat</string>
+    <string name="btn_apply">Apply</string>
+    <string name="tv_gallery">Gallery</string>
+    <string name="tv_camera">Camera</string>
+    <string name="toolbar_add_attendance">Add Attendance</string>
+    <string name="tv_or_you_can">Atau anda bisa</string>
+    <string name="toolbar_my_account">My Account</string>
 </resources>
