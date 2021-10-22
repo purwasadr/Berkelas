@@ -18,6 +18,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Berkelas">
         <activity
+            android:name=".ui.emailedit.EmailEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.homecardaddedit.HomeCardAddEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.attendancedetail.AttendanceDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.attendanceaddedit.AttendanceAddEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.attendance.AttendanceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.picketaddedit.PicketAddEditActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.picket.PicketActivity"
+            android:exported="true" />
+        <activity
             android:name=".ui.cashdatedetail.CashDateDetailActivity"
             android:exported="true" />
         <activity
@@ -78,10 +99,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.alurwa.berkelas"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"></meta-data>
+        </provider>
     </application>
 
 </manifest>
